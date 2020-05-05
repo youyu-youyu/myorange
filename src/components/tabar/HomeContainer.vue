@@ -1,0 +1,468 @@
+<template>
+  <div class="HomeComtainer">
+    <div class="home_top">
+      <!--      <h4>科技让生活越来越方便</h4>-->
+      <router-link to="/homelocation">
+        <div class="home_location">
+          <img src="../../assets/home/home_location.png" class="home_left" style="width: 30px;margin-top: 3px">
+          <div class="home_right">
+            {{getShopName}}
+            <span class="mui-icon mui-icon-arrowdown "></span>
+          </div>
+          <div class="home_right1" cbd.jpg>
+            <router-link to="/discount">
+              <div class="home_right1_1">优惠券 &nbsp;&nbsp;{{coupons}}张</div>
+              <!--              <div class="item_item">6张</div>-->
+            </router-link>
+          </div>
+        </div>
+      </router-link>
+      <div class="home_top_middle">
+        <div class="item">
+          <ul class="home_item_ul">
+            <li class="mui-table-view-cell">
+              <router-link to="/everydaysign">
+                <img
+                  class="mui-media-object mui-pull-left home__item_img"
+                  src="../../assets/home/home_sing.png"
+                />
+                <div class="mui-media-body home_day">
+                  每日签到
+                  <p class="mui-ellipsis">签到赚积分</p>
+                </div>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+        <div class="item" @click="startScan">
+          <ul class="home_item_ul">
+            <li class="mui-table-view-cell">
+              <img src="../../assets/home/scan.png" class="mui-pull-left" style="width: 40px;">
+              <!--              <span class="mui-icon-extra mui-icon-extra-sweep mui-media-object mui-pull-left"></span>-->
+              <div class="mui-media-body home_day">
+                扫一扫
+                <p class="mui-ellipsis">机器支付</p>
+              </div>
+              <!-- </router-link> -->
+            </li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <ul class="home_item_ul">
+            <li class="mui-table-view-cell">
+              <router-link to="/recharge">
+                <button class="home_btn">充值</button>
+              </router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="home_top_boder">
+        <div class="home_top_boder_inner">
+          <div class="item">
+            <div class="home_top_inner_1">
+              <img class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_coin.png">
+              <div class="mui-media-body move" style="margin-top: 5px;text-align: center">
+                {{parseInt(userMoney)}}
+                <div class='mui-ellipsis home_block'>G币</div>
+              </div>
+            </div>
+
+          </div>
+          <div class="item">
+            <div class="home_top_inner_1">
+              <img class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_youxibi.png">
+              <div class="mui-media-body move" style="margin-top: 5px;text-align: center">
+                {{userCoin}}
+                <div class='mui-ellipsis home_block'>游戏币</div>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="home_top_inner_1">
+              <img class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_caipiao.png">
+              <div class="mui-media-body move" style="margin-top: 5px;text-align: center">
+                {{userLottery}}
+                <div class='mui-ellipsis home_block'>彩票</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home_middle">
+      <div class="home_middle_inner" style="width: 95%">
+        <!--        <div class="home_middle_text">广而告之</div>-->
+        <mt-swipe :auto="4000">
+          <mt-swipe-item><img src="../../assets/home/home_pic1.png" data-preview-src="" data-preview-group="1"/>
+          </mt-swipe-item>
+          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg" data-preview-src="" data-preview-group="1"/>
+          </mt-swipe-item>
+          <mt-swipe-item><img src="../../assets/home/shuijiao.jpg" data-preview-src="" data-preview-group="1"/>
+          </mt-swipe-item>
+          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg" data-preview-src="" data-preview-group="1"/>
+          </mt-swipe-item>
+        </mt-swipe>
+      </div>
+      <div class="home_middle_inner">
+        <div class="home_middle_text">每日惊喜</div>
+        <div class="home_middle_img">
+          <router-link to="/homesurprise">
+            <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
+          </router-link>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import '../../lib/mui/css/mui.min.css'
+  import BMap from "BMap";
+  import global_msg from "../js/global.js";
+  import "../css/home.less";
+  import {Toast} from "mint-ui";
+
+  export default {
+    data() {
+      return {
+        log: "",
+        lat: "",
+        shopName: "",
+        slidePhoto: [],
+        selectedShopData: '',
+        //定义支付状态为-1
+        payStatus: -1,
+        type: 1,
+        miniCode: '',
+        userMoney: "",
+        userCoin: "",//游戏币
+        userLottery: "",
+        coupons: ""
+      };
+    },
+    created() {
+      this.userMoney = this.$store.state.userAccountData.userMoney;
+      this.userCoin = this.$store.state.userAccountData.userCoin;
+      this.userLottery = this.$store.state.userAccountData.userLottery;
+      this.coupons = this.$store.state.userAccountData.coupons;
+
+      if (window.location.href.indexOf("type") > 0) {
+        this.type = 2;
+        this.$store.commit('setType', this.type);
+        this.miniCode = this.getUrlKey('code');
+      }
+      let payStatus = localStorage.getItem("payStatus");
+
+      if (payStatus === "1") {
+        // 如果支付状态为1
+        localStorage.setItem("payStatusResult", "-1");//?
+        localStorage.setItem("payStatus", "0");
+        //把payStatus设置为0
+        //在套餐界面点支付的时候把状态设置为1，主界面拿到状态为1的时候就说明
+        //需要我们在主页面来处理，如果为0的话，说明不处理
+        let url = window.location.href;
+        if (url.indexOf("err_code") >= 0) {
+          if (url.indexOf("err_code=0") >= 0) {
+            this.payStatus = 0;
+            localStorage.setItem("payStatusResult", "0");
+          } else if (url.indexOf("err_code=1") >= 0) {
+            //跳转到充值页面
+            this.payStatus = 1;
+            localStorage.setItem("payStatusResult", "1");
+          }
+        }
+      }
+      // alert("扫描到的东西1111:" + qrCode);
+      if (this.getUrlQrCode("qrresult") !== ""
+        && this.getUrlQrCode("qrresult") !== undefined
+        && this.getUrlQrCode("qrresult") !== "undefined") {
+        let isProcessQrCode = localStorage.getItem(global_msg.isProcessQrCode);
+        if (isProcessQrCode === null || isProcessQrCode === "false") {
+          Toast("扫描到的内容:" + this.getUrlQrCode("qrresult"));
+          localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));
+          localStorage.setItem(global_msg.isProcessQrCode, "true");
+          this.getLastSelectedShop();
+        }
+        // location.href = global_msg.orangeHomeHtml;
+      }
+
+
+    },
+    mounted() {
+
+      this.parseUrlBrand();
+      if (this.type === 1) {
+        if (global_msg.company !== -1) {
+          this.getCode();
+        } else {
+          this.getLastSelectedShop();
+        }
+      } else {
+        this.miniLogin();
+      }
+
+    },
+
+    methods: {
+      parseUrlBrand() {
+        if (window.location.href.indexOf("brand") !== -1) {
+          let brand = this.getUrlParam("brand");
+          if (brand === undefined) {
+
+            return;
+          }
+          brand = brand.split("#")[0];
+          // 跟if(brand==="test")一个意思
+          switch (brand) {
+            case "test":
+              global_msg.setCompany(1);
+              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=test");
+              break;
+            case "orange":
+              global_msg.setCompany(0);
+              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orange");
+              break;
+            default:
+              global_msg.setCompany(-1);
+              break;
+          }
+        } else
+          this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html");
+
+      },
+      miniLogin: function () {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post网络请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
+            {
+              "code": this.miniCode, "brand_id": `${global_msg.method.getBrandId()}`, "type": 2
+            }, {emulateJSON: true})
+          .then(res => {
+            if (res.body.err_code === 0) {
+              localStorage.setItem('token_type', res.body.data.token_type);
+              localStorage.setItem('token', res.body.data.access_token);
+              localStorage.setItem("isTokenExpire", "false");
+              if (localStorage.getItem("shopId") !== "undefined" &&
+                localStorage.getItem("shopId") !== "" &&
+                localStorage.getItem("shopId") !== null) {
+                this.getLastSelectedShop();
+              } else
+                this.getLocation();
+
+              localStorage.setItem("code", this.getUrlCode().code);
+            } else {
+              alert("小程序登录失败：" + res.body.message);
+            }
+          });
+      },
+      getUrlKey: function (name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+      },
+      ///获取经纬度
+      getLocation() {
+        let _this = this;
+        let geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function (r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            if (r.accuracy == null) {
+              alert("您已拒绝地理位置授权");
+              //用户决绝地理位置授权
+              return;
+            } else {
+              const myGeo = new BMap.Geocoder();
+              myGeo.getLocation(
+                new BMap.Point(r.point.lng, r.point.lat),
+                data => {
+                  if (data.addressComponents) {
+                    const result = data.addressComponents;
+                    const location = {
+                      creditLongitude: r.point.lat, // 经度
+                      creditLatitude: r.point.lng, // 纬度
+                      creditProvince: result.province || "", // 省
+                      creditCity: result.city || "", // 市
+                      creditArea: result.district || "", // 区
+                      creditStreet:
+                        (result.street || "") + (result.streetNumber || "") // 街道
+                    };
+                    _this.location = location;
+                    _this.creditLongitude = location.creditLongitude;
+                    _this.creditLatitude = location.creditLatitude;
+                    _this.creditCity = location.creditCity;
+                    _this.log = _this.creditLongitude;
+                    _this.lat = _this.creditLatitude;
+                    _this.getNearestShop(_this.log, _this.lat)
+                  }
+                }
+              );
+            }
+          }
+        });
+      },
+
+      ///扫码
+      startScan() {
+        let local = window.location.href;
+        localStorage.setItem(global_msg.isProcessQrCode, "false");
+        window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
+      },
+      //微信授权
+      getCode() {
+        // 非静默授权，第一次有弹框
+        this.code = "";
+        let local = window.location.href; // 获取页面url
+        this.code = this.getUrlCode().code// 截取url中的code
+
+        //授权
+        if (this.code == null || this.code === "") {
+          // 如果没有code，则去请求
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
+            local
+          )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
+
+        } else {
+          //如果截取url中的code不等于保存的code，才登录
+          if (this.getUrlCode().code !== localStorage.getItem("code")) {
+            this.$http
+              //定义为全局使用global_msg.server_url
+              //post网络请求（后端提供url）
+              .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
+                {
+                  "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`, "type": 1
+                }, {emulateJSON: true})
+              .then(res => {
+                if (res.body.err_code === 0) {
+                  localStorage.setItem('token_type', res.body.data.token_type);
+                  localStorage.setItem('token', res.body.data.access_token);
+                  localStorage.setItem("isTokenExpire", "false");
+                  if (localStorage.getItem("shopId") !== "undefined" &&
+                    localStorage.getItem("shopId") !== "" &&
+                    localStorage.getItem("shopId") !== null &&
+                    localStorage.getItem("shopId") !== undefined) {
+                    this.getLastSelectedShop();
+                  } else
+                    this.getLocation();
+
+                  localStorage.setItem("code", this.getUrlCode().code);
+                } else
+                  alert("登录失败：" + res.body.message);
+              });
+          } else {
+            `${global_msg.method.getUserAccountInfo(this)}`;
+            `${global_msg.method.getUserBasicInfo(this)}`;
+          }
+
+        }
+        // }
+      },
+      ///解析微信code
+      getUrlCode() {
+        // 截取url中的code方法
+        let url = location.search;
+        this.winUrl = url;
+        let theRequest = new Object();
+        if (url.indexOf("?") !== -1) {
+          let str = url.substr(1);
+          let strs = str.split("&");
+          for (let i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+          }
+        }
+        return theRequest;
+      },
+
+      ///该方法的作用是从页面url里面处理回调过来的二维码信息
+      getUrlParam(name) {
+        let reg = new RegExp("\\b" + name + "=([^&]*)");
+        let r = location.href.match(reg);
+        if (r != null) return decodeURIComponent(r[1]);
+      },
+      getUrlQrCode(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          if (pair[0] == variable) {
+            return pair[1];
+          } else {
+          }
+        }
+        return "";
+      },
+      //获取最近的店
+      getNearestShop(log, lat) {
+        let _this = this;
+        _this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
+            {
+              "shopLat": lat, "shopLog": log, "brand_id": `${global_msg.method.getBrandId()}`,
+            }, {emulateJSON: true})
+          .then(res => {
+            // console.log(res.body);
+            if (res.body.err_code === 0) {
+              //
+              this.$store.commit('setSelectedShopData', res.body.data);
+              let shopNameData = res.body.data;
+              _this.shopName = shopNameData.shopName;
+              _this.slidePhoto = shopNameData.slidePhoto;
+              `${global_msg.method.getUserAccountInfo(this)}`;
+              `${global_msg.method.getUserBasicInfo(this)}`
+            } else {
+              alert("请求最近店铺失败:" + res.body.message);
+            }
+
+          });
+      },
+
+      //由于刷新页面导致上次选择的店铺不存在，这里通过获取店铺接口重新拿到上次选择的店铺
+      //获取店铺所需要的的三个参数在选择店铺页面选中的时候要保存在localStorage里
+
+      getLastSelectedShop() {
+
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
+            {
+              "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+              "shopLog": localStorage.getItem("shopLog"),
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log("123")
+            console.log(res);
+            if (res.body.err_code === 0) {
+              // this.$store.state.selectedShopData = res.body.data;
+              this.$store.commit('setSelectedShopData', res.body.data);
+              let shopNameData = res.body.data;
+              this.shopName = shopNameData.shopName;
+              this.slidePhoto = shopNameData.slidePhoto;
+              `${global_msg.method.getUserAccountInfo(this)}`;
+              `${global_msg.method.getUserBasicInfo(this)}`;
+              let result = localStorage.getItem("payStatusResult")
+              if (result === "1" || result === "0")
+                this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
+            } else {
+              alert("获取店铺失败:" + res.body.message)
+            }
+          })
+      },
+
+
+    },
+    //computed用来监控自己定义的变量，该变量不在data里面声明，直接在computed里面定义
+    // 然后就可以在页面上进行双向数据绑定展示出结果或者用作其他处理；
+    computed: {
+      getShopName: function () {
+        return this.$store.state.selectedShopData.shopName
+      },
+    },
+
+  };
+</script>
+
+
+// WEBPACK FOOTER //
+// src/components/tabar/HomeContainer.vue
