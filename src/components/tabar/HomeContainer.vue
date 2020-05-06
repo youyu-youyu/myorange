@@ -91,6 +91,29 @@
         </div>
       </div>
     </div>
+    <!--    <div id="cover"></div>-->
+    <!--   售币机 //-->
+    <!--    <div class="selectPay" id="selectPay_id">-->
+    <!--      <button>1</button>-->
+    <!--      <button>2</button>-->
+    <!--      <button>3</button>-->
+    <!--      <button>1</button>-->
+    <!--      <button>2</button>-->
+    <!--      <button>3</button>-->
+    <!--      <input type="text" placeholder="请输入搜索名" class="qr_search">-->
+    <!--      <button class="btn-search">搜索</button>-->
+    <!--    </div>-->
+    <!--    机器-->
+    <!--    <div class="robot">-->
+    <!--      <div class="robot-inner">-->
+    <!--        <div class="like">-->
+    <!--          <div class="like-minus mui-icon mui-icon-minus-filled" style=""></div>-->
+    <!--          <div class="like-txt">2</div>-->
+    <!--          <div class="like-total mui-icon mui-icon-plus-filled"></div>-->
+    <!--        </div>-->
+    <!--        <button class="btn1-search">投币</button>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="home_middle">
       <div class="home_middle_inner" style="width: 95%">
         <!--        <div class="home_middle_text">广而告之</div>-->
@@ -141,11 +164,8 @@
         coupons: ""
       };
     },
-    created() {
-      this.userMoney = this.$store.state.userAccountData.userMoney;
-      this.userCoin = this.$store.state.userAccountData.userCoin;
-      this.userLottery = this.$store.state.userAccountData.userLottery;
-      this.coupons = this.$store.state.userAccountData.coupons;
+    created: function () {
+
 
       if (window.location.href.indexOf("type") > 0) {
         this.type = 2;
@@ -180,8 +200,10 @@
         let isProcessQrCode = localStorage.getItem(global_msg.isProcessQrCode);
         if (isProcessQrCode === null || isProcessQrCode === "false") {
           Toast("扫描到的内容:" + this.getUrlQrCode("qrresult"));
+
+
           localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));
-          localStorage.setItem(global_msg.isProcessQrCode, "true");
+          // localStorage.setItem(global_msg.isProcessQrCode, "true");
           this.getLastSelectedShop();
         }
         // location.href = global_msg.orangeHomeHtml;
@@ -265,7 +287,7 @@
         let _this = this;
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
-          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+          if (this.getStatus() === BMAP_STATUS_SUCCESS) {
             if (r.accuracy == null) {
               alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
@@ -431,8 +453,6 @@
               "shopLog": localStorage.getItem("shopLog"),
             }, {emulateJSON: true})
           .then(res => {
-            console.log("123")
-            console.log(res);
             if (res.body.err_code === 0) {
               // this.$store.state.selectedShopData = res.body.data;
               this.$store.commit('setSelectedShopData', res.body.data);
@@ -459,10 +479,19 @@
         return this.$store.state.selectedShopData.shopName
       },
     },
+    watch: {
+      "$store.state.userAccountData"(t, e) {
+        console.log("个人数据发生变化");
+        this.userMoney = this.$store.state.userAccountData.userMoney;
+        this.userCoin = this.$store.state.userAccountData.userCoin;
+        this.userLottery = this.$store.state.userAccountData.userLottery;
+        this.coupons = this.$store.state.userAccountData.coupons;
+      }
+    },
 
   };
 </script>
 
 
-// WEBPACK FOOTER //
-// src/components/tabar/HomeContainer.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/tabar/HomeContainer.vue-->

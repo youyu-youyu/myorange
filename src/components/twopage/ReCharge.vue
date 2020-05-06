@@ -2,20 +2,18 @@
 
   <div class="recharge">
     <loading v-if="loading"></loading>
+
     <div class="recharge_CoinPack">
       <div class="recharge_cz mui-icon mui-icon-back" @click="Back">充值
       </div>
-      <!--      <div class="recharge_CoinPack1" @click="Back">充值记录-->
-      <!--        <span class="mui-icon mui-icon-forward"></span>-->
-      <!--      </div>-->
     </div>
     <div class="recharge_content">
-      <div class="recharge_yu">预存款余额：0元</div>
+      <div class="recharge_yu">预存款余额：{{parseInt($store.state.userAccountData.userMoney)}}元</div>
       <div class="recharge_total">
         <div class="recharge_1">请选择预存款套餐</div>
         <div class=" recharge_ul" v-for="(item,index) in PrePayPackageList">
           <li class="mui-media  recharge_li" @click="clickEvent(index,false)">
-            <div class="mui-media-body cardName1">{{item.amount}}￥</div>
+            <div class="mui-media-body cardName1">{{item.actual_price}}￥</div>
           </li>
         </div>
       </div>
@@ -35,6 +33,7 @@
         </div>
       </div>
     </div>
+
     <div id="Prover_1" class="mui-popover mui-popover-action
     mui-popover-bottom  recharge_bottom" :class="{'mui-active':showBox===0}">
       <div class="recharge_middle">
@@ -46,7 +45,7 @@
                   <button class="mui-icon mui-icon-closeempty back_txt" @click="cancelEvent"></button>
                 </a>
               </div>
-              <span class="back_center">付款详情</span>
+              <!--              <span class="back_center">付款详情</span>-->
             </div>
           </div>
         </div>
@@ -54,36 +53,33 @@
         <div class="recharge_all">
           <!--   //获得点击的下标的金额-->
           <div class="recharge_tabar">
-            <p class="recharge_tabar_txt1">{{totalPrice}}</p>
+
+            <div class="recharge_tabar_txt1">{{price}}</div>
           </div>
           <div class="recharge_tabar">
             <div class="recharge_tabar0">
               <mt-cell :title='isClickTop ? "预存款":"币数"'>
-                <span style="color: green">{{coin}}</span>
+                <span style="color: green">{{showData.coin}}</span>
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
               <mt-cell title="赠送币数">
-                <span style="color: green">{{giveCoin}}</span>
+                <span style="color: green">{{showData.giveCoin}}</span>
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
               <mt-cell title="赠送积分">
-                <span style="color: green">{{giveScore}}</span>
+                <span style="color: green">{{showData.giveScore}}</span>
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
               <mt-cell title="赠送彩票">
-                <span style="color: green">{{giveLottery}}</span>
+                <span style="color: green">{{showData.giveLottery}}</span>
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
-              <mt-cell
-                title="付款方式"
-                to="/order"
-                is-link
-                value="微信">
-              </mt-cell>
+              <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"></cell>
+              <!--              changeMoneyWithPayTypeInShop-->
             </div>
           </div>
         </div>
@@ -110,6 +106,7 @@
           </div>
         </div>
       </div>
+      <!--    成功或失败  //-->
       <div class="recharge-fail" v-show="failPay">
         <!--    //失败卡片-->
         <div class="mui-card-content">
@@ -136,6 +133,7 @@
 
 <script>
   import global_msg from '../js/global.js'
+  import Cell from "../public/cell";
   import {Toast} from "mint-ui"
 
   export default {
@@ -146,12 +144,7 @@
         order: "",
         selectedIndex: -1,
         cardId: "",
-        totalPrice: "0.00",
-        giveCoin: 0,
-        coin:0,
-        giveScore: 0,
-        giveLottery: 0,
-        totalCoin: 0,
+        showClick: false,
         showBox: 1,//1隐藏，0显示
         loading: false,
         successPay: false,//1隐藏，0显示
@@ -160,9 +153,15 @@
         orderStore: "",
         PrePayPackageList: [],
         cardType: -1,
-        isClickTop:true,
+        isClickTop: false,
+        // payTypeText: "微信付款",
+        price: "",
+        showData: ""
       }
     },
+    //1.点击充值时付款
+    //2.切换付款方式时价格与之对应   X
+    //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
       // localStorage.setItem("token","")
       this.getCoinRechargePackages();
@@ -218,27 +217,26 @@
         this.showBox = 0;
         this.selectedIndex = index;
         if (isPackage) {
-          this.isClickTop=false;
+          this.isClickTop = false;
+          this.showData = this.coinRechargePackageList[this.selectedIndex];
+          //在点击切换时
+          if (this.$refs.cellChild.payType === 1) {
+            this.price = this.showData.actual_price;
+          } else if (this.$refs.cellChild.payType === 4) {
+            this.price = this.showData.balance_price;
+          }
           this.cardId = this.coinRechargePackageList[this.selectedIndex].cardId;
-          this.totalCoin = this.coinRechargePackageList[this.selectedIndex].sumcoin;
-          this.totalPrice = this.coinRechargePackageList[this.selectedIndex].actual_price;
-          this.giveCoin = this.coinRechargePackageList[this.selectedIndex].giveCoin;
-          this.coin = this.coinRechargePackageList[this.selectedIndex].coin;
-          this.giveScore = this.coinRechargePackageList[this.selectedIndex].giveScore;
-          this.giveLottery = this.coinRechargePackageList[this.selectedIndex].giveLottery;
           this.cardType = 1;
+          this.$refs.cellChild.payTypeText = "微信付款";
         } else {
-          this.isClickTop=true;
+          this.isClickTop = true;
+          this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
-          this.totalCoin = this.PrePayPackageList[this.selectedIndex].sumcoin;
-          this.totalPrice = this.PrePayPackageList[this.selectedIndex].actual_price;
-          this.giveCoin = this.PrePayPackageList[this.selectedIndex].giveCoin;
-          this.coin = this.PrePayPackageList[this.selectedIndex].coin;
-          this.giveScore = this.PrePayPackageList[this.selectedIndex].giveScore;
-          this.giveLottery = this.PrePayPackageList[this.selectedIndex].giveLottery;
+          this.price = this.showData.amount;
           this.cardType = 0;
+          // this.changeMoneyWithPayType(this.$refs.cellChild.payType)
         }
-
+        console.log(this.price);
       },
       //提交订单
       commitOrder() {
@@ -249,18 +247,18 @@
           .post(`${global_msg.method.getBaseUrl()}/api/order/store`,
             {
               "cardId": this.cardId, "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.totalPrice, "sumcoin": this.totalCoin, "cardType": this.cardType,
-              "notifyUrl": this.$store.state.homeHtml
+              "actualPrice": this.price, "sumcoin": this.showData.sumcoin, "cardType": this.cardType,
+              "payType": this.$refs.cellChild.payType, "notifyUrl": this.$store.state.homeHtml
             }, {emulateJSON: true})
           .then(res => {
             this.loading = false;
             if (res.body.err_code === 0) {
               this.order = res.body.data.orderNo;
               this.showBox = 0;
-              console.log(this.order);
+              // console.log(this.order);
               this.judgePay();
             } else {
-              alert("提交订单失败" + res.body.message)
+              alert("提交订单失败:" + res.body.message)
             }
           })
       },
@@ -280,7 +278,8 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.coinRechargePackageList = res.body.data;
-              // console.log(this.rechargePackageList)
+              console.log("获取充币套餐：")
+              console.log(this.coinRechargePackageList)
 
             } else
               alert("获取支付套餐失败" + res.body.message)
@@ -300,6 +299,7 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.PrePayPackageList = res.body.data;
+              console.log("获取预存款套餐")
               console.log(this.PrePayPackageList)
             } else {
               alert("获取预存款套餐失败")
@@ -307,19 +307,35 @@
           });
       },
       orderPaymentH5() {
+        let payUrl;
+        let prePay = "/api/payment/predeposit";
+        let wxPay = '/api/payment/shouqianba';
+        if (this.$refs.cellChild.payType === 1) {
+          payUrl = wxPay;
+        } else if (this.$refs.cellChild.payType === 4) {
+          payUrl = prePay
+        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianba`,
+          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
             {
               "orderNo": this.order
             }, {emulateJSON: true})
           .then(res => {
-            console.log("cardType:" + this.cardType);
+            console.log("payUrl:")
+            console.log(payUrl)
+            // console.log("cardType:" + this.cardType);
             if (res.body.err_code === 0) {
               localStorage.setItem("payStatus", "1");
               // 跳转支付
-              window.location.href = res.body.data.pay_url;
+              console.log("this.$refs.cellChild.payType:" + this.$refs.cellChild.payType)
+              if (this.$refs.cellChild.payType === 1) {
+                window.location.href = res.body.data.pay_url;
+                Toast("支付成功!");
+              } else {
+                this.$router.go(-1);
+              }
             } else {
               alert("获取支付url失败" + res.body.message)
             }
@@ -340,8 +356,14 @@
             } else
               alert('获取小程序支付参数时错误：' + res.body.message)
           })
+      },
+      //1.换
+      changeMoneyWithPayType(payType) {
+        this.price = payType === 1 ? this.coinRechargePackageList[this.selectedIndex].actual_price : this.coinRechargePackageList[this.selectedIndex].balance_price
       }
-
+    },
+    components: {
+      Cell,
     }
   }
 </script>
@@ -352,6 +374,7 @@
     /*margin-top: 5px;*/
     padding-right: 10px;
   }
+
 
   .recharge_img-success {
 
@@ -528,7 +551,6 @@
     padding-right: 20px;
   }
 </style>
-
 
 
 // WEBPACK FOOTER //

@@ -1,6 +1,5 @@
 <template>
   <div class="shopcardetail">
-
     <backBar title="购物车" class="backBar" :back-path="'shop'"></backBar>
     <div class="user_top" v-for="(item,index) in shopCarList">
       <div class="user_top_inner">
@@ -42,11 +41,11 @@
         </button>&nbsp;
       </div>
     </div>
-    <div class="selectPay" id="selectPay_id">
-      <button @click="selectPayType(0)">微信付款</button>
-      <button @click="selectPayType(1)">积分付款</button>
-      <button @click="selectPayType(2)">彩票付款</button>
-    </div>
+<!--    <div class="selectPay" id="selectPay_id">-->
+<!--      <button @click="selectPayType(0)">微信付款</button>-->
+<!--      <button @click="selectPayType(1)">积分付款</button>-->
+<!--      <button @click="selectPayType(2)">彩票付款</button>-->
+<!--    </div>-->
     <div class="fullscreen">
       <div id="Prover_1" class="mui-popover mui-popover-action
       recharge_bottom" :class="{'mui-active':showBox===true}">
@@ -71,7 +70,7 @@
             </div>
             <div class="recharge_tabar">
               <div class="recharge_tabar0" @click="selectPayment()">
-                <cell title="付款方式" :right-txt="payType"></cell>
+<!--                <cell title="付款方式" :right-txt="payType"></cell>-->
               </div>
             </div>
           </div>
@@ -379,8 +378,9 @@
 
   .projectrecord_footer {
     padding: 10px 10px;
-    .shopcardetail-txt{
-      padding-top:5px ;
+
+    .shopcardetail-txt {
+      padding-top: 5px;
     }
   }
 
@@ -527,7 +527,6 @@
     bottom: 0;
   }
 </style>
-
 
 
 // WEBPACK FOOTER //

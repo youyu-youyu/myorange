@@ -117,7 +117,6 @@
     },
     watch: {
       '$store.state.userAccountData': function (newFlag, oldFlag) {
-        console.log("基本信息发生变化")
         this.creatQrCode();
         window.setInterval(this.creatQrCode, 30000);
       }
