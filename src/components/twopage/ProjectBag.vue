@@ -48,18 +48,18 @@
     <div class="projectbag_border">
       <div class="at-row">
         <div class="item">
-          <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">
+          <img src="../../assets/project/img.png" class="item-img mui-pull-left">
           <p class="mui-pull-left projectbag-p">赠送彩票&nbsp;&nbsp;</p>
           <p class="mui-pull-left projectbag-p">x{{projectDetailInfoObject.giveLottery}}</p>
         </div>
         <div class="item">
-          <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">
+          <img src="../../assets/project/img.png" class="item-img mui-pull-left">
           <p class="mui-pull-left projectbag-p">赠送积分&nbsp;&nbsp;</p>
           <p class="mui-pull-left projectbag-p">x{{projectDetailInfoObject.giveScore}}</p>
         </div>
       </div>
       <div class="item item-height">
-        <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">
+        <img src="../../assets/project/img.png" class="item-img mui-pull-left">
         <p class="mui-pull-left projectbag-p">赠送币数&nbsp;&nbsp;</p>
         <p class="mui-pull-left projectbag-p">x{{projectDetailInfoObject.giveCoin}}</p>
       </div>
@@ -350,19 +350,20 @@
       font-size: 15px;
     }
   }
-  .total{
+
+  .total {
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.2);
     width: 90%;
-    border-radius:10px;
+    border-radius: 10px;
     margin: 0 auto;
     background-color: #ffffff !important;
   }
-  .item_item{
+
+  .item_item {
     padding: 5px 20px;
   }
 
 </style>
-
 
 
 // WEBPACK FOOTER //

@@ -26,13 +26,14 @@
         <!--        </div>-->
       </div>
       <div class="item">
-        <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">
+        <img src="../../assets/project/img.png" class="item-img mui-pull-left">
         <p class="mui-pull-left projectbag-p">门票押金&nbsp;&nbsp;</p>
         <p class="mui-pull-left projectbag-p">{{ticketDetailInfoObject.play_deposit}}</p>
       </div>
       <div class="projectbag_buy">
         <div class="projectbag_buy_txt mui-pull-left">购买礼包</div>
-        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{ticketDetailInfoObject.actual_price}}</div>
+        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{ticketDetailInfoObject.actual_price}}
+        </div>
       </div>
       <button class="mui-pull-right projectbag_btn" @click="paymentClick()">支付</button>
     </div>
@@ -59,7 +60,7 @@
         data: '',
         orderNumber: "",
         ticketDetailInfoObject: "",
-        loading:false,
+        loading: false,
       }
     },
     mounted() {
@@ -182,6 +183,7 @@
   .projectbag_buy_order {
     padding: 30px 0;
   }
+
   /*.projectbag_img {*/
   /*  width: 60%;*/
   /*  margin-left: -20px;*/
@@ -256,6 +258,7 @@
     background-color: #00ab5f;
     border-radius: 50px;
   }
+
   .at-row-bottom {
     width: 90%;
     padding: 20px 20px;
@@ -265,6 +268,7 @@
     border-radius: 10px;
     background-color: #fff;
   }
+
   /*margin-top: 20px;*/
 
   .jifen_title {
@@ -283,7 +287,6 @@
 
 
 </style>
-
 
 
 // WEBPACK FOOTER //

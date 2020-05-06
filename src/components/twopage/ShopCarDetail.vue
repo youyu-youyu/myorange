@@ -4,8 +4,8 @@
     <div class="user_top" v-for="(item,index) in shopCarList">
       <div class="user_top_inner">
         <ul class="mui-table-view" @click="showImg(index)">
-          <img src="../../assets/shop/empty.jpg" class="shopcardetain_img_empty ">
-          <img src="../../assets/shop/click.jpg" class="shopcardetain_img_empty" v-show="item.isSelected">
+          <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
+          <img src="../../assets/shop/click.png" class="shopcardetain_img_empty" v-show="item.isSelected">
           <li class="mui-table-view-cell mui-media shopcardetail_content">
             <img class="mui-media-object mui-pull-left" v-bind:src=item.productImg>
             <div class="mui-media-body user_top_body" style="color: #000;">
@@ -30,8 +30,8 @@
     </div>
     <div class="mu-card-title-container">
       <div class="mu-card-title" @click="allSelected()">
-        <img src="../../assets/shop/empty.jpg" class="shopcardetain_img_empty ">
-        <img src="../../assets/shop/click.jpg" class="shopcardetain_img_empty" v-show="isAllChecked">
+        <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
+        <img src="../../assets/shop/click.png" class="shopcardetain_img_empty" v-show="isAllChecked">
         <div class="shopcardetain-text">全选</div>
       </div>
       <div class="mu-card-sub-title">
@@ -41,11 +41,11 @@
         </button>&nbsp;
       </div>
     </div>
-<!--    <div class="selectPay" id="selectPay_id">-->
-<!--      <button @click="selectPayType(0)">微信付款</button>-->
-<!--      <button @click="selectPayType(1)">积分付款</button>-->
-<!--      <button @click="selectPayType(2)">彩票付款</button>-->
-<!--    </div>-->
+    <!--    <div class="selectPay" id="selectPay_id">-->
+    <!--      <button @click="selectPayType(0)">微信付款</button>-->
+    <!--      <button @click="selectPayType(1)">积分付款</button>-->
+    <!--      <button @click="selectPayType(2)">彩票付款</button>-->
+    <!--    </div>-->
     <div class="fullscreen">
       <div id="Prover_1" class="mui-popover mui-popover-action
       recharge_bottom" :class="{'mui-active':showBox===true}">
@@ -70,7 +70,7 @@
             </div>
             <div class="recharge_tabar">
               <div class="recharge_tabar0" @click="selectPayment()">
-<!--                <cell title="付款方式" :right-txt="payType"></cell>-->
+                <!--                <cell title="付款方式" :right-txt="payType"></cell>-->
               </div>
             </div>
           </div>

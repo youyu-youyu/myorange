@@ -63,7 +63,7 @@
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
           <router-link to="/bitrecord">
-            <img src="../../assets/user/chongzhijilu.png"/>
+            <img src="../../assets/user/bit.png"/>
             <div class="mui-media-body user_body">充币记录</div>
           </router-link>
         </li>

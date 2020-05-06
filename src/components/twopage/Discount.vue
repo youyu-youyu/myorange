@@ -15,10 +15,11 @@
         <div id="item1mobile" class="mui-slider-item mui-control-content mui-active item1">
           <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
             <li class="mui-table-view-cell mui-media">
-              <img class="mui-pull-left discount__img" src="../../assets/discount/discount.jpg"/>
+              <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>
               <div class="mui-media-body discount_body" style="padding-left: 10px">
                 <div class="mui-ellipsis couponname">{{item.couponName}}</div>
-                <div class="deductMoney" style="float: left;padding-left: 10px;font-size: 30px;color: orange;">{{item.deductMoney}}
+                <div class="deductMoney" style="float: left;padding-left: 10px;font-size: 30px;color: orange;">
+                  {{item.deductMoney}}
                 </div>
               </div>
               <button class="mui-pull-right discount_btn">立即使用</button>
@@ -61,6 +62,7 @@
       this.availableDiscount();
       this.expiredDiscount();
       this.usedDiscount();
+
     },
     methods: {
       //可使用优惠券
@@ -74,9 +76,7 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.availableDiscountList = res.body.data
-              console.log("可使用优惠券")
-              console.log(this.availableDiscountList)
-              console.log(this.availableDiscountList.length)
+              this.discountEvent(0);
             } else {
               alert("获取优惠券信息错误：" + res.body.message)
             }
