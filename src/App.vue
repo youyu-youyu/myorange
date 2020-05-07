@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+<!--    <loading v-if="loading"></loading>-->
     <!------中间的路由router-view 区域-------->
 
     <transition>

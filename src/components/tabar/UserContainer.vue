@@ -174,7 +174,7 @@
       let accountInfoData = this.$store.state.userAccountData;
       this.userTotalLottery = accountInfoData.userTotalLottery;
       this.userTotalMoney = accountInfoData.userMoney;
-      this.userTotalCoin = accountInfoData.userTotalCoin;
+      this.userTotalCoin = accountInfoData.userCoin;
       this.coupons = accountInfoData.coupons;
     },
 

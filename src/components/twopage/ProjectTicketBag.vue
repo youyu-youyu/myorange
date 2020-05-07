@@ -10,20 +10,19 @@
     </div>
     <div class="projectbag_inner-txt">
       <!--      <div class="projectbag_txt">11</div>-->
-      <div class="projectbag_txt">是否全天票：是</div>
+
+      <div class="projectbag_txt" v-show="ticketDetailInfoObject.is_all_day===0">
+        门票计时:{{ticketDetailInfoObject.play_time}}
+      </div>
+      <div class="projectbag_txt" v-show="ticketDetailInfoObject.is_all_day===1">
+        有效日开始:{{ticketDetailInfoObject.valid_start_date}}
+      </div>
+      <div class="projectbag_txt" v-show="ticketDetailInfoObject.is_all_day===1">
+        有效日结束:{{ticketDetailInfoObject.valid_end_date}}
+      </div>
     </div>
     <div class="projectbag_border">
       <div class="at-row">
-        <!--        <div class="item">-->
-        <!--          <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">-->
-        <!--          <p class="mui-pull-left projectbag-p">赠送彩票&nbsp;&nbsp;</p>-->
-        <!--          <p class="mui-pull-left projectbag-p">x{{ticketDetailInfoObject.giveLottery}}</p>-->
-        <!--        </div>-->
-        <!--        <div class="item">-->
-        <!--          <img src="../../assets/project/img.jpg" class="item-img mui-pull-left">-->
-        <!--          <p class="mui-pull-left projectbag-p">赠送积分&nbsp;&nbsp;</p>-->
-        <!--          <p class="mui-pull-left projectbag-p">x{{ticketDetailInfoObject.giveScore}}</p>-->
-        <!--        </div>-->
       </div>
       <div class="item">
         <img src="../../assets/project/img.png" class="item-img mui-pull-left">
@@ -35,7 +34,9 @@
         <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{ticketDetailInfoObject.actual_price}}
         </div>
       </div>
-      <button class="mui-pull-right projectbag_btn" @click="paymentClick()">支付</button>
+      <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">支付</button>
+      <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type1="预存款付款" select-pay-type2="代币付款"
+            :parent-click-method-name="this.commitOrder" :is-display="false"></cell>
     </div>
     <div class="at-row-bottom">
       <div class="jifen_title">看看我的门票可以做什么？</div>
@@ -51,6 +52,8 @@
 <script>
   import backBar from "../public/backBar";
   import global_msg from "../js/global";
+  import Cell from "../public/cell"
+
 
   export default {
     name: "ProjectBag",
@@ -71,7 +74,10 @@
     methods: {
       //点击付款
       paymentClick() {
-        this.commitOrder();
+        document.getElementById("select_id").setAttribute("style", "display:block;"),
+          //父组件通过$ref获取到子组件的实例对象并调用子组件的selectPay方法
+          //传一个方法，点击支付弹出三个支付方式，点击三个支付方式，直接付款
+          this.$refs.cellChild.selectPay()
       },
       //判断支付
       judgePay() {
@@ -95,7 +101,7 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.orderNumber = res.body.data.orderNo;
-              // this.judgePay();
+              this.judgePay();
             } else {
               alert("提交订单失败" + res.body.message)
             }
@@ -103,10 +109,21 @@
       },
 
       orderPaymentH5() {
+        let payUrl = ""
+        let wxPay = '/api/payment/shouqianba';
+        let prePay = "/api/payment/predeposit";
+        let coinPay = '/api/payment/bycoin';
+        if (this.$refs.cellChild.payType === 1) {
+          payUrl = wxPay;
+        } else if (this.$refs.cellChild.payType === 3) {
+          payUrl = prePay
+        } else if (this.$refs.cellChild.payType === 4) {
+          payUrl = coinPay
+        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianba`,
+          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
             {
               "orderNo": this.orderNumber
             }, {emulateJSON: true})
@@ -115,7 +132,12 @@
             if (res.body.err_code === 0) {
               // localStorage.setItem("payStatus", "1");
               // 跳转支付
-              window.location.href = res.body.data.pay_url;
+              if (this.$refs.cellChild.payType === 1) {
+                window.location.href = res.body.data.pay_url;
+              } else {
+                Toast("支付成功！");
+                this.$router.go(-1);
+              }
             } else {
               alert("h5获取支付url失败" + res.body.message)
             }
@@ -155,6 +177,8 @@
             // console.log(res.body.data)
             if (res.body.err_code === 0) {
               this.ticketDetailInfoObject = res.body.data;
+              console.log("123")
+              console.log(this.ticketDetailInfoObject)
               this.ticketDetailInfoObject.photo_url = this.ticketDetailInfoObject.photo_url === "" ? require("../../assets/project/xiangmu_card5.png") : this.ticketDetailInfoObject.photo_url;
             } else {
               alert("获取门票信息失败" + res.body.message);
@@ -164,7 +188,8 @@
       },
     },
     components: {
-      backBar
+      backBar,
+      Cell
     }
   }
 </script>
@@ -173,7 +198,7 @@
   .projectbag_border {
     border-radius: 20px;
     width: 90%;
-    margin: 50px auto;
+    margin: 20px auto;
     border: 1px dashed #D3B986;
     background-color: #ffffff !important;
     padding: 10px 10px 30px 10px;
@@ -211,9 +236,14 @@
 
   .projectbag_inner-txt {
     width: 100%;
-    margin: 20px 0;
+    margin: 30px 0;
     text-align: center;
     /*margin: 0 auto;*/
+
+  }
+
+  .projectbag_txt {
+    padding: 5px 0;
   }
 
   .at-row {
@@ -262,7 +292,7 @@
   .at-row-bottom {
     width: 90%;
     padding: 20px 20px;
-    margin: 50px auto;
+    margin: 20px auto;
     line-height: 30px;
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;

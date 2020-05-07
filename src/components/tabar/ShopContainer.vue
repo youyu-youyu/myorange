@@ -3,7 +3,7 @@
     <div class="shopcontainer_top">
       <loading v-if="loading"></loading>
       <div class="shop_bg">
-        <mt-search >
+        <mt-search>
           <mt-cell
             v-for="item in result"
             :title="item.title"
@@ -72,6 +72,7 @@
   import "../css/shop.less";
   import global_msg from "../js/global";
   import {Toast} from "mint-ui";
+  import Loading from "../public/loading/loading";
   /*
     注意:
     1.itemWidth需要与gutterWidth一起使用才会生效，否则会进行自适应宽度
@@ -90,7 +91,7 @@
         productId: "",
         productList: [],
         shopCarList: [],
-        result:[],
+        result: [],
         currentSelectedProductIndex: 0,
       };
     },
@@ -348,7 +349,6 @@
     }
   };
 </script>
-
 
 
 // WEBPACK FOOTER //

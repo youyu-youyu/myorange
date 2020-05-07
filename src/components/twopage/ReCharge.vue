@@ -45,7 +45,6 @@
                   <button class="mui-icon mui-icon-closeempty back_txt" @click="cancelEvent"></button>
                 </a>
               </div>
-              <!--              <span class="back_center">付款详情</span>-->
             </div>
           </div>
         </div>
@@ -73,12 +72,20 @@
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
+
+              <!--              class: {-->
+              <!--              select_class: !0 === t.showClick-->
+              <!--              },-->
+              <!--              attrs: {-->
+              <!--              id: "select_id"-->
+              <!--              }-->
               <mt-cell title="赠送彩票">
                 <span style="color: green">{{showData.giveLottery}}</span>
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
-              <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"></cell>
+              <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"
+                    :parent-click-method-name="changeMoneyWithPayType"></cell>
               <!--              changeMoneyWithPayTypeInShop-->
             </div>
           </div>
@@ -159,10 +166,12 @@
         showData: ""
       }
     },
-    //1.点击充值时付款
-    //2.切换付款方式时价格与之对应   X
+    //1.点击充值时付款 √
+    //2.切换付款方式时价格与之对应  √
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
+
+
       // localStorage.setItem("token","")
       this.getCoinRechargePackages();
       this.getPrePayPackages();
@@ -200,6 +209,7 @@
         this.loading = false;
       },
       paymentClick() {
+
         this.commitOrder();
       },
       //点击付款
@@ -211,30 +221,30 @@
         }
       },
       clickEvent(index, isPackage) {
-
         this.order = "";
         this.loading = true;
         this.showBox = 0;
         this.selectedIndex = index;
         if (isPackage) {
+          //是套餐：充币
           this.isClickTop = false;
           this.showData = this.coinRechargePackageList[this.selectedIndex];
           //在点击切换时
-          if (this.$refs.cellChild.payType === 1) {
-            this.price = this.showData.actual_price;
-          } else if (this.$refs.cellChild.payType === 4) {
-            this.price = this.showData.balance_price;
-          }
           this.cardId = this.coinRechargePackageList[this.selectedIndex].cardId;
           this.cardType = 1;
+          // this.$refs.cellChild.isDisplay = true;
+          this.changeMoneyWithPayType(this.$refs.cellChild.payType);
           this.$refs.cellChild.payTypeText = "微信付款";
         } else {
           this.isClickTop = true;
+          this.showClick = true;
           this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
           this.price = this.showData.amount;
           this.cardType = 0;
-          // this.changeMoneyWithPayType(this.$refs.cellChild.payType)
+          // this.$refs.cellChild.isDisplay = false;
+          this.$refs.cellChild.payTypeText = "微信付款";
+
         }
         console.log(this.price);
       },
@@ -332,8 +342,8 @@
               console.log("this.$refs.cellChild.payType:" + this.$refs.cellChild.payType)
               if (this.$refs.cellChild.payType === 1) {
                 window.location.href = res.body.data.pay_url;
-                Toast("支付成功!");
               } else {
+                Toast("支付成功!");
                 this.$router.go(-1);
               }
             } else {
@@ -357,9 +367,10 @@
               alert('获取小程序支付参数时错误：' + res.body.message)
           })
       },
-      //1.换
+      //1.子点击时传参数过来
       changeMoneyWithPayType(payType) {
-        this.price = payType === 1 ? this.coinRechargePackageList[this.selectedIndex].actual_price : this.coinRechargePackageList[this.selectedIndex].balance_price
+        payType === 1 ? this.price = this.coinRechargePackageList[this.selectedIndex].actual_price : this.price = this.coinRechargePackageList[this.selectedIndex].balance_price
+        console.log(this.coinRechargePackageList[this.selectedIndex].actual_price)
       }
     },
     components: {

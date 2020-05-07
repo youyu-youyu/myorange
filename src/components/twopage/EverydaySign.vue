@@ -85,6 +85,10 @@
       };
     },
     mounted() {
+      // let beforeYesterday = getDateStr(-2);
+      // console.log(beforeYesterday)
+
+
       this.userScore = this.$store.state.userInfoData.userTotalScore;
       console.log(this.$store.state.userInfoData.userTotalScore)
       mui('.mui-scroll-wrapper').scroll({
@@ -145,14 +149,31 @@
 
               for (let i = 0; i < this.keyList.length; i++) {
                 this.keyList[i] = this.keyList[i].split("-")[1] + "." + this.keyList[i].split("-")[2];
-                console.log(this.keyList[i].split("-")[1]);
-                if (this.keyList[i].split("-")[1] === new Date().getDate().toString()) {
+
+                let day1 = new Date();
+                //月份
+                let date = (day1.getMonth() + 1) < 10 ? "0" + (day1.getMonth() + 1) : (day1.getMonth() + 1);
+                //今天
+                let currentDay2 = day1.getDate() < 10 ? "0" + day1.getDate() : day1.getDate();
+                //昨天
+                let preDay = day1.getDate() - 1
+                let preDay2 = preDay < 10 ? "0" + preDay : preDay;
+                // 明天
+                let tomorrowDay = day1.getDate() + 1
+                let tomorrowDay1 = tomorrowDay < 10 ? "0" + tomorrowDay : tomorrowDay;
+                //小于10，在前面加上0，如5/7变成05/07
+
+                // 如果是昨天day1.getDate()-1
+                // 明天day1.getDate()+1
+                // 如果数字小于10 ，在前面添加0
+                //然后做对比
+                if (this.keyList[i] === date + "." + currentDay2) {
                   this.keyList[i] = "今日";
                 }
-                if (this.keyList[i].split("-")[1] === (new Date().getDate() - 1).toString()) {
+                if (this.keyList[i] === date + "." + preDay2) {
                   this.keyList[i] = "昨日";
                 }
-                if (this.keyList[i].split("-")[1] === (new Date().getDate() + 1).toString()) {
+                if (this.keyList[i] === date + "." + tomorrowDay1) {
                   this.keyList[i] = "明日";
                 }
               }
@@ -267,7 +288,7 @@
     width: 90%;
     padding: 20px 20px;
     margin: 0 auto;
-    line-height:30px;
+    line-height: 30px;
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     background-color: #fff;
@@ -396,7 +417,6 @@
     }
   }
 </style>
-
 
 
 // WEBPACK FOOTER //

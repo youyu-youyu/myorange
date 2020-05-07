@@ -1,5 +1,6 @@
 <template>
   <div class="shopcardetail">
+    <loading v-if="loading"></loading>
     <backBar title="购物车" class="backBar" :back-path="'shop'"></backBar>
     <div class="user_top" v-for="(item,index) in shopCarList">
       <div class="user_top_inner">
@@ -86,6 +87,7 @@
   import {Toast} from 'mint-ui'
   import global_msg from "../js/global";
   import Cell from "../public/cell";
+  import Loading from "../public/loading/loading";
 
   export default {
     name: "CarDetail",
@@ -364,6 +366,7 @@
     },
 
     components: {
+      Loading,
       Cell,
       backBar
     },

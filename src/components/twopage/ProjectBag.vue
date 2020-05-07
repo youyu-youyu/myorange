@@ -36,8 +36,7 @@
       <div class="activationMethod">
         <div class="projectbag_top_bottom">
           <div class="projectbag-item1">
-            <div class="" v-show="projectDetailInfoObject.activation===0">购买激活</div>
-            <!--            {{projectDetailInfoObject.valid_start_date}}-->
+            <div class="" v-show="projectDetailInfoObject.activation===0">激活方式:购买激活</div>
           </div>
           <div class="item_item item_times" v-show="projectDetailInfoObject.activation===1">指定日期激活:
             {{projectDetailInfoObject.activation_date}}
@@ -69,7 +68,9 @@
         </div>
       </div>
 
-      <button class="mui-pull-right projectbag_btn" @click="paymentClick()">支付</button>
+      <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">支付</button>
+      <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type1="预存款付款" select-pay-type2="代币付款"
+            :parent-click-method-name="this.commitOrder" :is-display="false"></cell>
     </div>
     <div class="at-row-bottom">
       <div class="jifen_title">看看我的项目可以做什么？</div>
@@ -85,17 +86,21 @@
 <script>
   import backBar from "../public/backBar";
   import global_msg from "../js/global";
+  import Cell from "../public/cell"
+  import {Toast} from "mint-ui"
 
   export default {
     name: "ProjectBag",
     data() {
       return {
         cardId: "",
+        //
         bagPhoto: "",
         actualPrice: "",
         sumCoins: "",
         giveLottery: "",
         giveScore: "",
+        //
         data: '',
         orderNumber: "",
         projectDetailInfoObject: "",
@@ -105,7 +110,6 @@
     },
     mounted() {
       this.shopName = this.$store.state.selectedShopData.shopName;
-
       this.data = this.$route.query;
 
       this.getProjectInformation();
@@ -114,7 +118,10 @@
     methods: {
       //点击付款
       paymentClick() {
-        this.commitOrder();
+        document.getElementById("select_id").setAttribute("style", "display:block;"),
+          //父组件通过$ref获取到子组件的实例对象并调用子组件的selectPay方法
+          //传一个方法，点击支付弹出三个支付方式，点击三个支付方式，直接付款
+          this.$refs.cellChild.selectPay()
       },
       judgePay() {
         if (this.$store.state.type === 1) {
@@ -149,11 +156,21 @@
           })
       },
       orderPaymentH5() {
-        this.commitOrder();
+        let payUrl = ""
+        let wxPay = '/api/payment/shouqianba';
+        let prePay = "/api/payment/predeposit";
+        let coinPay = '/api/payment/bycoin';
+        if (this.$refs.cellChild.payType === 1) {
+          payUrl = wxPay;
+        } else if (this.$refs.cellChild.payType === 3) {
+          payUrl = prePay
+        } else if (this.$refs.cellChild.payType === 4) {
+          payUrl = coinPay
+        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianba`,
+          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
             {
               "orderNo": this.orderNumber
             }, {emulateJSON: true})
@@ -162,7 +179,12 @@
             if (res.body.err_code === 0) {
               // localStorage.setItem("payStatus", "1");
               // 跳转支付
-              window.location.href = res.body.data.pay_url;
+              if (this.$refs.cellChild.payType === 1) {
+                window.location.href = res.body.data.pay_url;
+              } else {
+                Toast("支付成功！");
+                this.$router.go(-1);
+              }
             } else {
               alert("h5获取支付url失败：" + res.body.message);
             }
@@ -170,7 +192,6 @@
       },
 
       orderPaymentMini() {
-        this.commitOrder();
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -215,7 +236,8 @@
       },
     },
     components: {
-      backBar
+      backBar,
+      Cell,
     }
   }
 </script>

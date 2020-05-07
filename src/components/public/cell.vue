@@ -1,6 +1,8 @@
 <template>
-  <div class="left_a_right" id="base_div">
-    <div>
+  <div id="base_div">
+    <!--    onclick=selectPay-->
+    <div id="cover_selectPay">
+      <!--      v-show-->
       <div id="cover"></div>
       <div class="selectPay" id="selectPay_id">
         <button @click="selectPayType(0)">{{selectPayType0}}</button>
@@ -8,7 +10,7 @@
         <button @click="selectPayType(2)" v-show="selectPayType2!==''">{{selectPayType2}}</button>
       </div>
     </div>
-    <div @click="selectPay()" v-show="isDisplay">
+    <div @click="selectPay()" class="left_a_right" id="payInfo" v-show="isDisplay">
       <div class="mui-pull-left">付款详情</div>
       <div class="mui-pull-right left_a_right-right">{{payTypeText}}
         <span class="mui-icon mui-icon-forward"></span>
@@ -62,22 +64,20 @@
     },
     mounted() {
       //点击子组件时阻止父亲冒泡
-      selectPay_id.onclick = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
+      // document.getElementById("cover_selectPay").onclick = function (e) {
+      //   e.stopPropagation();
+      //   e.preventDefault();
+      // }
     },
     methods: {
       //点击出现三button选择付款
       selectPay() {
         console.log("cover现");
-        // this.isDisplay = true;
         document.getElementById("selectPay_id").setAttribute("style", "display:block;");
         document.getElementById("cover").setAttribute("style", "display:block;")
       },
       selectPayType(type) {
         console.log("cover隐");
-        // this.isDisplay = false;
         document.getElementById("selectPay_id").setAttribute("style", "display:none;");
         document.getElementById("cover").setAttribute("style", "display:none;")
         switch (type) {
@@ -93,14 +93,11 @@
             this.payTypeText = this.selectPayType2;
             this.payType = 4
         }
+        //
         if (this.parentClickMethodName !== null) {
           this.parentClickMethodName(this.payType)
         }
-        // null !== this.parentClickMethodName && this.parentClickMethodName(this.payType)
       },
-      // myClick() {
-      //   document.getElementById("base_div").click()
-      // }
     }
 
   }
@@ -116,6 +113,7 @@
     .left_a_right-right {
       margin-top: -10px;
       color: #a8adac;
+
     }
   }
 
@@ -152,21 +150,6 @@
     box-shadow: 5px 5px 20px 5px #888
   }
 
-  /*.cover {*/
-  /*  width: 100%;*/
-  /*  height: 100%;*/
-  /*  z-index: 999999;*/
-  /*  background: #000000;*/
-  /*  opacity: 0.8;*/
-  /*}*/
-
-  /*.selectPay {*/
-  /*  z-index: 9999999;*/
-  /*  position: absolute;*/
-  /*  width: 90%;*/
-  /*  text-align: center;*/
-  /*  top: 30%;*/
-  /*}*/
 
 </style>
 
