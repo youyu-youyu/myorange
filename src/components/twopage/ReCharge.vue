@@ -170,7 +170,7 @@
     //2.切换付款方式时价格与之对应  √
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
-
+      alert("测试111")
 
       // localStorage.setItem("token","")
       this.getCoinRechargePackages();
