@@ -15,10 +15,10 @@
       <div class="projectrecord_footer">
         <div class="user_top_bottom1">
           <div class="projectbag_bottom">
-            <div class="item_item" v-show="projectDetailInfoObject.is_number_time===1">有效开始日：111
+            <div class="item_item" v-show="projectDetailInfoObject.is_number_time===1">有效开始日:
               {{projectDetailInfoObject.valid_start_date}}
             </div>
-            <div class="item_item" v-show="projectDetailInfoObject.is_number_time===1">有效结束日：222
+            <div class="item_item" v-show="projectDetailInfoObject.is_number_time===1">有效结束日:
               {{projectDetailInfoObject.valid_end_date}}
             </div>
           </div>
@@ -223,8 +223,9 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.projectDetailInfoObject = res.body.data;
-              let bagData = res.body.data;
+              console.log("bag");
               console.log(this.projectDetailInfoObject);
+              let bagData = res.body.data;
               this.projectDetailInfoObject.photo_url = this.projectDetailInfoObject.photo_url
               === "" ? require("../../assets/project/xiangmu_card1.png") : bagData.photo_url;
 

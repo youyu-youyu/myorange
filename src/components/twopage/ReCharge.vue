@@ -233,19 +233,19 @@
           this.cardId = this.coinRechargePackageList[this.selectedIndex].cardId;
           this.cardType = 1;
           // this.$refs.cellChild.isDisplay = true;
-          this.changeMoneyWithPayType(this.$refs.cellChild.payType);
+
           this.$refs.cellChild.payTypeText = "微信付款";
         } else {
           this.isClickTop = true;
-          this.showClick = true;
+          // this.showClick = true;
           this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
           this.price = this.showData.amount;
           this.cardType = 0;
           // this.$refs.cellChild.isDisplay = false;
-          this.$refs.cellChild.payTypeText = "微信付款";
 
         }
+        this.changeMoneyWithPayType(this.$refs.cellChild.payType);
         console.log(this.price);
       },
       //提交订单
