@@ -64,10 +64,10 @@
     },
     mounted() {
       //点击子组件时阻止父亲冒泡
-      // document.getElementById("cover_selectPay").onclick = function (e) {
-      //   e.stopPropagation();
-      //   e.preventDefault();
-      // }
+      document.getElementById("cover_selectPay").onclick = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
     },
     methods: {
       //点击出现三button选择付款
