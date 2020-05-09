@@ -10,7 +10,7 @@
         <button @click="selectPayType(2)" v-show="selectPayType2!==''">{{selectPayType2}}</button>
       </div>
     </div>
-    <div @click="selectPay()" class="left_a_right" id="payInfo" v-show="isDisplay">
+    <div @click="clickable1 && selectPay()" class="left_a_right" id="payInfo" v-show="isDisplay">
       <div class="mui-pull-left">付款详情</div>
       <div class="mui-pull-right left_a_right-right">{{payTypeText}}
         <span class="mui-icon mui-icon-forward"></span>
@@ -54,20 +54,22 @@
       isDisplay: {
         type: Boolean,
         default: true
-      }
+      },
+
     },
     data() {
       return {
         payTypeText: "微信付款",
-        payType: 1
+        payType: 1,
+        clickable1:true
       }
     },
     mounted() {
       //点击子组件时阻止父亲冒泡
-      document.getElementById("cover_selectPay").onclick = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
+      // document.getElementById("payInfo").onclick = function (e) {
+      //   e.stopPropagation();
+      //   e.preventDefault();
+      // }
     },
     methods: {
       //点击出现三button选择付款

@@ -64,7 +64,7 @@
       </div>
       <div class="projectbag_buy">
         <div class="projectbag_buy_txt mui-pull-left">购买礼包</div>
-        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{projectDetailInfoObject.actual_price}}
+        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{price}}
         </div>
       </div>
 
@@ -94,24 +94,17 @@
     data() {
       return {
         cardId: "",
-        //
-        bagPhoto: "",
-        actualPrice: "",
-        sumCoins: "",
-        giveLottery: "",
-        giveScore: "",
-        //
         data: '',
         orderNumber: "",
         projectDetailInfoObject: "",
-        shopName: ""
+        shopName: "",
+        price: "",
 
       }
     },
     mounted() {
       this.shopName = this.$store.state.selectedShopData.shopName;
       this.data = this.$route.query;
-
       this.getProjectInformation();
 
     },
@@ -132,6 +125,14 @@
       },
       //提交订单
       commitOrder() {
+        if (this.$refs.cellChild.payType === 1) {
+          this.price = this.projectDetailInfoObject.actual_price.replace(",", "");
+        } else if (this.$refs.cellChild.payType === 3) {
+          this.price = this.projectDetailInfoObject.balance_price;
+        } else if (this.$refs.cellChild.payType === 4) {
+          this.price = this.projectDetailInfoObject.coin_money;
+        }
+        console.log(this.price)
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -139,9 +140,10 @@
             {
               "cardId": this.data.cardId,
               "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.projectDetailInfoObject.actual_price.replace(",", ""),
+              "actualPrice": this.price,
               "sumcoin": this.projectDetailInfoObject.coin,
               "cardType": 2,
+              "payType": this.$refs.cellChild.payType,
               "notifyUrl": this.$store.state.homeHtml,
 
             }, {emulateJSON: true})
@@ -167,6 +169,7 @@
         } else if (this.$refs.cellChild.payType === 4) {
           payUrl = coinPay
         }
+        console.log("payUrl" + payUrl)
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -175,7 +178,7 @@
               "orderNo": this.orderNumber
             }, {emulateJSON: true})
           .then(res => {
-
+            // console.log(res.body)
             if (res.body.err_code === 0) {
               // localStorage.setItem("payStatus", "1");
               // 跳转支付
@@ -223,8 +226,7 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.projectDetailInfoObject = res.body.data;
-              console.log("bag");
-              console.log(this.projectDetailInfoObject);
+              this.price = this.projectDetailInfoObject.actual_price
               let bagData = res.body.data;
               this.projectDetailInfoObject.photo_url = this.projectDetailInfoObject.photo_url
               === "" ? require("../../assets/project/xiangmu_card1.png") : bagData.photo_url;

@@ -91,18 +91,18 @@
         </div>
       </div>
     </div>
-    <!--    <div id="cover"></div>-->
-    <!--   售币机 //-->
-    <!--    <div class="selectPay" id="selectPay_id">-->
-    <!--      <button>1</button>-->
-    <!--      <button>2</button>-->
-    <!--      <button>3</button>-->
-    <!--      <button>1</button>-->
-    <!--      <button>2</button>-->
-    <!--      <button>3</button>-->
-    <!--      <input type="text" placeholder="请输入搜索名" class="qr_search">-->
-    <!--      <button class="btn-search">搜索</button>-->
-    <!--    </div>-->
+    <!--        <div id="cover"></div>-->
+    <!--&lt;!&ndash;       售币机 //&ndash;&gt;-->
+    <!--        <div class="selectPay" id="selectPay_id">-->
+    <!--          <button>1</button>-->
+    <!--          <button>2</button>-->
+    <!--          <button>3</button>-->
+    <!--          <button>1</button>-->
+    <!--          <button>2</button>-->
+    <!--          <button>3</button>-->
+    <!--          <input type="text" placeholder="请输入搜索名" class="qr_search">-->
+    <!--          <button class="btn-search">搜索</button>-->
+    <!--        </div>-->
     <!--    机器-->
     <!--    <div class="robot">-->
     <!--      <div class="robot-inner">-->
@@ -166,14 +166,15 @@
     },
     created: function () {
 
-
+      /**
+       * 处理购买套餐结果回调开始
+       */
       if (window.location.href.indexOf("type") > 0) {
         this.type = 2;
         this.$store.commit('setType', this.type);
         this.miniCode = this.getUrlKey('code');
       }
       let payStatus = localStorage.getItem("payStatus");
-
       if (payStatus === "1") {
         // 如果支付状态为1
         localStorage.setItem("payStatusResult", "-1");//?
@@ -193,26 +194,37 @@
           }
         }
       }
+      /**
+       * 处理购买套餐结果回调结束
+       */
+
+
+      /**
+       * 处理扫码开始
+       */
       // alert("扫描到的东西1111:" + qrCode);
       if (this.getUrlQrCode("qrresult") !== ""
         && this.getUrlQrCode("qrresult") !== undefined
         && this.getUrlQrCode("qrresult") !== "undefined") {
         let isProcessQrCode = localStorage.getItem(global_msg.isProcessQrCode);
+        //扫码完成后把彩票存进？
+        //判断cmd是否等于qrStorageTicket，相等就进if
+
+
         if (isProcessQrCode === null || isProcessQrCode === "false") {
-          Toast("扫描到的内容:" + this.getUrlQrCode("qrresult"));
-
-
+          localStorage.setItem(global_msg.isProcessQrCode, "true");
           localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));
-          // localStorage.setItem(global_msg.isProcessQrCode, "true");
-          this.getLastSelectedShop();
+
         }
         // location.href = global_msg.orangeHomeHtml;
       }
+      /**
+       * 处理扫码结束
+       */
 
 
     },
     mounted() {
-
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
@@ -328,6 +340,7 @@
         let local = window.location.href;
         localStorage.setItem(global_msg.isProcessQrCode, "false");
         window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
+
       },
       //微信授权
       getCode() {
@@ -342,6 +355,7 @@
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
             local
           )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
+
 
         } else {
           //如果截取url中的code不等于保存的code，才登录
@@ -412,6 +426,45 @@
         }
         return "";
       },
+
+      //扫码存彩票
+      storageLottery(tickeyJSON) {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
+            {
+              "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log(res);
+            localStorage.setItem(global_msg.qrCode, "");
+            if (res.body.err_code === 0) {
+              alert("存彩票成功！")
+            } else {
+              alert("存彩票失败！" + res.body.message)
+            }
+          });
+      },
+      //扫码取币
+      storageCoin(deviceCode) {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/qrfetchcoin`,
+            {
+              "activation_code": deviceCode, "coin	": tickeyJSON.ticketNumber,
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log(res);
+            if (res.body.err_code === 0) {
+              //
+            } else {
+              alert("获取扫码取币失败！" + res.body.message)
+            }
+
+          });
+      },
       //获取最近的店
       getNearestShop(log, lat) {
         let _this = this;
@@ -464,6 +517,30 @@
               let result = localStorage.getItem("payStatusResult")
               if (result === "1" || result === "0")
                 this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
+
+
+
+              if (localStorage.getItem(global_msg.qrCode)) {
+                //这里是真正处理扫描到的二维码的地方if
+
+                /**
+                 * 扫到存彩票的二维码
+                 */
+                if (this.getUrlQrCode("qrresult").indexOf("qrStorageTicket") !== -1) {
+                  let ticketJSON = this.getUrlQrCode("qrresult");
+                  ticketJSON = decodeURIComponent(ticketJSON)
+                  ticketJSON = JSON.parse(ticketJSON);
+                  this.storageLottery(ticketJSON);
+                }
+
+                /**
+                 * 扫到取币二维码
+                 */
+                if(this.getUrlQrCode("qrresult").startsWith("AE")){
+                alert("扫描到支付盒子")
+                }
+
+              }
             } else {
               alert("获取店铺失败:" + res.body.message)
             }

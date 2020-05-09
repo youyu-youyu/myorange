@@ -1,5 +1,4 @@
 <template>
-
   <div class="recharge">
     <loading v-if="loading"></loading>
 
@@ -11,7 +10,7 @@
       <div class="recharge_yu">预存款余额：{{parseInt($store.state.userAccountData.userMoney)}}元</div>
       <div class="recharge_total">
         <div class="recharge_1">请选择预存款套餐</div>
-        <div class=" recharge_ul" v-for="(item,index) in PrePayPackageList">
+        <div class="recharge_ul" v-for="(item,index) in PrePayPackageList">
           <li class="mui-media  recharge_li" @click="clickEvent(index,false)">
             <div class="mui-media-body cardName1">{{item.actual_price}}￥</div>
           </li>
@@ -141,7 +140,8 @@
 <script>
   import global_msg from '../js/global.js'
   import Cell from "../public/cell";
-  import {Toast} from "mint-ui"
+  import {Toast} from "mint-ui";
+  import loading from "../public/loading/loading"
 
   export default {
     name: "ReCharge",
@@ -163,15 +163,13 @@
         isClickTop: false,
         // payTypeText: "微信付款",
         price: "",
-        showData: ""
+        showData: "",
       }
     },
     //1.点击充值时付款 √
     //2.切换付款方式时价格与之对应  √
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
-      alert("测试111")
-
       // localStorage.setItem("token","")
       this.getCoinRechargePackages();
       this.getPrePayPackages();
@@ -209,7 +207,6 @@
         this.loading = false;
       },
       paymentClick() {
-
         this.commitOrder();
       },
       //点击付款
@@ -226,39 +223,46 @@
         this.showBox = 0;
         this.selectedIndex = index;
         if (isPackage) {
-          //是套餐：充币
+          //true：充币
+          this.$refs.cellChild.clickable1 = true;
+
           this.isClickTop = false;
           this.showData = this.coinRechargePackageList[this.selectedIndex];
           //在点击切换时
           this.cardId = this.coinRechargePackageList[this.selectedIndex].cardId;
           this.cardType = 1;
+          this.changeMoneyWithPayType(this.$refs.cellChild.payType);
           // this.$refs.cellChild.isDisplay = true;
 
-          this.$refs.cellChild.payTypeText = "微信付款";
+
         } else {
-          this.isClickTop = true;
+          this.$refs.cellChild.clickable1 = false;
+          this.$refs.cellChild.payTypeText = "微信付款";
+          this.$refs.cellChild.payType = 1;
           // this.showClick = true;
           this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
           this.price = this.showData.amount;
+          console.log("pre")
           this.cardType = 0;
-          // this.$refs.cellChild.isDisplay = false;
-
         }
-        this.changeMoneyWithPayType(this.$refs.cellChild.payType);
+
         console.log(this.price);
       },
       //提交订单
       commitOrder() {
-        console.log(this.PrePayPackageList);
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/order/store`,
             {
-              "cardId": this.cardId, "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.price, "sumcoin": this.showData.sumcoin, "cardType": this.cardType,
-              "payType": this.$refs.cellChild.payType, "notifyUrl": this.$store.state.homeHtml
+              "cardId": this.cardId,
+              "shopId": this.$store.state.selectedShopData.shopId,
+              "actualPrice": this.price,
+              "sumcoin": this.showData.sumcoin,
+              "cardType": this.cardType,
+              "payType": this.$refs.cellChild.payType,
+              "notifyUrl": this.$store.state.homeHtml
             }, {emulateJSON: true})
           .then(res => {
             this.loading = false;
@@ -339,12 +343,11 @@
             if (res.body.err_code === 0) {
               localStorage.setItem("payStatus", "1");
               // 跳转支付
-              console.log("this.$refs.cellChild.payType:" + this.$refs.cellChild.payType)
               if (this.$refs.cellChild.payType === 1) {
-                window.location.href = res.body.data.pay_url;
+                // window.location.href = res.body.data.pay_url;
               } else {
                 Toast("支付成功!");
-                this.$router.go(-1);
+                // this.$router.go(-1);
               }
             } else {
               alert("获取支付url失败" + res.body.message)
@@ -375,6 +378,7 @@
     },
     components: {
       Cell,
+      loading,
     }
   }
 </script>
@@ -561,8 +565,14 @@
   .mint-cell-value {
     padding-right: 20px;
   }
+
+  .base_div {
+    .cover_selectPay {
+      pointer-events: none;
+    }
+  }
 </style>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/ReCharge.vue
+WEBPACK FOOTER //
+src/components/twopage/ReCharge.vue

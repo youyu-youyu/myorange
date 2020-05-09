@@ -53,6 +53,8 @@
   import backBar from "../public/backBar";
   import global_msg from "../js/global";
   import Cell from "../public/cell"
+  import {Toast} from "mint-ui"
+  import loading from "../public/loading/loading";
 
 
   export default {
@@ -64,6 +66,7 @@
         orderNumber: "",
         ticketDetailInfoObject: "",
         loading: false,
+        price:""
       }
     },
     mounted() {
@@ -89,14 +92,25 @@
       },
       //提交订单
       commitOrder() {
+        if (this.$refs.cellChild.payType === 1) {
+          this.price = this.ticketDetailInfoObject.actual_price.replace(",", "");
+        } else if (this.$refs.cellChild.payType === 3) {
+          this.price = this.ticketDetailInfoObject.balance_price;
+        } else if (this.$refs.cellChild.payType === 4) {
+          this.price = this.ticketDetailInfoObject.coin_money;
+        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/order/store`,
             {
-              "cardId": this.data.cardId, "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.ticketDetailInfoObject.actual_price.replace(",", ""),
-              "sumcoin": this.ticketDetailInfoObject.sumcoin, "cardType": 3, "notifyUrl": this.$store.state.homeHtml,
+              "cardId": this.data.cardId,
+              "shopId": this.$store.state.selectedShopData.shopId,
+              "actualPrice": this.price,
+              "sumcoin": this.ticketDetailInfoObject.sumcoin,
+              "cardType": 3,
+              "payType":this.$refs.cellChild.payType,
+              "notifyUrl": this.$store.state.homeHtml,
             }, {emulateJSON: true})
           .then(res => {
             if (res.body.err_code === 0) {
@@ -177,8 +191,7 @@
             // console.log(res.body.data)
             if (res.body.err_code === 0) {
               this.ticketDetailInfoObject = res.body.data;
-              console.log("123")
-              console.log(this.ticketDetailInfoObject)
+              this.price = this.ticketDetailInfoObject.actual_price
               this.ticketDetailInfoObject.photo_url = this.ticketDetailInfoObject.photo_url === "" ? require("../../assets/project/xiangmu_card5.png") : this.ticketDetailInfoObject.photo_url;
             } else {
               alert("获取门票信息失败" + res.body.message);
@@ -189,7 +202,8 @@
     },
     components: {
       backBar,
-      Cell
+      Cell,
+      loading
     }
   }
 </script>
@@ -205,20 +219,6 @@
     box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.2);
   }
 
-  .projectbag_buy_order {
-    padding: 30px 0;
-  }
-
-  /*.projectbag_img {*/
-  /*  width: 60%;*/
-  /*  margin-left: -20px;*/
-  /*  text-align: center;*/
-  /*  height: 120px;*/
-  /*  border-radius: 5px;*/
-  /*  margin-top: 50px;*/
-  /*  position: absolute;*/
-  /*}*/
-
   .projectbag {
     /*height: 100px;*/
     /*background-color: #e3e3e3;*/
@@ -226,8 +226,6 @@
     /*width: 100%;*/
 
   }
-
-
   .projectbag_inner {
     text-align: center;
     font-size: 25px;
