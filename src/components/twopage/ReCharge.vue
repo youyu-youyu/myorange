@@ -200,7 +200,7 @@
       paymentClick() {
         MessageBox({
           title: '提示',
-          message: "确定在此店消费?",
+          message: "确定在" + this.$store.state.selectedShopData.shopName + "店消费?",
           showCancelButton: true,
           confirmButtonText: "确定",
           cancelButtonText: "取消"
@@ -209,7 +209,7 @@
             this.commitOrder();
           } else {
             this.showBox = 1;
-            this.loading=false;
+            this.loading = false;
           }
         });
 

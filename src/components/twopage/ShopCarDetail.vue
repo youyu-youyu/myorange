@@ -65,8 +65,9 @@
               <p class="recharge_tabar_txt1">{{sumPrice}}￥</p>
             </div>
             <div class="recharge_tabar">
-              <div class="recharge_tabar0" @click="selectPayment()">
-                <cell select-pay-type0="微信支付" select-pay-type1="充币支付" select-pay-type2="彩票支付"></cell>
+              <div class="recharge_tabar0">
+                <cell select-pay-type0="微信支付" select-pay-type1="积分支付" select-pay-type2="彩票支付"
+                      ref="cellChild"></cell>
               </div>
             </div>
           </div>
@@ -96,7 +97,6 @@
         payJSONList: [],
         order_sn: "",
         payMoney: 0,
-        dialog: "",
         payType: "微信付款",
       }
 
@@ -132,10 +132,10 @@
           }
         }
 
-        console.log(this.sumPrice + 'this.sumPrice')
       }
     },
     mounted() {
+      this.orderReadyPay();
 
     },
     methods: {
@@ -146,20 +146,22 @@
           "payjson": JSON.stringify(this.payJSONList), "notifyUrl": this.$store.state.homeHtml,
         }, {emulateJSON: true})
           .then(res => {
+            console.log(111)
+            console.log(res.body)
             if (res.body.err_code === 0) {
               this.payMoney = res.body.data.paymoney;
               this.sumPrice = this.payMoney;
               this.order_sn = res.body.data.order_sn;
               this.addressList = [];
               this.addressList = this.addressList.concat(res.body.data);
-
-              if (this.payType === 1) {
-                this.shouqianbaPayment();
-              } else if (this.payType === "积分付款") {
-                this.integralPay();
-              } else if (this.payType === "彩票付款") {
-                this.lotteryPay();
-              }
+              //
+              // if (this.payType === 1) {
+              //   // this.shouqianbaPayment();
+              // } else if (this.payType === "积分付款") {
+              //   this.integralPay();
+              // } else if (this.payType === "彩票付款") {
+              //   this.lotteryPay();
+              // }
 
             } else {
               alert("生成订单准备支付失败" + res.body.message)
@@ -218,7 +220,6 @@
       //点击支付生成订单
       pay() {
 
-        this.orderReadyPay();
       },
       //点击消失
       closeEvent() {
@@ -300,7 +301,6 @@
             this.sumPrice += data.count * data.price;
         }
       },
-
       reduceClick(index, isReduce) {
         if (this.showBox === true)
           return;
