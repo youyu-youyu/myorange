@@ -1,7 +1,7 @@
 <template>
   <div class="UserContainer" style="
     min-height: 1100px;">
-    <div class="user_top">
+    <div class="ticket_top">
       <!--      <div class="user_top_inner">-->
       <ul class="mui-table-view">
         <li class="mui-table-view-cell mui-media">

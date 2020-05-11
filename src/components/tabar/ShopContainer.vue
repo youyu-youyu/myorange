@@ -72,7 +72,7 @@
   import "../css/shop.less";
   import global_msg from "../js/global";
   import {Toast} from "mint-ui";
-  import Loading from "../public/loading/loading";
+  import loading from "../public/loading/loading";
   /*
     注意:
     1.itemWidth需要与gutterWidth一起使用才会生效，否则会进行自适应宽度
@@ -346,8 +346,12 @@
       //     if(e._isScroller) return;
       //     e.preventDefault();
       //   }, {passive: false}); //passive 参数不能省略
+    },
+    components: {
+      loading
     }
-  };
+  }
+  ;
 </script>
 
 

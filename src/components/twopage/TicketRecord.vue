@@ -3,8 +3,8 @@
     <loading v-if="loading"></loading>
     <backBar title="我的门票"></backBar>
     <div class="projectrecord">
-      <div class="user_top" v-for="(item,index) in projectRecordList">
-        <div class="user_top_inner">
+      <div class="ticket_top" v-for="(item,index) in projectRecordList">
+        <div class="ticket_top_inner">
           <!--          <div class="tickect-record">-->
           <div>
             <ul class="mui-table-view projectrecord-border">
@@ -36,6 +36,7 @@
 <script>
   import backBar from "../public/backBar.vue";
   import global_msg from "../js/global";
+  import loading from "../public/loading/loading";
 
   export default {
     data() {
@@ -74,7 +75,8 @@
       },
     },
     components: {
-      backBar
+      backBar,
+      loading,
     }
   };
 </script>
@@ -91,6 +93,7 @@
 
   .projectrecord {
     margin-top: 60px;
+    overflow-y: auto !important;
   }
 
   .projectrecord-border {
@@ -98,21 +101,20 @@
     width: 75%;
   }
 
-  .user_top {
+  .ticket_top {
     width: 95%;
-    height: 150px;
+    /*height: 170px;*/
     background: none;
     margin: 0px auto;
-    // position        : absolute;
-    /*margin-top: 70px;*/
-    padding-top: 2px;
+    /*height: 25vh;*/
 
-    .user_top_inner {
-      background-size: cover;
-      /*width: 90%;*/
-      /*background: #fff;*/
+    .ticket_top_inner {
+      background-size: contain;
+      background-repeat: no-repeat;
       background-image: url("../../assets/user/ticketImg.png");
-      height: 140px;
+      /*height: 22vh;*/
+      height: 100%;
+      width: 100%;
       /*border-radius: 20px;*/
       position: relative;
 
@@ -120,7 +122,8 @@
 
     .UserContainer {
       width: 100%;
-      min-height: 1100px;
+      /*min-height: 1100px;*/
+
     }
 
     .mui-table-view {
@@ -173,8 +176,8 @@
   .projectrecord_btn {
     border-radius: 20px;
     /*margin-top: -45px;*/
-    top: -60%;
-    margin-right: 3px;
+    top: -40%;
+    margin-right: 5px;
     background-color: orange;
   }
 

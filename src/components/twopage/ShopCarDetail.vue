@@ -3,7 +3,7 @@
     <loading v-if="loading"></loading>
     <backBar title="购物车" class="backBar" :back-path="'shop'"></backBar>
     <div class="user_top_top">
-      <div class="user_top" v-for="(item,index) in shopCarList">
+      <div class="ticket_top" v-for="(item,index) in shopCarList">
         <div class="user_top_inner">
           <ul class="mui-table-view" @click="showImg(index)">
             <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
@@ -44,11 +44,6 @@
         </button>&nbsp;
       </div>
     </div>
-    <!--    <div class="selectPay" id="selectPay_id">-->
-    <!--      <button @click="selectPayType(0)">微信付款</button>-->
-    <!--      <button @click="selectPayType(1)">积分付款</button>-->
-    <!--      <button @click="selectPayType(2)">彩票付款</button>-->
-    <!--    </div>-->
     <div class="fullscreen">
       <div id="Prover_1" class="mui-popover mui-popover-action
       recharge_bottom" :class="{'mui-active':showBox===true}">
@@ -57,9 +52,7 @@
             <div class="back_top">
               <div class="back_top_inner">
                 <div class="back_top_inner_txt" @click="closeEvent()">
-                  <a>
-                    <button class="mui-icon mui-icon-closeempty back_txt"></button>
-                  </a>
+                  <button class="mui-icon mui-icon-closeempty back_txt"></button>
                 </div>
                 <span class="back_center">付款详情</span>
               </div>
@@ -69,11 +62,11 @@
           <div class="recharge_all">
             <!--   //获得点击的下标的金额-->
             <div class="recharge_tabar">
-              <p class="recharge_tabar_txt1">{{payMoney}}￥</p>
+              <p class="recharge_tabar_txt1">{{sumPrice}}￥</p>
             </div>
             <div class="recharge_tabar">
               <div class="recharge_tabar0" @click="selectPayment()">
-                <!--                <cell title="付款方式" :right-txt="payType"></cell>-->
+                <cell select-pay-type0="微信支付" select-pay-type1="充币支付" select-pay-type2="彩票支付"></cell>
               </div>
             </div>
           </div>
@@ -81,7 +74,6 @@
         <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn" @click="pay()">付款</button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -89,7 +81,7 @@
   import {Toast} from 'mint-ui'
   import global_msg from "../js/global";
   import Cell from "../public/cell";
-  import Loading from "../public/loading/loading";
+  import loading from "../public/loading/loading";
 
   export default {
     name: "CarDetail",
@@ -110,8 +102,8 @@
 
     },
     created() {
-
       //问题：点击返回时数据被清除
+      //返回上一层时，sumPrice被清除
       //解决方案：
       //定义一个数组接收从商城页面传过来的参数
       this.shopCarList = this.$store.state.shopCarList;
@@ -123,10 +115,6 @@
           //自行设置data中的count的值为0
           data["count"] = 0;
       }
-      // for (let data of this.shopCarList) {
-      //   //未选择
-      //   data["isSelected"] = false;
-      // }
       this.address = this.$route.query.addressIndex;
       // console.log(this.address);
       if (this.address === "" || this.address === 'undefined' || this.address === undefined) {
@@ -151,33 +139,6 @@
 
     },
     methods: {
-      // 选择支付
-      selectPayType(type) {
-        this.dialog.close();
-        switch (type) {
-          case 0:
-            this.payType = "微信付款";
-            break;
-          case 1:
-            this.payType = "积分付款";
-            break;
-          case 2:
-            this.payType = "代币付款";
-            break;
-        }
-      },
-      //点击选择支付
-      selectPayment() {
-        // let dialog = require('art-dialog');
-        // let elem = document.getElementById('selectPay_id');
-        // this.dialog = dialog({
-        //   content: elem,
-        //   id: 'EF893L',
-        //   autofocus: true
-        // });
-        // this.dialog.showModal();
-
-      },
       //生成订单准备支付
       orderReadyPay() {
         this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/orderbuy`, {
@@ -192,7 +153,7 @@
               this.addressList = [];
               this.addressList = this.addressList.concat(res.body.data);
 
-              if (this.payType === "微信付款") {
+              if (this.payType === 1) {
                 this.shouqianbaPayment();
               } else if (this.payType === "积分付款") {
                 this.integralPay();
@@ -319,6 +280,8 @@
           query: {temp: this.shopCarList}
         })
       },
+
+      //点击结算
       submit() {
         for (let data of this.shopCarList) {
           //只要有一个被选中，就可以去提交订单了
@@ -368,9 +331,9 @@
     },
 
     components: {
-      Loading,
       Cell,
-      backBar
+      backBar,
+      loading,
     },
     computed: {}
   }
@@ -395,10 +358,11 @@
   }
 
   .user_top_top {
-    padding-top: 60px;
+    padding-top: 50px;
+    padding-bottom: 100px;
   }
 
-  .user_top {
+  .ticket_top {
     width: 100%;
     height: 100% !important;
     background: none;

@@ -55,6 +55,7 @@
 <script>
   import backbar from "../public/backBar";
   import global_msg from "../js/global";
+  import loading from "../public/loading/loading";
 
   export default {
     data() {
@@ -157,6 +158,7 @@
     },
     components: {
       backbar,
+      loading
     }
   };
 </script>

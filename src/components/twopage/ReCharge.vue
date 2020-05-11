@@ -40,9 +40,7 @@
           <div class="back_top">
             <div class="back_top_inner">
               <div class="back_top_inner_txt">
-                <a>
-                  <button class="mui-icon mui-icon-closeempty back_txt" @click="cancelEvent"></button>
-                </a>
+                <button class="mui-icon mui-icon-closeempty back_txt" @click="cancelEvent"></button>
               </div>
             </div>
           </div>
@@ -71,13 +69,6 @@
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
-
-              <!--              class: {-->
-              <!--              select_class: !0 === t.showClick-->
-              <!--              },-->
-              <!--              attrs: {-->
-              <!--              id: "select_id"-->
-              <!--              }-->
               <mt-cell title="赠送彩票">
                 <span style="color: green">{{showData.giveLottery}}</span>
               </mt-cell>
@@ -90,7 +81,7 @@
           </div>
         </div>
       </div>
-      <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn" @click="paymentClick">充值</button>
+      <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn" @click="paymentClick()">充值</button>
     </div>
     <!--卡片-->
     <div class="mui-card" v-show="baseBox">
@@ -140,7 +131,7 @@
 <script>
   import global_msg from '../js/global.js'
   import Cell from "../public/cell";
-  import {Toast} from "mint-ui";
+  import {Toast, MessageBox} from "mint-ui";
   import loading from "../public/loading/loading"
 
   export default {
@@ -207,7 +198,21 @@
         this.loading = false;
       },
       paymentClick() {
-        this.commitOrder();
+        MessageBox({
+          title: '提示',
+          message: "确定在此店消费?",
+          showCancelButton: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        }).then(action => {
+          if (action === 'confirm') {
+            this.commitOrder();
+          } else {
+            this.showBox = 1;
+            this.loading=false;
+          }
+        });
+
       },
       //点击付款
       judgePay() {

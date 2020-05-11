@@ -22,7 +22,8 @@
   import record from "../public/record";
   import BackBar from "../public/backBar";
   import global_msg from "../js/global";
-  import {Toast} from "mint-ui"
+  import {Toast} from "mint-ui";
+  import loading from "../public/loading/loading";
 
   export default {
     data() {
@@ -64,7 +65,8 @@
     },
     components: {
       BackBar,
-      record
+      record,
+      loading
     }
   };
 </script>

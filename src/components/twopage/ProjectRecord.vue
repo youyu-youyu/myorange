@@ -3,7 +3,7 @@
     <loading v-if="loading"></loading>
     <backBar title="我的项目" class="backBar"></backBar>
     <div class="projectrecord">
-      <div class="user_top" v-for="(item,index) in projectRecordList">
+      <div class="ticket_top" v-for="(item,index) in projectRecordList">
         <div class="user_top_inner">
           <ul class="mui-table-view projectrecord-border">
             <li class="mui-table-view-cell mui-media">
@@ -44,6 +44,7 @@
 <script>
   import backBar from "../public/backBar.vue";
   import global_msg from "../js/global";
+  import loading from "../public/loading/loading";
 
 
   export default {
@@ -84,6 +85,7 @@
     },
     components: {
       backBar,
+      loading
     }
   };
 </script>
@@ -102,7 +104,7 @@
     margin-top: 50px;
   }
 
-  .user_top {
+  .ticket_top {
     width: 100%;
     height: 150px;
     background: none;

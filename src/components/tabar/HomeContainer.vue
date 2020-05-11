@@ -453,6 +453,7 @@
           .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
             {
               "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
+              "password":tickeyJSON.password,
             }, {emulateJSON: true})
           .then(res => {
             console.log(res);
