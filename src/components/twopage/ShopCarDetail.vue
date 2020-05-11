@@ -2,28 +2,30 @@
   <div class="shopcardetail">
     <loading v-if="loading"></loading>
     <backBar title="购物车" class="backBar" :back-path="'shop'"></backBar>
-    <div class="user_top" v-for="(item,index) in shopCarList">
-      <div class="user_top_inner">
-        <ul class="mui-table-view" @click="showImg(index)">
-          <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
-          <img src="../../assets/shop/click.png" class="shopcardetain_img_empty" v-show="item.isSelected">
-          <li class="mui-table-view-cell mui-media shopcardetail_content">
-            <img class="mui-media-object mui-pull-left" v-bind:src=item.productImg>
-            <div class="mui-media-body user_top_body" style="color: #000;">
-              {{item.productName}}
-              <div>
-                <div class="mui-ellipsis user_left ">折扣： {{item.good_disc}}</div>
+    <div class="user_top_top">
+      <div class="user_top" v-for="(item,index) in shopCarList">
+        <div class="user_top_inner">
+          <ul class="mui-table-view" @click="showImg(index)">
+            <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
+            <img src="../../assets/shop/click.png" class="shopcardetain_img_empty" v-show="item.isSelected">
+            <li class="mui-table-view-cell mui-media shopcardetail_content">
+              <img class="mui-media-object mui-pull-left" v-bind:src=item.productImg>
+              <div class="mui-media-body user_top_body" style="color: #000;">
+                {{item.productName}}
+                <div>
+                  <div class="mui-ellipsis user_left ">折扣： {{item.good_disc}}</div>
+                </div>
               </div>
-            </div>
-          </li>
-        </ul>
-        <div class="projectrecord_footer">
-          <div class=" mui-pull-left shopcardetail-txt"> {{item.price}}￥</div>
-          <div class=" mui-pull-right">
-            <div class="mui-numbox " data-numbox-min='0' data-numbox-max='100'>
-              <button class="mui-btn mui-btn-numbox-minus" type="button" @click="reduceClick(index,true)">-</button>
-              <input id="test" class="mui-input-numbox" type="number" v-model="item.count">
-              <button class="mui-btn mui-btn-numbox-plus" type="button" @click="reduceClick(index,false)">+</button>
+            </li>
+          </ul>
+          <div class="projectrecord_footer">
+            <div class=" mui-pull-left shopcardetail-txt"> {{item.price}}￥</div>
+            <div class=" mui-pull-right">
+              <div class="mui-numbox " data-numbox-min='0' data-numbox-max='100'>
+                <button class="mui-btn mui-btn-numbox-minus" type="button" @click="reduceClick(index,true)">-</button>
+                <input id="test" class="mui-input-numbox" type="number" v-model="item.count">
+                <button class="mui-btn mui-btn-numbox-plus" type="button" @click="reduceClick(index,false)">+</button>
+              </div>
             </div>
           </div>
         </div>
@@ -392,11 +394,15 @@
     background: #007aff !important;
   }
 
+  .user_top_top {
+    padding-top: 60px;
+  }
+
   .user_top {
     width: 100%;
     height: 100% !important;
     background: none;
-    padding-top: 60px;
+
 
     .user_top_inner {
       width: 95%;

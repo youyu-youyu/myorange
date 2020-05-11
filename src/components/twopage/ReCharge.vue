@@ -344,10 +344,10 @@
               localStorage.setItem("payStatus", "1");
               // 跳转支付
               if (this.$refs.cellChild.payType === 1) {
-                // window.location.href = res.body.data.pay_url;
+                window.location.href = res.body.data.pay_url;
               } else {
                 Toast("支付成功!");
-                // this.$router.go(-1);
+                this.$router.go(-1);
               }
             } else {
               alert("获取支付url失败" + res.body.message)

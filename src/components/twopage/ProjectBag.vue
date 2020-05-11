@@ -186,7 +186,7 @@
                 window.location.href = res.body.data.pay_url;
               } else {
                 Toast("支付成功！");
-                this.$router.go(-1);
+                this.$router.push("/");
               }
             } else {
               alert("h5获取支付url失败：" + res.body.message);

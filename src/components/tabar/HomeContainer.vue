@@ -91,40 +91,45 @@
         </div>
       </div>
     </div>
-    <!--        <div id="cover"></div>-->
-    <!--&lt;!&ndash;       售币机 //&ndash;&gt;-->
-    <!--        <div class="selectPay" id="selectPay_id">-->
-    <!--          <button>1</button>-->
-    <!--          <button>2</button>-->
-    <!--          <button>3</button>-->
-    <!--          <button>1</button>-->
-    <!--          <button>2</button>-->
-    <!--          <button>3</button>-->
-    <!--          <input type="text" placeholder="请输入搜索名" class="qr_search">-->
-    <!--          <button class="btn-search">搜索</button>-->
-    <!--        </div>-->
+    <div id="cover"></div>
+    <!--       售币机 //-->
+    <div class="selectPay" id="selectPay_id">
+      <button @click="scanGetCoinClick(10)">10</button>
+      <button @click="scanGetCoinClick(20)">20</button>
+      <button @click="scanGetCoinClick(30)">30</button>
+      <button @click="scanGetCoinClick(40)">40</button>
+      <button @click="scanGetCoinClick(50)">50</button>
+      <button @click="scanGetCoinClick(60)">60</button>
+      <div class="input_class">
+        <input type="text" placeholder="请输入币数" id="value" class="qr_search">
+        <button class="btn-search" @click="scanGetCoinClick('')">确定</button>
+      </div>
+    </div>
     <!--    机器-->
-    <!--    <div class="robot">-->
-    <!--      <div class="robot-inner">-->
-    <!--        <div class="like">-->
-    <!--          <div class="like-minus mui-icon mui-icon-minus-filled" style=""></div>-->
-    <!--          <div class="like-txt">2</div>-->
-    <!--          <div class="like-total mui-icon mui-icon-plus-filled"></div>-->
-    <!--        </div>-->
-    <!--        <button class="btn1-search">投币</button>-->
-    <!--      </div>-->
-    <!--    </div>-->
+    <div class="robot" id="robot_id">
+      <div class="robot-inner">
+        <div class="like">
+          <!--          <button class="mui-btn mui-btn-numbox-minus" type="button" >-</button>-->
+
+          <!--          <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>-->
+          <div class="like-minus mui-icon mui-icon-minus-filled mui-btn-numbox-minus"></div>
+          <div class="like-txt">2</div>
+          <div class="like-total mui-icon mui-icon-plus-filled mui-btn-numbox-plus"></div>
+        </div>
+        <button class="btn1-search">投币</button>
+      </div>
+    </div>
     <div class="home_middle">
       <div class="home_middle_inner" style="width: 95%">
         <!--        <div class="home_middle_text">广而告之</div>-->
         <mt-swipe :auto="4000">
-          <mt-swipe-item><img src="../../assets/home/home_pic1.png" data-preview-src="" data-preview-group="1"/>
+          <mt-swipe-item><img src="../../assets/home/home_pic1.png"/>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg" data-preview-src="" data-preview-group="1"/>
+          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg"/>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/shuijiao.jpg" data-preview-src="" data-preview-group="1"/>
+          <mt-swipe-item><img src="../../assets/home/shuijiao.jpg"/>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg" data-preview-src="" data-preview-group="1"/>
+          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg"/>
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -161,7 +166,8 @@
         userMoney: "",
         userCoin: "",//游戏币
         userLottery: "",
-        coupons: ""
+        coupons: "",
+        deviceCode: ""
       };
     },
     created: function () {
@@ -187,7 +193,8 @@
           if (url.indexOf("err_code=0") >= 0) {
             this.payStatus = 0;
             localStorage.setItem("payStatusResult", "0");
-          } else if (url.indexOf("err_code=1") >= 0) {
+          } else if (url.indexOf("err_code=1") >= 0
+          ) {
             //跳转到充值页面
             this.payStatus = 1;
             localStorage.setItem("payStatusResult", "1");
@@ -207,8 +214,7 @@
         && this.getUrlQrCode("qrresult") !== undefined
         && this.getUrlQrCode("qrresult") !== "undefined") {
         let isProcessQrCode = localStorage.getItem(global_msg.isProcessQrCode);
-        //扫码完成后把彩票存进？
-        //判断cmd是否等于qrStorageTicket，相等就进if
+        //扫码完成后把彩票存进
 
 
         if (isProcessQrCode === null || isProcessQrCode === "false") {
@@ -225,6 +231,7 @@
 
     },
     mounted() {
+// console.log("AE010055023".substring(4,12))
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
@@ -239,6 +246,17 @@
     },
 
     methods: {
+      //确定
+
+      scanGetCoinClick(coinNum) {
+        if (coinNum === "") {
+          this.scanCodeGetCoin(document.getElementById("value").value);
+
+        } else {
+          this.scanCodeGetCoin(coinNum)
+        }
+        // let value =document.getElementById("value").value;
+      },
       parseUrlBrand() {
         if (window.location.href.indexOf("brand") !== -1) {
           let brand = this.getUrlParam("brand");
@@ -447,20 +465,21 @@
           });
       },
       //扫码取币
-      storageCoin(deviceCode) {
+      scanCodeGetCoin(coinsNum) {
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/qrfetchcoin`,
             {
-              "activation_code": deviceCode, "coin	": tickeyJSON.ticketNumber,
+              "activation_code": this.deviceCode, "coin": coinsNum,
             }, {emulateJSON: true})
           .then(res => {
-            console.log(res);
+            document.getElementById("cover").setAttribute("style", "display:none;")
+            document.getElementById("selectPay_id").setAttribute("style", "display:none;")
             if (res.body.err_code === 0) {
               //
             } else {
-              alert("获取扫码取币失败！" + res.body.message)
+              alert("扫码取币失败:" + res.body.message)
             }
 
           });
@@ -519,15 +538,15 @@
                 this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
 
-
               if (localStorage.getItem(global_msg.qrCode)) {
-                //这里是真正处理扫描到的二维码的地方if
+                //这里是真正处理扫描到的二维码的地方
 
                 /**
                  * 扫到存彩票的二维码
                  */
                 if (this.getUrlQrCode("qrresult").indexOf("qrStorageTicket") !== -1) {
                   let ticketJSON = this.getUrlQrCode("qrresult");
+                  //
                   ticketJSON = decodeURIComponent(ticketJSON)
                   ticketJSON = JSON.parse(ticketJSON);
                   this.storageLottery(ticketJSON);
@@ -536,8 +555,19 @@
                 /**
                  * 扫到取币二维码
                  */
-                if(this.getUrlQrCode("qrresult").startsWith("AE")){
-                alert("扫描到支付盒子")
+                //如果存在以AE开头的测试二维码
+                if (this.getUrlQrCode("qrresult").startsWith("AE")&&this.getUrlQrCode("qrresult").length===12) {
+                  this.deviceCode = this.getUrlQrCode("qrresult").substring(4, 12)
+
+                  // 00：机器，01：售币机
+                  if (this.getUrlQrCode("qrresult").substring(2, 4) === "01") {
+                    document.getElementById("cover").setAttribute("style", "display:block;")
+                    document.getElementById("selectPay_id").setAttribute("style", "display:block;")
+                    //
+                  } else if (this.getUrlQrCode("qrresult").substring(2, 4) === "00") {
+                    document.getElementById("cover").setAttribute("style", "display:block;")
+                    document.getElementById("robot_id").setAttribute("style", "display:block;")
+                  }
                 }
 
               }
