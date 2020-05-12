@@ -65,7 +65,7 @@
             </div>
             <div class="recharge_tabar">
               <div class="recharge_tabar0">
-                <cell select-pay-type0="payType0" select-pay-type1="payType1" select-pay-type2="payType2"
+                <cell :select-pay-type0="payType0" :select-pay-type1="payType1" :select-pay-type2="payType2"
                       ref="cellChild"></cell>
               </div>
             </div>
@@ -96,9 +96,9 @@
         payJSONList: [],
         order_sn: "",
         payMoney: 0,
-        // payType0: "微信支付",
-        // payType2: "积分支付",
-        // payType3: "彩票支付",
+        payType0: "",
+        payType1: "",
+        payType2: "",
       }
 
     },
@@ -147,22 +147,28 @@
           "payjson": JSON.stringify(this.payJSONList), "notifyUrl": this.$store.state.homeHtml,
         }, {emulateJSON: true})
           .then(res => {
-            console.log(res.body)
             if (res.body.err_code === 0) {
+              console.log(res.body.data)
               this.payMoney = res.body.data.paymoney;
               this.sumPrice = this.payMoney;
               this.order_sn = res.body.data.order_sn;
               this.addressList = [];
               this.addressList = this.addressList.concat(res.body.data);
-              //
-              // if (this.payType === 1) {
-              //   // this.shouqianbaPayment();
-              // } else if (this.payType === "积分付款") {
-              //   this.integralPay();
-              // } else if (this.payType === "彩票付款") {
-              //   this.lotteryPay();
-              // }
-
+              if (res.body.data.sqbpay === 1) {
+                this.payType0 = "微信支付"
+              } else if (res.body.data.sqbpay === 2) {
+                this.payType0 = ""
+              }
+              if (res.body.data.jfpay === 1) {
+                this.payType1 = "积分支付"
+              } else if (res.body.data.jfpay === 2) {
+                this.payType1 = ""
+              }
+              if (res.body.data.cppay === 1) {
+                this.payType2 = "彩票支付"
+              } else if (res.body.data.cppay === 2) {
+                this.payType2 = ""
+              }
             } else {
               alert("生成订单准备支付失败" + res.body.message)
             }
@@ -219,7 +225,13 @@
       },
       //点击支付生成订单
       pay() {
-
+        if (this.$refs.cellChild.payType === 1) {
+          this.shouqianbaPayment();
+        } else if (this.$refs.cellChild.payType === 3) {
+          this.integralPay();
+        } else if (this.$refs.cellChild.payType === 4) {
+          this.lotteryPay();
+        }
       },
       //点击消失
       closeEvent() {
@@ -335,7 +347,6 @@
       backBar,
       loading,
     },
-    computed: {}
   }
 </script>
 

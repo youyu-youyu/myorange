@@ -94,8 +94,14 @@
           this.price = this.ticketDetailInfoObject.actual_price.replace(",", "");
         } else if (this.$refs.cellChild.payType === 3) {
           this.price = this.ticketDetailInfoObject.balance_price;
+          if (this.price <= 0) {
+            alert("您的预存款支付余额不足")
+          }
         } else if (this.$refs.cellChild.payType === 4) {
           this.price = this.ticketDetailInfoObject.coin_money;
+          if (this.price <= 0) {
+            alert("您的币数支付余额不足")
+          }
         }
         console.log(this.price)
         this.$http
