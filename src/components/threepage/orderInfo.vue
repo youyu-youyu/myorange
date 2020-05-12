@@ -6,7 +6,7 @@
       <li class="mui-table-view-cell">
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img class="mui-media-object mui-pull-left"  src="../../assets/user/add2.png">
+            <img class="mui-media-object mui-pull-left"  src="../../assets/user/address.png">
             <h5 class="mui-ellipsis">{{orderInfoObject.fullname}} &nbsp;&nbsp;{{orderInfoObject.mobile}}</h5>
             <h5>{{orderInfoObject.address}}</h5>
           </div>
@@ -20,8 +20,8 @@
           <div class="mui-table-cell mui-col-xs-10">
             <h4 class="mui-ellipsis">订单编号：{{orderInfoObject.id}}</h4>
             <h5>订单创建时间：{{orderInfoObject.create_time}}</h5>
-            <p class="mui-h6 mui-ellipsis">付款时间：{{orderInfoObject.pay_time}}</p>
-            <p class="mui-h6 mui-ellipsis">总金额：{{orderInfoObject.payment_money}}</p>
+            <div class="mui-h6 mui-ellipsis">付款时间：{{orderInfoObject.pay_time}}</div>
+            <div class="mui-h6 mui-ellipsis">总金额：{{orderInfoObject.payment_money}}</div>
           </div>
           <div class="mui-table-cell mui-col-xs-2 mui-text-right">
           </div>
@@ -89,6 +89,9 @@
   };
 </script>
 <style lang="less" scoped>
+  .orderinfo{
+    margin-top: 60px;
+  }
   .myorder_img {
     width: 80px;
     height: 80px !important;
