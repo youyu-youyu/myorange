@@ -194,7 +194,7 @@
                 this.$router.push("/");
               }
             } else {
-              alert("h5获取支付url失败：" + res.body.message);
+              alert("h5获取支付失败:" + res.body.message);
             }
           })
       },
