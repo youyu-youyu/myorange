@@ -9,8 +9,6 @@
       </div>
     </div>
     <div class="projectbag_inner-txt">
-      <!--      <div class="projectbag_txt">11</div>-->
-
       <div class="projectbag_txt" v-show="ticketDetailInfoObject.is_all_day===0">
         门票计时:{{ticketDetailInfoObject.play_time}}
       </div>
@@ -31,7 +29,7 @@
       </div>
       <div class="projectbag_buy">
         <div class="projectbag_buy_txt mui-pull-left">购买礼包</div>
-        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{ticketDetailInfoObject.actual_price}}
+        <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{price}}
         </div>
       </div>
       <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">支付</button>
@@ -58,7 +56,7 @@
 
 
   export default {
-    name: "ProjectBag",
+    name: "ProjectTicketBag",
     data() {
       return {
         cardId: "",
@@ -66,7 +64,7 @@
         orderNumber: "",
         ticketDetailInfoObject: "",
         loading: false,
-        price:""
+        price: ""
       }
     },
     mounted() {
@@ -99,6 +97,7 @@
         } else if (this.$refs.cellChild.payType === 4) {
           this.price = this.ticketDetailInfoObject.coin_money;
         }
+        console.log(this.price)
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -109,7 +108,7 @@
               "actualPrice": this.price,
               "sumcoin": this.ticketDetailInfoObject.sumcoin,
               "cardType": 3,
-              "payType":this.$refs.cellChild.payType,
+              "payType": this.$refs.cellChild.payType,
               "notifyUrl": this.$store.state.homeHtml,
             }, {emulateJSON: true})
           .then(res => {
@@ -226,6 +225,7 @@
     /*width: 100%;*/
 
   }
+
   .projectbag_inner {
     text-align: center;
     font-size: 25px;

@@ -41,7 +41,7 @@
         合计：{{sumPrice}}￥
         <button type="button" class="mui-btn mui-btn-primary" @click="submit()">
           结算
-        </button>&nbsp;
+        </button>
       </div>
     </div>
     <div class="fullscreen">
@@ -58,7 +58,6 @@
               </div>
             </div>
           </div>
-
           <div class="recharge_all">
             <!--   //获得点击的下标的金额-->
             <div class="recharge_tabar">
@@ -66,7 +65,7 @@
             </div>
             <div class="recharge_tabar">
               <div class="recharge_tabar0">
-                <cell select-pay-type0="微信支付" select-pay-type1="积分支付" select-pay-type2="彩票支付"
+                <cell select-pay-type0="payType0" select-pay-type1="payType1" select-pay-type2="payType2"
                       ref="cellChild"></cell>
               </div>
             </div>
@@ -97,10 +96,13 @@
         payJSONList: [],
         order_sn: "",
         payMoney: 0,
-        payType: "微信付款",
+        // payType0: "微信支付",
+        // payType2: "积分支付",
+        // payType3: "彩票支付",
       }
 
     },
+    //如果收钱吧为1，显示出来付款，如果为2，隐藏
     created() {
       //问题：点击返回时数据被清除
       //返回上一层时，sumPrice被清除
@@ -131,7 +133,6 @@
             this.payJSONList.push(tempString);
           }
         }
-
       }
     },
     mounted() {
@@ -146,7 +147,6 @@
           "payjson": JSON.stringify(this.payJSONList), "notifyUrl": this.$store.state.homeHtml,
         }, {emulateJSON: true})
           .then(res => {
-            console.log(111)
             console.log(res.body)
             if (res.body.err_code === 0) {
               this.payMoney = res.body.data.paymoney;
