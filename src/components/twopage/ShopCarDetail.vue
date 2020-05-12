@@ -90,6 +90,7 @@
         shopCarList: [],
         isAllChecked: false,//// 正在进行中的数据是否被选中
         sumPrice: 0,
+        loading: false,
         showBox: false,//
         //如果是从地址页面回来，一瞬间显示订单编号
         address: "",
@@ -362,7 +363,6 @@
       padding-top: 5px;
     }
   }
-
 
   .ui-dialog-grid {
     background: #007aff !important;
