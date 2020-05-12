@@ -128,12 +128,12 @@
           this.price = this.projectDetailInfoObject.actual_price.replace(",", "");
         } else if (this.$refs.cellChild.payType === 3) {
           this.price = this.projectDetailInfoObject.balance_price;
-          if (this.price < 0) {
+          if (this.price <= 0) {
             alert("您的预存款支付余额不足")
           }
         } else if (this.$refs.cellChild.payType === 4) {
           this.price = this.projectDetailInfoObject.coin_money;
-          if (this.price < 0) {
+          if (this.price <= 0) {
             alert("您的币支付余额不足")
           }
         }
