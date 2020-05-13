@@ -152,7 +152,6 @@
         PrePayPackageList: [],
         cardType: -1,
         isClickTop: false,
-        // payTypeText: "微信付款",
         price: "",
         showData: "",
       }

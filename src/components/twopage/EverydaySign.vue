@@ -67,7 +67,6 @@
 <script>
   import backbar from "../public/backBar.vue";
   import global_msg from '../js/global.js'
-  import mui from "../../lib/mui/js/mui.js";
   import {Toast} from "mint-ui";
   import loading from "../public/loading/loading";
 

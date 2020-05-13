@@ -78,9 +78,12 @@
         console.log(paramName);
         this.orderShowList = [];
         if (paramName === 0) {
-          this.orderShowList = this.orderShowList.concat(this.orderList);
           //全部
+          this.orderShowList = this.orderShowList.concat(this.orderList);
+
+          //待付款
         } else if (paramName === 1) {
+          this.loading = true;
           //进来if，说明点击待付款
           for (let data of this.orderList) {
             //循环总订单的每条数据
@@ -89,21 +92,21 @@
               this.orderShowList.push(data);
             }
           }
-          //待付款
+          this.loading = false;
+          //待发货
         } else if (paramName === 2) {
           for (let data of this.orderList) {
             if (data.order_status === 2) {
               this.orderShowList.push(data);
             }
           }
-
+          //待收货
         } else {
           for (let data of this.orderList) {
             if (data.order_status === 3) {
               this.orderShowList.push(data);
             }
           }
-
         }
 
       },
@@ -213,7 +216,6 @@
     color: #8f8f94 !important;
   }
 </style>
-
 
 
 // WEBPACK FOOTER //

@@ -145,7 +145,7 @@
   </div>
 </template>
 <script>
-  import '../../lib/mui/css/mui.min.css'
+  // import '../../lib/mui/css/mui.min.css'
   import BMap from "BMap";
   import global_msg from "../js/global.js";
   import "../css/home.less";
@@ -231,7 +231,7 @@
 
     },
     mounted() {
-console.log("AE010055023".substring(4,12))
+      console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
@@ -453,7 +453,7 @@ console.log("AE010055023".substring(4,12))
           .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
             {
               "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
-              "password":tickeyJSON.password,
+              "password": tickeyJSON.password,
             }, {emulateJSON: true})
           .then(res => {
             console.log(res);
@@ -557,7 +557,7 @@ console.log("AE010055023".substring(4,12))
                  * 扫到取币二维码
                  */
                 //如果存在以AE开头的测试二维码
-                if (this.getUrlQrCode("qrresult").startsWith("AE")&&this.getUrlQrCode("qrresult").length===12) {
+                if (this.getUrlQrCode("qrresult").startsWith("AE") && this.getUrlQrCode("qrresult").length === 12) {
                   this.deviceCode = this.getUrlQrCode("qrresult").substring(4, 12)
 
                   // 00：机器，01：售币机

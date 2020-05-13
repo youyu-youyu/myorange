@@ -68,7 +68,7 @@
   </div>
 </template>
 <script>
-  import mui from '../../lib/mui/js/mui.js'
+  // import mui from '../../lib/mui/js/mui.js'
   import "../css/shop.less";
   import global_msg from "../js/global";
   import {Toast} from "mint-ui";

@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-  // import mui from "../../lib/mui/js/mui";
   import backbar from "../public/backBar.vue";
   import global_msg from "../js/global";
 
@@ -178,10 +177,6 @@
     height: 60px;
   }
 
-  .discount_body {
-    /*padding: 10px 0;*/
-  }
-
   .couponname {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -197,19 +192,17 @@
     /*white-space: initial;*/
   }
 
-  .discount_txt {
-    /*line-height: 60px;*/
-  }
-
   .discount_backer {
     padding-top: 10px;
   }
 
-  .discount_date {
-    /*padding-left: 12px;*/
+  .item1 {
+    ul {
+      border-bottom: 1px solid #e0e0e0;
+    }
   }
 </style>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/Discount.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/twopage/Discount.vue-->

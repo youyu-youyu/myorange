@@ -14,8 +14,17 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  //
+  //修改的部分，cdn引入
+  // externals的意思就相当于引入并use的意思了
   externals: {
-    "BMap": "BMap"
+    "BMap": "BMap",
+    "vue": "Vue",
+    "mint-ui": 'MINT',
+    "mui": "mui",
+    "vue-router": "VueRouter",
+    "vuex": "Vuex",
+    "vue-resource":"VueResource"
   },
   output: {
     path: config.build.assetsRoot,
@@ -25,7 +34,8 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    //引入less需要在extensions:后添加 '.css', '.scss
+    extensions: ['.js', '.vue', '.json', '.jsx', '.css', '.scss', '.less'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
@@ -33,6 +43,7 @@ module.exports = {
   },
   module: {
     rules: [
+
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -68,7 +79,8 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
-      }
+      },
+
     ]
   },
   node: {

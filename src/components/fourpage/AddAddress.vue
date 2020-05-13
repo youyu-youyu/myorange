@@ -89,7 +89,7 @@
         isUpdate: false,
         fullName: "",
         fullAddress: "",
-        titleName:"添加收货地址"
+        titleName: "添加收货地址"
       }
     },
     mounted() {
@@ -103,7 +103,7 @@
       this.$refs.input3.value = this.updateAddress.address;
       if (this.$refs.input3.value !== '') {
         this.isUpdate = true;
-        this.titleName="修改收货地址";
+        this.titleName = "修改收货地址";
       }
     },
     methods: {
@@ -125,7 +125,7 @@
             if (res.body.err_code === 0) {
               this.$router.go(-1); //返回上一层
             } else {
-              Toast("修改收货地址失败："+res.body.message)
+              Toast("修改收货地址失败：" + res.body.message)
             }
           })
       },
@@ -164,7 +164,7 @@
             if (res.body.err_code === 0) {
               this.$router.go(-1);
             } else {
-              Toast("添加收货地址失败："+res.body.message)
+              Toast("添加收货地址失败：" + res.body.message)
 
             }
           })
@@ -233,8 +233,7 @@
               this.rightShowList = this.centerShowList.concat(this.centerShowList[0].children);
 
               console.log(res.body.data);
-            }
-            else {
+            } else {
               alert("获取城市定位失败：" + res.body.message);
             }
 
@@ -356,7 +355,6 @@
     }
   }
 </style>
-
 
 
 // WEBPACK FOOTER //

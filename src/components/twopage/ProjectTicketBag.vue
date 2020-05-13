@@ -51,7 +51,6 @@
   import backBar from "../public/backBar";
   import global_msg from "../js/global";
   import Cell from "../public/cell"
-  import {Toast} from "mint-ui"
   import loading from "../public/loading/loading";
 
 
