@@ -33,7 +33,7 @@
       li {
         /*text-align: center;*/
         list-style: none;
-        padding: 20px 5px;
+        padding: 5px 5px;
         line-height: 30px;
         width: 100%;
 
