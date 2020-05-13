@@ -85,10 +85,6 @@
       };
     },
     mounted() {
-      // let beforeYesterday = getDateStr(-2);
-      // console.log(beforeYesterday)
-
-
       this.userScore = this.$store.state.userInfoData.userTotalScore;
       console.log(this.$store.state.userInfoData.userTotalScore)
       mui('.mui-scroll-wrapper').scroll({
@@ -133,7 +129,7 @@
           .then(res => {
             if (res.body.err_code === 0) {
               let data = res.body.data;
-              // console.log(res.body)
+              console.log(res.body)
               this.signCount = data.sign_count;
               this.keyList = [];//把keyList置为空，避免累计追加数组
               this.valueList = [];

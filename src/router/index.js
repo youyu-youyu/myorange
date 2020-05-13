@@ -2,41 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Vuex from 'vuex'
 
-// import HomeContainer from '@/components/tabar/HomeContainer.vue'
-// const HomeContainer = ()=>import("@/components/tabar/HomeContainer.vue")
-// const ProjectContainer = ()=>import("@/components/tabar/ProjectContainer.vue")
-// const HomeSurprise = ()=>import("@/components/twopage/HomeSurprise.vue")
-// // import ProjectContainer from '@/components/tabar/ProjectContainer.vue'
-// // import HomeSurprise from '@/components/twopage/HomeSurprise.vue'
-// import ShopContainer from '@/components/tabar/ShopContainer.vue'
-// import UserContainer from '@/components/tabar/UserContainer.vue'
-// import EverydaySign from '../components/twopage/EverydaySign.vue'
-// import BitVCin from '@/components/threepage/BitVCin.vue'
-// import orderInfo from '@/components/threepage/orderInfo.vue'
-// import BitVCon from '@/components/threepage/BitVCon.vue'
-// import MyAddress from '@/components/threepage/MyAddress.vue'
-// import AddAddress from '@/components/fourpage/AddAddress.vue'
-// import BitVC from '@/components/twopage/BitVC.vue'
-// import CoinRecord from '@/components/twopage/CoinRecord.vue'
-// import BitRecord from '@/components/twopage/BitRecord.vue'
-// import GiftRecord from '@/components/twopage/ProjectRecord.vue'
-// import MyOrder from '@/components/twopage/MyOrder.vue'
-// import ShopRecord from '@/components/twopage/ShopRecord.vue'
-// import TicketRecord from '@/components/twopage/TicketRecord.vue'
-// import Discount from '@/components/twopage/Discount.vue'
-// import HomeLocation from '@/components/twopage/HomeLocation.vue'
-// import ShopCarDetail from '@/components/twopage/ShopCarDetail.vue'
-// import ProjectBag from '@/components/twopage/ProjectBag.vue'
-// import ReCharge from '@/components/twopage/ReCharge.vue'
-// import ProjectTicketsBag from "@/components/twopage/ProjectTicketBag";
-
 Vue.use(Router)
 Vue.use(Vuex)
-// Vue.component('mideaHeader', () => {
-//
-//   System.import('./component/header/header.vue')
-//
-// })
 export default new Router({
   routes: [
     {path: '/', redirect: '/home'},
