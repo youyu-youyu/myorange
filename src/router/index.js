@@ -105,6 +105,21 @@ export default new Router({
       component: resolve => require(['@/components/twopage/TicketRecord.vue'], resolve),//懒加载
     },
     {
+      path: '/lotteryrecord',
+      name: 'LotteryRecord',
+      component: resolve => require(['@/components/twopage/LotteryRecord.vue'], resolve),//懒加载
+    },
+    {
+      path: '/modifyuserinfo',
+      name: 'ModifyUserInfo',
+      component: resolve => require(['@/components/twopage/ModifyUserInfo.vue'], resolve),//懒加载
+    },
+    {
+      path: '/physicalcard',
+      name: 'PhysicalCard',
+      component: resolve => require(['@/components/twopage/PhysicalCard.vue'], resolve),//懒加载
+    },
+    {
       path: '/shoprecord',
       name: 'ShopRecord',
       component: resolve => require(['@/components/twopage/ShopRecord.vue'], resolve),//懒加载

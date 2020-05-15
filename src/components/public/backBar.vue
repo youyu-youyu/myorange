@@ -70,7 +70,7 @@
   .back_center {
     // padding: 0 80px;
     text-align: center;
-    width: 60%;
+    width: 70%;
   }
 
 </style>
@@ -99,7 +99,6 @@
     }
   };
 </script>
-
 
 
 // WEBPACK FOOTER //

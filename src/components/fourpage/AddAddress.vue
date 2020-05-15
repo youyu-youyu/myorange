@@ -32,9 +32,7 @@
           <div class="back_top">
             <div class="back_top_inner selectCity">
               <div class="back_top_inner_txt">
-                <a>
-                  <button class="mui-icon mui-icon-closeempty back_txt" @click="addAddressBack()"></button>
-                </a>
+                <button class="mui-icon mui-icon-closeempty back_txt" @click="addAddressBack()"></button>
               </div>
               <span class="back_center">选择城市</span>
             </div>

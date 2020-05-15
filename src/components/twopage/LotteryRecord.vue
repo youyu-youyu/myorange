@@ -1,19 +1,27 @@
 <template>
   <div>
     <loading v-if="loading"></loading>
-    <back-bar title="美团记录"></back-bar>
+    <back-bar title="彩票记录"></back-bar>
     <div class="coinRecord">
-      <record title1="序号" title2="购买金额" title3="游戏币" title4="增币数" title5="充币时间"></record>
-      <!--      <div>-->
+      <div class="in-and-out">
+        <div class="in">
+          存入彩票:111
+        </div>
+        <div class="out">
+          扣除彩票:1323
+        </div>
+      </div>
       <table>
+        <th>机台名称</th>
+        <th>票数</th>
+        <th>类型</th>
         <tr v-for="(item,index) in bitRecordList">
           <td>{{index+1}}</td>
           <td>{{item.money}}</td>
           <td>{{item.coin}}</td>
-          <td>{{item.give_coin}}</td>
-          <td>{{item.createdAt.split("-")[1]+"-"+item.createdAt.split("-")[2]}}</td>
         </tr>
       </table>
+
       <!--      </div>-->
     </div>
   </div>
@@ -75,8 +83,6 @@
     width: 100%;
     margin: 50px auto;
 
-    /*height: 100px;*/
-
     .coinRecord_inner {
       margin-top: 60px;
       padding: 20px 15px;
@@ -84,6 +90,20 @@
       border-radius: 10px;
       background-color: #ffffff;
     }
+
+    .in-and-out {
+      font-size: 15px;
+      display: flex;
+      padding: 0px 10px;
+      background: #bbbbbb;
+      line-height: 30px;
+      border-bottom: 1px solid #e0e0e0;
+
+      .in {
+        flex: 1;
+      }
+    }
+
   }
 
   .coinrecord_img {
@@ -113,8 +133,16 @@
       }
     }
   }
+
+  table {
+    th {
+      /*th {*/
+      font-weight: 500;
+      font-size: 15px;
+      background: #bbbbbb;
+      line-height: 30px;
+    }
+  }
+
+  /*}*/
 </style>
-
-
-<!--// WEBPACK FOOTER //-->
-<!--// src/components/twopage/meituan.vue-->

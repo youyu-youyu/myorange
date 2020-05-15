@@ -4,15 +4,17 @@
     <div class="ticket_top">
       <!--      <div class="user_top_inner">-->
       <ul class="mui-table-view">
-        <li class="mui-table-view-cell mui-media">
-          <!--            <a href="javascript:;">-->
-          <img class="mui-media-object mui-pull-left" v-bind:src=userPhoto>
+        <li class="mui-media user_bottom">
+          <router-link to="/modifyuserinfo">
+            <img class="mui-media-object mui-pull-left" v-bind:src=userPhoto>
+          </router-link>
           <div class="mui-media-body user_top_body">
             {{userName}}
             <div>
               <div class="mui-ellipsis user_left">ID：{{userId}}</div>
-              <p>
-              </p>
+              <router-link to="/physicalcard">
+                <button class="">实体卡</button>
+              </router-link>
             </div>
           </div>
           <div class="user_top_right">
@@ -31,8 +33,10 @@
           <p class="item1">游戏币</p>
         </div>
         <div class="item">
-          <p class="item1">{{userTotalLottery}}</p>
-          <p class="item1">彩票</p>
+          <router-link to="/lotteryrecord">
+            <p class="item1">{{userTotalLottery}}</p>
+            <p class="item1">彩票</p>
+          </router-link>
         </div>
         <div class="item item_none">
           <p class="item1">{{userTotalScore}}</p>
@@ -184,5 +188,5 @@
 </script>
 
 
-// WEBPACK FOOTER //
-// src/components/tabar/UserContainer.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/tabar/UserContainer.vue-->

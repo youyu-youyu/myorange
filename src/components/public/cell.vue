@@ -61,7 +61,7 @@
       return {
         payTypeText: "微信付款",
         payType: 1,
-        clickable1:true
+        clickable1: true
       }
     },
     mounted() {

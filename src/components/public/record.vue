@@ -4,10 +4,10 @@
     <!-- 顶部滑动条 -->
     <div class=" record_slider">
       <div class="record-item">{{title1}}</div>
-      <div class="record-item">{{title2}}</div>
-      <div class="record-item">{{title3}}</div>
-      <div class="record-item">{{title4}}</div>
-      <div class="record-item">{{title5}}</div>
+      <div class="record-item" v-show="title2!==''">{{title2}}</div>
+      <div class="record-item" v-show="title3!==''">{{title3}}</div>
+      <div class="record-item" v-show="title4!==''">{{title4}}</div>
+      <div class="record-item" v-show="title5!==''">{{title5}}</div>
     </div>
   </div>
 </template>
@@ -28,9 +28,7 @@
       };
     },
     methods: {},
-    components: {
-      // backbar
-    },
+    components: {},
     mounted() {
       this.loading = true;
       setTimeout(this.loading = false, 30000)
@@ -46,10 +44,11 @@
     padding: 7px 0;
     font-size: 15px;
   }
+
   .record-item {
-    /*flex: 1;*/
+    flex: 1;
     text-align: center;
-    width: 25%;
+    /*width: 25%;*/
   }
 </style>
 
