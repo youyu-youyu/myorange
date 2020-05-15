@@ -110,10 +110,10 @@
           </a>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-          <a href="#">
+          <router-link to="/meituan">
             <img src="../../assets/user/meituan.png"/>
             <div class="mui-media-body">美团</div>
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

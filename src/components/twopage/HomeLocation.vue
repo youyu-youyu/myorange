@@ -3,7 +3,7 @@
     <ul class="example">
       <li v-for="(item,index) in shopList" @click="clickEvent(index)"
       >
-        <div class="homelocation_inner"  :class="{temp:index===selectedIndex}">
+        <div class="homelocation_inner" :class="{temp:index===selectedIndex}">
           <div class="mui-pull-left homelocation_img">
             <!--            地址-->
             <!--            <img src="../../assets/home/shuijiao.jpg" class="homelocation_img">-->
@@ -124,7 +124,6 @@
     }
   };
 </script>
-
 
 
 // WEBPACK FOOTER //

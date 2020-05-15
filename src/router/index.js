@@ -80,6 +80,11 @@ export default new Router({
       component: resolve => require(['@/components/twopage/BitRecord.vue'], resolve),//懒加载
     },
     {
+      path: '/meituan',
+      name: 'Meituan',
+      component: resolve => require(['@/components/twopage/Meituan.vue'], resolve),//懒加载
+    },
+    {
       path: '/projectrecord',
       name: 'GiftRecord',
       component: resolve => require(['@/components/twopage/ProjectRecord.vue'], resolve),//懒加载
