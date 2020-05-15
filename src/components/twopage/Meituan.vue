@@ -4,7 +4,7 @@
     <back-bar title="美团记录"></back-bar>
     <div class="coinRecord">
       <record title1="序号" title2="购买金额" title3="游戏币" title4="增币数" title5="充币时间"></record>
-      <div>
+<!--      <div>-->
         <table>
           <tr v-for="(item,index) in bitRecordList">
             <td>{{index+1}}</td>
@@ -14,7 +14,7 @@
             <td>{{item.createdAt.split("-")[1]+"-"+item.createdAt.split("-")[2]}}</td>
           </tr>
         </table>
-      </div>
+<!--      </div>-->
     </div>
   </div>
 </template>
