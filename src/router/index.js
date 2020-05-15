@@ -100,6 +100,11 @@ export default new Router({
       component: resolve => require(['@/components/threepage/orderInfo.vue'], resolve),//懒加载
     },
     {
+      path: '/addcard',
+      name: 'AddCard',
+      component: resolve => require(['@/components/threepage/AddCard.vue'], resolve),//懒加载
+    },
+    {
       path: '/ticketrecord',
       name: 'TicketRecord',
       component: resolve => require(['@/components/twopage/TicketRecord.vue'], resolve),//懒加载

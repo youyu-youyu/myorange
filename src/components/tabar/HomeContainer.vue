@@ -275,6 +275,10 @@
               global_msg.setCompany(0);
               this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orange");
               break;
+            case "galaxy":
+              global_msg.setCompany(2);
+              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=galaxy");
+              break;
             default:
               global_msg.setCompany(-1);
               break;
@@ -437,7 +441,7 @@
         var vars = query.split("&");
         for (var i = 0; i < vars.length; i++) {
           var pair = vars[i].split("=");
-          if (pair[0] == variable) {
+          if (pair[0] === variable) {
             return pair[1];
           } else {
           }
@@ -545,6 +549,7 @@
                 /**
                  * 扫到存彩票的二维码
                  */
+                //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
                 if (this.getUrlQrCode("qrresult").indexOf("qrStorageTicket") !== -1) {
                   let ticketJSON = this.getUrlQrCode("qrresult");
                   //

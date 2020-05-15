@@ -1,20 +1,21 @@
 const orange_url = 'https://plmokn28.020orange.com';
 const xiaozhu_url = 'https://plmokn28.020orange.com';
-const nanjing_url = 'https://plmokn28.020orange.com';
+const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
 const orangeBrandId = '169766137633050624';
 const testBrandId = '170843706449072128';
-const nanjingBrandId = 'chfj';
+const galaxyBrandId = '173825699113734144';
 
 
 const orangeAppId = "wxfc2079e5d7f21d07";
 const xiaozhuAppId = "wx828d6d5d15e47ca3";
+const galaxyAppId = "wx03291eeea47291fc";
 
 const city = '上海';
 const qrCode = 'qrCode';
 const isProcessQrCode = 'isProcess';
-let company = -1;//0代表桔子科技的品牌，1代表测试品牌,2代表南京腾狮的
+let company = -1;//0代表桔子科技的品牌，1代表测试品牌,2代表银河的
 
 export default {
   brandId: orangeBrandId,   //用户token信息
@@ -34,6 +35,7 @@ export default {
       } else if (company === 1) {
         return testBrandId;
       } else if (company === 2) {
+        return galaxyBrandId
       } else {
         return orangeBrandId;
       }
@@ -44,6 +46,7 @@ export default {
       } else if (company === 1) {
         return xiaozhuAppId;
       } else if (company === 2) {
+        return galaxyAppId
       } else {
         return orangeAppId;
       }
@@ -54,6 +57,7 @@ export default {
       } else if (company === 1) {
         return xiaozhu_url;
       } else if (company === 2) {
+        return galaxy_url;
       } else {
         return local_url;
       }
@@ -103,7 +107,6 @@ export default {
   },
 
 }
-
 
 
 // WEBPACK FOOTER //

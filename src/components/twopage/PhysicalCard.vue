@@ -5,13 +5,23 @@
     <div class="physicalCard">
       <div class="physicalCard_img_1">
         <img src="../../assets/project/xiangmu_card1.png" class="physicalCard_img"/>
-        <button class="physicalCard_btn">添加</button>
+        <router-link to="/addcard">
+          <button class="physicalCard_btn">添加</button>
+        </router-link>
       </div>
+      <br>
+      <br>
+      <br>
       <div class="physicalCard_info">
-        <table>
-          <th></th>
+        <table width="100%">
+          <th>卡号</th>
+          <th>操作</th>
           <tr>
-            <td></td>
+            <td>13243243545345435</td>
+            <td>
+              <button>修改密码</button>
+              <button>解绑</button>
+            </td>
           </tr>
 
         </table>
@@ -56,5 +66,27 @@
   .physicalCard_btn {
     float: right;
     vertical-align: middle;
+  }
+
+  .physicalCard_info {
+  }
+
+  table {
+    tr {
+      td {
+        width: 50%;
+        text-align: center;
+        border: 1px solid #cccccc;
+        padding: 10px 0;
+      }
+    }
+  }
+
+  table {
+    th {
+      width: 50%;
+      background: #bbbbbb;
+      line-height: 30px;
+    }
   }
 </style>
