@@ -35,7 +35,7 @@
         alert(local);
         localStorage.setItem(global_msg.isProcessQrCode, "false");
         window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
-        alert(local)
+        alert(window.location.href)
         //扫码完成回到homeContainer页面处理信息
       },
 
