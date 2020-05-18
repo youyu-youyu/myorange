@@ -218,9 +218,11 @@
 
 
         if (isProcessQrCode === null || isProcessQrCode === "false") {
-          localStorage.setItem(global_msg.isProcessQrCode, "true");
-          localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));
+          //如果未处理
+          localStorage.setItem(global_msg.isProcessQrCode, "true"); // 设置为已处理
 
+          localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));//设置扫到的东西为本地保存
+          // 然后刷新页面，重新走mounted，自动获取上次定位，在定位中处理扫码内容
         }
         // location.href = global_msg.orangeHomeHtml;
       }
@@ -231,7 +233,7 @@
 
     },
     mounted() {
-      console.log("AE010055023".substring(4, 12))
+      // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
@@ -261,10 +263,11 @@
         if (window.location.href.indexOf("brand") !== -1) {
           let brand = this.getUrlParam("brand");
           if (brand === undefined) {
-
             return;
           }
           brand = brand.split("#")[0];
+          console.log("brand")
+          console.log(brand)
           // 跟if(brand==="test")一个意思
           switch (brand) {
             case "test":
@@ -575,6 +578,13 @@
                     document.getElementById("robot_id").setAttribute("style", "display:block;")
                   }
                 }
+
+                /**
+                 * 实体卡扫码绑定
+                 */
+                //扫码完成
+                //如果卡号的长度为八位数，跳出请输入密码，请确认密码
+                //点击确认密码之后，调用服务器
 
               }
             } else {

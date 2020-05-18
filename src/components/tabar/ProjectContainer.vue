@@ -14,12 +14,12 @@
           <mt-swipe-item v-for="(item,index) in projectPhotoList" class="my-swipe-item">
             <img :src="item.photo_url" alt="加载错误" @click="projectClickEvent(index)" class="ticket_img">
             <div class="project_middle_inner_mint_txt " style="padding: 20px 20px;">{{item.cardName}}</div>
-<!--            <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
-<!--            </div>-->
-<!--            <div class="project_discount">-->
-<!--              <span class="project_middle_inner_mint_txt project_middle_inner_mint_discount">8.5折</span><span-->
-<!--              class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
-<!--            </div>-->
+            <!--            <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
+            <!--            </div>-->
+            <!--            <div class="project_discount">-->
+            <!--              <span class="project_middle_inner_mint_txt project_middle_inner_mint_discount">8.5折</span><span-->
+            <!--              class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
+            <!--            </div>-->
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -31,12 +31,12 @@
             <mt-swipe-item v-for="(item,index) in ticketPhotoList" class="my-swipe-item">
               <img :src="item.photo_url" alt="加载错误" @click="tickectClickEvent(index)" class="ticket_img">
               <div class="project_middle_inner_mint_txt " style="padding: 20px 20px;">{{item.cardName}}</div>
-<!--              <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
-<!--              </div>-->
-<!--              <div class="project_discount">-->
-<!--                <span class="project_middle_inner_mint_txt">8.5折</span><span-->
-<!--                class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
-<!--              </div>-->
+              <!--              <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
+              <!--              </div>-->
+              <!--              <div class="project_discount">-->
+              <!--                <span class="project_middle_inner_mint_txt">8.5折</span><span-->
+              <!--                class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
+              <!--              </div>-->
             </mt-swipe-item>
           </mt-swipe>
 
@@ -128,6 +128,5 @@
 </style>
 
 
-
-// WEBPACK FOOTER //
-// src/components/tabar/ProjectContainer.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/tabar/ProjectContainer.vue-->
