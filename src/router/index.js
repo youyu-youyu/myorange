@@ -105,6 +105,11 @@ export default new Router({
       component: resolve => require(['@/components/threepage/AddCard.vue'], resolve),//懒加载
     },
     {
+      path: '/changepassword',
+      name: 'ChangePassword',
+      component: resolve => require(['@/components/threepage/ChangePassword.vue'], resolve),//懒加载
+    },
+    {
       path: '/ticketrecord',
       name: 'TicketRecord',
       component: resolve => require(['@/components/twopage/TicketRecord.vue'], resolve),//懒加载

@@ -19,7 +19,9 @@
           <tr>
             <td>13243243545345435</td>
             <td>
-              <button>修改密码</button>
+              <router-link to="/changepassword">
+                <button>修改密码</button>
+              </router-link>
               <button>解绑</button>
             </td>
           </tr>
