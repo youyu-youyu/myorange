@@ -32,29 +32,12 @@
       scanAddCard() {
         ///扫码绑定
         let local = window.location.href;
+        alert(local);
         localStorage.setItem(global_msg.isProcessQrCode, "false");
         window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
+        alert(local)
         //扫码完成回到homeContainer页面处理信息
       },
-      // //该方法的作用是从页面url里面处理回调过来的二维码信息
-      // getUrlParam(name) {
-      //   let reg = new RegExp("\\b" + name + "=([^&]*)");
-      //   let r = location.href.match(reg);
-      //   if (r != null) return decodeURIComponent(r[1]);
-      // },
-      // getUrlQrCode(variable) {
-      //   var query = window.location.search.substring(1);
-      //   var vars = query.split("&");
-      //   for (var i = 0; i < vars.length; i++) {
-      //     var pair = vars[i].split("=");
-      //     if (pair[0] === variable) {
-      //       return pair[1];
-      //     } else {
-      //     }
-      //   }
-      //   return "";
-      // },
-
 
     },
     components: {
