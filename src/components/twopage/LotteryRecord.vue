@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <loading v-if="loading"></loading>
     <back-bar title="彩票记录"></back-bar>
     <div class="coinRecord">
@@ -15,14 +16,13 @@
         <th>机台名称</th>
         <th>票数</th>
         <th>类型</th>
-        <tr v-for="(item,index) in bitRecordList">
-          <td>{{index+1}}</td>
-          <td>{{item.money}}</td>
-          <td>{{item.coin}}</td>
+        <!--<tr v-for="(item,index) in bitRecordList">-->
+        <tr>
+          <td>3</td>
+          <td>2</td>
+          <td>1</td>
         </tr>
       </table>
-
-      <!--      </div>-->
     </div>
   </div>
 </template>
@@ -32,11 +32,11 @@
   import global_msg from "../js/global";
   import {Toast} from "mint-ui";
   import loading from "../public/loading/loading";
-
+  //由homeContainer中的扫码存入的彩票
   export default {
     data() {
       return {
-        bitRecordList: [],
+        meiTuanRecordList: [],
         loading: false,
       };
     },
@@ -45,35 +45,32 @@
       this.payRecord();
     },
     methods: {
-      //美团购买记录
+      //彩票记录
       payRecord() {
         this.$http
           //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/leaderboard/coins`,
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/lottery/log`,
             {
-              params: {
-                "shopId": this.$store.state.selectedShopData.shopId,
-              }
+              "shopId": this.$store.state.selectedShopData.shopId,
             }, {emulateJSON: true})
           .then(res => {
             this.loading = false;
+            console.log(res.body.data)
             if (res.body.err_code === 0) {
               if (res.body.data.length > 0)
-                this.bitRecordList = res.body.data;
+                this.meiTuanRecordList = res.body.data
               else {
                 Toast("未请求到数据");
               }
-              console.log(this.bitRecordList)
             } else {
-              alert("获取充币记录失败" + res.body.message);
+              alert("获取彩票记录失败:" + res.body.message);
             }
           })
       },
     },
     components: {
       BackBar,
-      record,
       loading
     }
   };
