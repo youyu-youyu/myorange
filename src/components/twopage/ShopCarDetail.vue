@@ -452,6 +452,7 @@
   .mu-card-title-container {
     position: fixed;
     bottom: 0;
+    z-index: 99999;
     display: flex;
     color: #a0acac;
     justify-content: space-between;
