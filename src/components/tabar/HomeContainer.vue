@@ -235,19 +235,19 @@
     },
     mounted() {
       // console.log(wx)
-      this.getMiniInfo()
+      // this.getMiniInfo()
 
       // console.log("AE010055023".substring(4, 12))
-      // this.parseUrlBrand();
-      // if (this.type === 1) {
-      //   if (global_msg.company !== -1) {
-      //     this.getCode();
-      //   } else {
-      //     this.getLastSelectedShop();
-      //   }
-      // } else {
-      //   this.miniLogin();
-      // }
+      this.parseUrlBrand();
+      if (this.type === 1) {
+        if (global_msg.company !== -1) {
+          this.getCode();
+        } else {
+          this.getLastSelectedShop();
+        }
+      } else {
+        this.miniLogin();
+      }
 
     },
 
@@ -266,7 +266,7 @@
         window.wx.ready(function () {
           window.wx.error(function (res) {
             console.log(res);
-            alert(111)
+            // alert(111)
           });
           window.wx.checkJsApi({
             jsApiList: ['checkJsApi', 'openLocation', 'getNetworkType'],
