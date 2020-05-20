@@ -31,7 +31,9 @@
         </div>
       </div>
     </div>
+    <!--    <div class="footer">-->
     <div class="mu-card-title-container">
+
       <div class="mu-card-title" @click="allSelected()">
         <img src="../../assets/shop/empty.png" class="shopcardetain_img_empty ">
         <img src="../../assets/shop/click.png" class="shopcardetain_img_empty" v-show="isAllChecked">
@@ -42,6 +44,7 @@
         <button type="button" class="mui-btn mui-btn-primary" @click="submit()">
           结算
         </button>
+        <!--        </div>-->
       </div>
     </div>
     <div class="fullscreen">
@@ -371,6 +374,10 @@
   .user_top_top {
     margin-top: 50px;
     margin-bottom: 200px;
+    /*position: fixed;*/
+    top: 50px;
+    bottom: 50px;
+    overflow: scroll;
   }
 
   .ticket_top {
@@ -450,7 +457,7 @@
   }
 
   .mu-card-title-container {
-    /*position: fixed;*/
+    position: fixed;
     bottom: 0;
     z-index: 99999 !important;
     display: flex;
@@ -459,6 +466,7 @@
     background: #ffffff;
     width: 100%;
     line-height: 70px;
+
 
     /*.mu-card-title-container {*/
     /*  !*position: relative;*!*/
