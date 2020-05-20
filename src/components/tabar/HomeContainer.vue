@@ -279,11 +279,8 @@
           jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
 
         });
-        alert("this.miniInfo.appId"+this.miniInfo.appId)
-        alert("this.miniInfo.timestamp"+this.miniInfo.timestamp)
-        alert("this.miniInfo.nonceStr"+this.miniInfo.nonceStr)
-        alert("this.miniInfo.signature"+this.miniInfo.signature)
-        alert("this.miniInfo.jsApiList"+this.miniInfo.jsApiList)
+        alert("this.miniInfo.appId" + this.miniInfo.appId)
+        alert("this.miniInfo.timestamp" + this.miniInfo.timestamp)
         window.wx.ready(function () {
           window.wx.error(function (res) {
             console.log(res);
@@ -322,11 +319,11 @@
             }, {emulateJSON: true})
 
           .then(res => {
-            alert("获取jssdk")
-            alert(res.body.data)
-            this.configInfo()
+            console.log("获取jssdk")
+            console.log(res.body.data)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
+              this.configInfo()
               console.log(this.miniInfo)
             } else
               alert("获取微信jssdk配置失败:" + res.body.message)
