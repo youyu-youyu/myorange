@@ -236,8 +236,8 @@
     },
     mounted() {
       // console.log(wx)
-      // this.getMiniInfo()
-      this.configInfo()
+      this.getMiniInfo()
+
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
       if (this.type === 1) {
@@ -282,17 +282,12 @@
           timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
           nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
           signature: this.miniInfo.signature,// 必填，签名
-          jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
-
+          jsApiList: ["checkJsApi", "scanQRCode"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
-        // alert("this.miniInfo.appId" + this.miniInfo.appId)
-        // alert("this.miniInfo.timestamp" + this.miniInfo.timestamp)
         window.wx.error(function (res) {
-          alert("error")
-          alert(res);
-
         });
         window.wx.ready(function () {
+          alert("配置成功")
           window.wx.checkJsApi({
             jsApiList: ['checkJsApi', 'openLocation', 'getNetworkType'],
             success: function (res) {
@@ -329,7 +324,7 @@
             // alert(res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
-              // this.configInfo()
+              this.configInfo()
 
             } else
               alert("获取微信jssdk配置失败:" + res.body.message)
