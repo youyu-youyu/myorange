@@ -146,7 +146,7 @@
 </template>
 <script>
   // import '../../lib/mui/css/mui.min.css'
-  import BMap from "BMap";
+  // import BMap from "BMap";
   import global_msg from "../js/global.js";
   import "../css/home.less";
   import {Toast} from "mint-ui";
