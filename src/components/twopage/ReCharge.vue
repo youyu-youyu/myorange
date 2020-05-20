@@ -154,6 +154,7 @@
         isClickTop: false,
         price: "",
         showData: "",
+        miniInfo: ""
       }
     },
     //1.点击充值时付款 √
@@ -161,6 +162,7 @@
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
       // localStorage.setItem("token","")
+      this.orderPaymentMini();
       this.getCoinRechargePackages();
       this.getPrePayPackages();
       //拿到携带的充值成功或失败的状态
@@ -218,7 +220,7 @@
         if (this.$store.state.type === 1) {
           this.orderPaymentH5();
         } else {
-          this.orderPaymentMini();
+          // this.orderPaymentMini();
         }
       },
       clickEvent(index, isPackage) {
@@ -358,7 +360,24 @@
             }
           })
       },
-
+      mini() {
+        // 通过config接口注入权限验证配置 【必需】
+        // wx.config({
+        //   debug: true,// 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //   appId: this.miniInfo.appId,//公众号的唯一标识
+        //   timestamp: this.miniInfo.timeStamp,//生成签名的时间戳
+        //   nonceStr: this.miniInfo.nonceStr,//生成签名的随机串
+        //   signature: this.miniInfo.paySign,//签名
+        //   jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+        //   // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        // });
+        // wx.ready(() => {
+        //   console.log('wx ready')
+        // });
+        // wx.error(function (res) {
+        //   console.log('err', res)
+        // });
+      },
       orderPaymentMini() {
         this.$http
           //定义为全局使用global_msg.server_url
@@ -368,10 +387,13 @@
               "orderNo": this.order
             }, {emulateJSON: true})
           .then(res => {
+            console.log("小程序支付")
+            console.log(res.body.data)
+            this.mini();
             if (res.body.err_code === 0) {
-
+              this.miniInfo = res.body.data
             } else
-              alert('获取小程序支付参数时错误：' + res.body.message)
+              alert('获取小程序支付参数时错误:' + res.body.message)
           })
       },
       //1.子点击时传参数过来

@@ -146,7 +146,7 @@
 </template>
 <script>
   // import '../../lib/mui/css/mui.min.css'
-  // import BMap from "BMap";
+  import BMap from "BMap";
   import global_msg from "../js/global.js";
   import "../css/home.less";
   import {Toast} from "mint-ui";
@@ -167,7 +167,8 @@
         userCoin: "",//游戏币
         userLottery: "",
         coupons: "",
-        deviceCode: ""
+        deviceCode: "",
+        miniInfo: ""
       };
     },
     created: function () {
@@ -233,40 +234,8 @@
 
     },
     mounted() {
-      console.log(wx)
-
-      window.wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: '', // 必填，公众号的唯一标识
-        timestamp: '', // 必填，生成签名的时间戳
-        nonceStr: '', // 必填，生成签名的随机串
-        signature: '',// 必填，签名
-        jsApiList: ['openLocation'] // 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
-      });
-      window.wx.ready(function () {
-        window.wx.error(function(res){
-          console.log(res);
-          alert(111)
-        });
-        window.wx.checkJsApi({
-          jsApiList: ['checkJsApi','openLocation','getNetworkType'],
-          success: function (res) {
-
-          }
-        });
-        window.wx.getNetworkType({
-          success: function (res) {
-            var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
-            console.log(networkType)
-          },fail: function (res) {
-            console.log("getNetworkType failed")
-          },complete:function (res) {
-            console.log("complete")
-          }
-        });
-      });
-
-
+      // console.log(wx)
+      this.getMiniInfo()
 
       // console.log("AE010055023".substring(4, 12))
       // this.parseUrlBrand();
@@ -283,8 +252,65 @@
     },
 
     methods: {
-      //确定
+      configInfo() {
+        // 通过config接口注入权限验证配置 【必需】
+        window.wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: this.miniInfo.appId, // 必填，公众号的唯一标识
+          timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
+          nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
+          signature: this.miniInfo.signature,// 必填，签名
+          jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
 
+        });
+        window.wx.ready(function () {
+          window.wx.error(function (res) {
+            console.log(res);
+            alert(111)
+          });
+          window.wx.checkJsApi({
+            jsApiList: ['checkJsApi', 'openLocation', 'getNetworkType'],
+            success: function (res) {
+
+            }
+          });
+          window.wx.getNetworkType({
+            success: function (res) {
+              var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+              console.log(networkType)
+            }, fail: function (res) {
+              console.log("getNetworkType failed")
+            }, complete: function (res) {
+              console.log("complete")
+            }
+          });
+        });
+
+
+      },
+      //获取微信jssdk配置
+      getMiniInfo() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .get(`${global_msg.method.getBaseUrl()}/api/auth/base`,
+            {
+              params: {
+                "brand_id": `${global_msg.method.getBrandId()}`
+              }
+            }, {emulateJSON: true})
+
+          .then(res => {
+            this.configInfo()
+            if (res.body.err_code === 0) {
+              this.miniInfo = res.body.data
+              console.log(this.miniInfo)
+            } else
+              alert("获取微信jssdk配置失败" + res.body.message)
+          })
+      },
+
+      //确定
       scanGetCoinClick(coinNum) {
         if (coinNum === "") {
           this.scanCodeGetCoin(document.getElementById("value").value);
@@ -294,6 +320,8 @@
         }
         // let value =document.getElementById("value").value;
       },
+
+
       parseUrlBrand() {
         if (window.location.href.indexOf("brand") !== -1) {
           let brand = this.getUrlParam("brand");
