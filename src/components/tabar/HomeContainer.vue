@@ -142,6 +142,7 @@
         </div>
       </div>
     </div>
+    <button @click="goMini()">跳转小程序</button>
   </div>
 </template>
 <script>
@@ -252,6 +253,21 @@
     },
 
     methods: {
+      goMini() {
+        wx.miniProgram.navigateTo({
+          url: 'pages/index/index',
+          success: function () {
+            console.log('success')
+          },
+          fail: function () {
+            console.log('fail');
+          },
+          complete: function () {
+            console.log('complete');
+          }
+        });
+
+      },
       configInfo() {
         // 通过config接口注入权限验证配置 【必需】
         window.wx.config({
