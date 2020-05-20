@@ -237,7 +237,7 @@
     mounted() {
       // console.log(wx)
       // this.getMiniInfo()
-
+      this.configInfo()
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
       if (this.type === 1) {
@@ -259,12 +259,15 @@
           url: '/pages/payMent/payMent',
           success: function () {
             console.log('success')
+            alert('success')
           },
           fail: function () {
             console.log('fail');
+            alert('fail')
           },
           complete: function () {
             console.log('complete');
+            alert("complete")
           }
         });
         // console.log(url)
@@ -284,11 +287,12 @@
         });
         // alert("this.miniInfo.appId" + this.miniInfo.appId)
         // alert("this.miniInfo.timestamp" + this.miniInfo.timestamp)
+        window.wx.error(function (res) {
+          alert("error")
+          alert(res);
+
+        });
         window.wx.ready(function () {
-          window.wx.error(function (res) {
-            console.log(res);
-            // alert(111)
-          });
           window.wx.checkJsApi({
             jsApiList: ['checkJsApi', 'openLocation', 'getNetworkType'],
             success: function (res) {
@@ -325,7 +329,7 @@
             // alert(res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
-              this.configInfo()
+              // this.configInfo()
 
             } else
               alert("获取微信jssdk配置失败:" + res.body.message)
