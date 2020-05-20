@@ -236,7 +236,7 @@
     },
     mounted() {
       // console.log(wx)
-      this.getMiniInfo()
+
 
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
@@ -325,7 +325,6 @@
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               this.configInfo()
-
             } else
               alert("获取微信jssdk配置失败:" + res.body.message)
           })
@@ -669,6 +668,12 @@
                 //扫码完成
                 //如果卡号的长度为八位数，跳出请输入密码，请确认密码
                 //点击确认密码之后，调用服务器
+
+
+
+
+
+                this.getMiniInfo()
 
               }
             } else {
