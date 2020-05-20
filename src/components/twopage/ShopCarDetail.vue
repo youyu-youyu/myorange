@@ -369,8 +369,8 @@
   }
 
   .user_top_top {
-    padding-top: 50px;
-    /*padding-bottom: 100px;*/
+    margin-top: 50px;
+    margin-bottom: 200px;
   }
 
   .ticket_top {
