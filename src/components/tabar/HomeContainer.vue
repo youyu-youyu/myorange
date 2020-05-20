@@ -317,6 +317,7 @@
             }, {emulateJSON: true})
 
           .then(res => {
+            alert("获取jssdk")
             alert(res.body.data)
             this.configInfo()
             if (res.body.err_code === 0) {
