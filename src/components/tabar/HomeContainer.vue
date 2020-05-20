@@ -255,7 +255,7 @@
     methods: {
       goMini() {
         window.wx.miniProgram.navigateTo({
-          url: '/pages/index/index',
+          url: '/pages/payMent/payMent',
           success: function () {
             console.log('success')
           },
