@@ -370,7 +370,7 @@
 
   .user_top_top {
     padding-top: 50px;
-    padding-bottom: 100px;
+    /*padding-bottom: 100px;*/
   }
 
   .ticket_top {
