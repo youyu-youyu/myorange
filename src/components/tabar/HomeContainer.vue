@@ -292,7 +292,41 @@
             scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
               var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-              alert("scan code:" + result)
+              alert("scan code:" + result.resultStr)
+              result = result.resultStr;
+              /**
+               * 扫到存彩票的二维码
+               */
+              //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
+              if (result.indexOf("qrStorageTicket") !== -1) {
+                // ticketJSON = JSON.parse(ticketJSON);
+                this.storageLottery(ticketJSON);
+              }
+
+              /**
+               * 扫到取币二维码
+               */
+              //如果存在以AE开头的测试二维码
+              if (this.getUrlQrCode("qrresult").startsWith("AE") && this.getUrlQrCode("qrresult").length === 12) {
+                this.deviceCode = this.getUrlQrCode("qrresult").substring(4, 12)
+
+                // 00：机器，01：售币机
+                if (this.getUrlQrCode("qrresult").substring(2, 4) === "01") {
+                  document.getElementById("cover").setAttribute("style", "display:block;")
+                  document.getElementById("selectPay_id").setAttribute("style", "display:block;")
+                  //
+                } else if (this.getUrlQrCode("qrresult").substring(2, 4) === "00") {
+                  document.getElementById("cover").setAttribute("style", "display:block;")
+                  document.getElementById("robot_id").setAttribute("style", "display:block;")
+                }
+              }
+
+              /**
+               * 实体卡扫码绑定
+               */
+              //扫码完成
+              //如果卡号的长度为八位数，跳出请输入密码，请确认密码
+              //点击确认密码之后，调用服务器
             }
           });
         });
@@ -620,50 +654,7 @@
                 this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
 
-              if (localStorage.getItem(global_msg.qrCode)) {
-                //这里是真正处理扫描到的二维码的地方
-
-                /**
-                 * 扫到存彩票的二维码
-                 */
-                //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
-                if (this.getUrlQrCode("qrresult").indexOf("qrStorageTicket") !== -1) {
-                  let ticketJSON = this.getUrlQrCode("qrresult");
-                  //
-                  ticketJSON = decodeURIComponent(ticketJSON)
-                  ticketJSON = JSON.parse(ticketJSON);
-                  this.storageLottery(ticketJSON);
-                }
-
-                /**
-                 * 扫到取币二维码
-                 */
-                //如果存在以AE开头的测试二维码
-                if (this.getUrlQrCode("qrresult").startsWith("AE") && this.getUrlQrCode("qrresult").length === 12) {
-                  this.deviceCode = this.getUrlQrCode("qrresult").substring(4, 12)
-
-                  // 00：机器，01：售币机
-                  if (this.getUrlQrCode("qrresult").substring(2, 4) === "01") {
-                    document.getElementById("cover").setAttribute("style", "display:block;")
-                    document.getElementById("selectPay_id").setAttribute("style", "display:block;")
-                    //
-                  } else if (this.getUrlQrCode("qrresult").substring(2, 4) === "00") {
-                    document.getElementById("cover").setAttribute("style", "display:block;")
-                    document.getElementById("robot_id").setAttribute("style", "display:block;")
-                  }
-                }
-
-                /**
-                 * 实体卡扫码绑定
-                 */
-                //扫码完成
-                //如果卡号的长度为八位数，跳出请输入密码，请确认密码
-                //点击确认密码之后，调用服务器
-
-
-                this.getMiniInfo()
-                // this.configInfo()
-              }
+              this.getMiniInfo()
             } else {
               alert("获取店铺失败:" + res.body.message)
             }
