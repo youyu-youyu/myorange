@@ -254,8 +254,8 @@
 
     methods: {
       goMini() {
-        wx.miniProgram.navigateTo({
-          url: 'pages/index/index',
+        window.wx.miniProgram.navigateTo({
+          url: '/pages/index/index',
           success: function () {
             console.log('success')
           },
@@ -266,11 +266,12 @@
             console.log('complete');
           }
         });
+        // console.log(url)
 
       },
       configInfo() {
         // 通过config接口注入权限验证配置 【必需】
-        alert(this.miniInfo.appId)
+        // alert(this.miniInfo.appId)
         window.wx.config({
           debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: this.miniInfo.appId, // 必填，公众号的唯一标识
@@ -280,8 +281,8 @@
           jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
 
         });
-        alert("this.miniInfo.appId" + this.miniInfo.appId)
-        alert("this.miniInfo.timestamp" + this.miniInfo.timestamp)
+        // alert("this.miniInfo.appId" + this.miniInfo.appId)
+        // alert("this.miniInfo.timestamp" + this.miniInfo.timestamp)
         window.wx.ready(function () {
           window.wx.error(function (res) {
             console.log(res);
@@ -320,7 +321,7 @@
             }, {emulateJSON: true})
 
           .then(res => {
-            alert(res.body.err_code)
+            // alert(res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               this.configInfo()
