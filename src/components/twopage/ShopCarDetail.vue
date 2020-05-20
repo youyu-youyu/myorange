@@ -451,7 +451,7 @@
 
   .mu-card-title-container {
     /*position: fixed;*/
-    /*bottom: 0;*/
+    bottom: 0;
     z-index: 99999 !important;
     display: flex;
     color: #a0acac;
