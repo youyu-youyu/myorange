@@ -317,12 +317,13 @@
             }, {emulateJSON: true})
 
           .then(res => {
+            alert(res.body.data)
             this.configInfo()
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               console.log(this.miniInfo)
             } else
-              alert("获取微信jssdk配置失败" + res.body.message)
+              alert("获取微信jssdk配置失败:" + res.body.message)
           })
       },
 
