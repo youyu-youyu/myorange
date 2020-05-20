@@ -275,7 +275,6 @@
       },
       configInfo() {
         // 通过config接口注入权限验证配置 【必需】
-        Toast(this.miniInfo.signature)
         wx.config({
           debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: this.miniInfo.appId, // 必填，公众号的唯一标识
@@ -285,7 +284,7 @@
           jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
-          Toast(res)
+          alert(res)
         });
         window.wx.ready(function () {
           wx.scanQRCode({
