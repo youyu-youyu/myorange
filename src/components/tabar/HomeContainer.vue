@@ -313,7 +313,7 @@
             }, {emulateJSON: true})
 
           .then(res => {
-            // alert(res.body.err_code)
+            Toast("获取jssdk信息的状态码:"+res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               this.configInfo()
