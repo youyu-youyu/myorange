@@ -275,24 +275,13 @@
       },
       configInfo() {
         // 通过config接口注入权限验证配置 【必需】
-        // wx.config({
-        //   debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        //   appId: this.miniInfo.appId, // 必填，公众号的唯一标识
-        //   timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
-        //   nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
-        //   signature: this.miniInfo.signature,// 必填，签名
-        //   jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
-        // });
         wx.config({
           debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: "wxfc2079e5d7f21d07", // 必填，公众号的唯一标识
-          timestamp: 1589968472, // 必填，生成签名的时间戳
-          nonceStr: "XlgYGFdZic", // 必填，生成签名的随机串
-          signature: "e3750cebc71a389b3a066eac60c36517c220f1e1",// 必填，签名
-          jsApiList: [
-            "chooseWXPay",
-            "scanQRCode"
-          ],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          appId: this.miniInfo.appId, // 必填，公众号的唯一标识
+          timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
+          nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
+          signature: this.miniInfo.signature,// 必填，签名
+          jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
           alert(res)
@@ -318,12 +307,12 @@
           .get(`${global_msg.method.getBaseUrl()}/api/auth/base`,
             {
               params: {
-                "brand_id": `${global_msg.method.getBrandId()}`
+                "brand_id": `${global_msg.method.getBrandId()}`,
+                "url": window.location.href
               }
             }, {emulateJSON: true})
 
           .then(res => {
-            Toast("获取jssdk信息的状态码:" + res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               this.configInfo()
@@ -672,8 +661,8 @@
                 //点击确认密码之后，调用服务器
 
 
-                // this.getMiniInfo()
-                this.configInfo()
+                this.getMiniInfo()
+                // this.configInfo()
               }
             } else {
               alert("获取店铺失败:" + res.body.message)
