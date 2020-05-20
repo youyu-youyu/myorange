@@ -236,7 +236,7 @@
     },
     mounted() {
       // console.log(wx)
-      this.getMiniInfo()
+      // this.getMiniInfo()
 
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
