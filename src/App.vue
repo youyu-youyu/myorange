@@ -155,7 +155,7 @@
   .mui-bar-tab {
     display: flex;
     height: 90px;
-    z-index: 999999;
+    /*z-index: 999999;*/
     margin-bottom: -3px !important;
     padding: 0 !important;
   }
