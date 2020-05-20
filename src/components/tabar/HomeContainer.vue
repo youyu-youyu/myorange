@@ -282,7 +282,7 @@
           timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
           nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
           signature: this.miniInfo.signature,// 必填，签名
-          jsApiList: ["chooseWXPay", "scanQRCode"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
         });
