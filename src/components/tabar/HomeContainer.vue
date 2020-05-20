@@ -284,7 +284,7 @@
           jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
-          alert(res)
+          // alert(res)
         });
         window.wx.ready(function () {
 
@@ -438,7 +438,7 @@
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
             var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            alert("scan code:" + result)
+            // alert("scan code:" + result)
             /**
              * 扫到存彩票的二维码
              */
