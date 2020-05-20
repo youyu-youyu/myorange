@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shopcontainer">
     <div class="shopcontainer_top">
       <loading v-if="loading"></loading>
       <div class="shop_bg">
@@ -191,7 +191,6 @@
           .then(res => {
             if (res.body.err_code === 0) {
               this.totalShopCategoryList = res.body.data;
-              this.totalShopCategoryList = this.totalShopCategoryList.concat(this.totalShopCategoryList)
               if (this.totalShopCategoryList.length === 0) {
                 Toast("未获得分类数据");
                 return;
