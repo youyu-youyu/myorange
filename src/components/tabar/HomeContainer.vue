@@ -320,7 +320,7 @@
             }, {emulateJSON: true})
 
           .then(res => {
-            console.log("获取jssdk")
+            alert(res.body.err_code)
             if (res.body.err_code === 0) {
               this.miniInfo = res.body.data
               this.configInfo()
