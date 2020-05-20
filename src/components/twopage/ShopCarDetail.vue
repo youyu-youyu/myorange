@@ -373,7 +373,7 @@
 
   .user_top_top {
     margin-top: 50px;
-    margin-bottom: 200px;
+    margin-bottom: 300px;
     /*position: fixed;*/
     top: 50px;
     bottom: 50px;
