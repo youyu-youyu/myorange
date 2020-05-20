@@ -233,17 +233,52 @@
 
     },
     mounted() {
+      console.log(wx)
+
+      window.wx.config({
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '', // 必填，公众号的唯一标识
+        timestamp: '', // 必填，生成签名的时间戳
+        nonceStr: '', // 必填，生成签名的随机串
+        signature: '',// 必填，签名
+        jsApiList: ['openLocation'] // 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+      });
+      window.wx.ready(function () {
+        window.wx.error(function(res){
+          console.log(res);
+          alert(111)
+        });
+        window.wx.checkJsApi({
+          jsApiList: ['checkJsApi','openLocation','getNetworkType'],
+          success: function (res) {
+
+          }
+        });
+        window.wx.getNetworkType({
+          success: function (res) {
+            var networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+            console.log(networkType)
+          },fail: function (res) {
+            console.log("getNetworkType failed")
+          },complete:function (res) {
+            console.log("complete")
+          }
+        });
+      });
+
+
+
       // console.log("AE010055023".substring(4, 12))
-      this.parseUrlBrand();
-      if (this.type === 1) {
-        if (global_msg.company !== -1) {
-          this.getCode();
-        } else {
-          this.getLastSelectedShop();
-        }
-      } else {
-        this.miniLogin();
-      }
+      // this.parseUrlBrand();
+      // if (this.type === 1) {
+      //   if (global_msg.company !== -1) {
+      //     this.getCode();
+      //   } else {
+      //     this.getLastSelectedShop();
+      //   }
+      // } else {
+      //   this.miniLogin();
+      // }
 
     },
 

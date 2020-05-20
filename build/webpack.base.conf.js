@@ -24,7 +24,7 @@ module.exports = {
     "mui": "mui",
     "vue-router": "VueRouter",
     "vuex": "Vuex",
-    "vue-resource":"VueResource"
+    "vue-resource": "VueResource",
   },
   output: {
     path: config.build.assetsRoot,
