@@ -155,7 +155,7 @@
   .mui-control-content {
     // position: absolute !important;
     margin-top: 40px;
-    height: 500px;
+    height: 100%;
   }
 
   button {
