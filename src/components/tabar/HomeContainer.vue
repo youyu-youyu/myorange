@@ -270,6 +270,8 @@
       },
       configJSSDK(miniInfo) {
         alert("配置jssdk")
+        let temp = undefined;
+        alert(temp)
         Toast(wx)
         // 通过config接口注入权限验证配置 【必需】
         wx.config({
