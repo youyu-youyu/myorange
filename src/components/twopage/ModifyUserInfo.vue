@@ -11,7 +11,7 @@
       <div class="modify_inner">
         <input type="text" placeholder="请输入昵称" ref="userNameInput" readonly="readonly">
         <input type="tel" placeholder="请输入电话" ref="userMobilPhoneInput">
-        <input type="text" placeholder="请输入生日" ref="userBirthdayInput">
+        <input type="text" placeholder="请输入生日:如1997-10-25" ref="userBirthdayInput">
         <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
       </div>
       <div class="currentLevel_level">
