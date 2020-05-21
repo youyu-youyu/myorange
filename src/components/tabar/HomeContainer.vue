@@ -443,7 +443,9 @@
              * 扫到存彩票的二维码
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
+            alert(result.cmd)
             if (result.cmd === "qrStorageTicket") {
+              alert("11")
               // ticketJSON = JSON.parse(ticketJSON);
               this.storageLottery(result);
 
