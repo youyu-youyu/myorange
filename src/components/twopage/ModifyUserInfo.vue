@@ -105,7 +105,7 @@
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
             {
-              "headimg": document.getElementById('userPhoto_img').src,
+              "headimg": this.userPhoto,
               "username": this.$refs.userNameInput.value,
               "phone": this.$refs.userMobilPhoneInput.value,
               "birthday": this.$refs.userBirthdayInput.value,
