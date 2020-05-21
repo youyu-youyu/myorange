@@ -11,7 +11,7 @@
       <div class="modify_inner">
         <input type="text" placeholder="请输入昵称" ref="userNameInput" readonly="readonly">
         <input type="tel" placeholder="请输入电话" ref="userMobilPhoneInput">
-        <input type="text" placeholder="请输入生日:如1997-10-25" ref="userBirthdayInput">
+        <input type="text" placeholder="请输入生日" ref="userBirthdayInput" id="userBirthday">
         <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
       </div>
       <div class="currentLevel_level">
@@ -35,8 +35,6 @@
       return {
         loading: false,
         userPhoto: "",
-        // userMobilPhoneInput: "",
-        // userBirthdayInput: "",
       }
     },
     mounted() {
@@ -44,19 +42,23 @@
 
     },
     methods: {
+
+      showDatePicker() {
+        this.$refs.pickerData.open();
+      },
       //更换头像
       modifyUserPhoto() {
-        let _this = this
-        wx.chooseImage({
-          count: 1, // 默认9
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-          success: function (res) {
-            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            document.getElementById('userPhoto_img').src = localIds[0]
-            _this.uploadPictureToServer(localIds[0])
-          }
-        });
+        // let _this = this
+        // wx.chooseImage({
+        //   count: 1, // 默认9
+        //   sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+        //   sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+        //   success: function (res) {
+        //     var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+        //     document.getElementById('userPhoto_img').src = localIds[0]
+        //     _this.uploadPictureToServer(localIds[0])
+        //   }
+        // });
 
 
       },
@@ -71,10 +73,14 @@
             }, {emulateJSON: true})
           .then(res => {
             if (res.body.err_code === 0) {
-              this.userPhoto = res.body.data.userPhoto
-              this.$refs.userNameInput.value = res.body.data.userName;
-              this.$refs.userMobilPhoneInput.value = res.body.data.userPhone;
-              this.$refs.userBirthdayInput.value = res.body.data.brithday;
+              let userData = res.body.data
+              this.userPhoto = userData.userPhoto;
+              this.$refs.userNameInput.value = userData.userName;
+              this.$refs.userMobilPhoneInput.value = userData.userPhone;
+              this.$refs.userBirthdayInput.value = userData.brithday;
+              if (this.$refs.userBirthdayInput.value !== "") {
+                document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
+              }
             } else {
               alert("获取个人信息失败：" + res.body.message);
             }
@@ -109,7 +115,7 @@
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
           .then(res => {
-            alert(document.getElementById('userPhoto_img').src)
+            // alert(document.getElementById('userPhoto_img').src)
             // alert(res.body.data)
             if (res.body.err_code === 0) {
               alert('更新个人信息成功')
