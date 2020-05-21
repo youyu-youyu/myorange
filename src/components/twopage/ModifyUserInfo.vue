@@ -76,7 +76,7 @@
               this.$refs.userMobilPhoneInput.value = res.body.data.userPhone;
               this.$refs.userBirthdayInput.value = res.body.data.brithday;
             } else {
-              alert("获取门票信息失败：" + res.body.message);
+              alert("获取个人信息失败：" + res.body.message);
             }
           })
       },
@@ -98,14 +98,12 @@
 
       //提交修改的用户信息
       submitModifyUserInfo() {
-        // this.userMobilPhoneInput = this.$refs.userMobilPhoneInput.value;
-        // this.userBirthdayInput = this.$refs.userBirthdayInput.value;
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
             {
-              "headimg": this.userPhoto,
+              "headimg": "",
               "username": this.$refs.userNameInput.value,
               "phone": this.$refs.userMobilPhoneInput.value,
               "birthday": this.$refs.userBirthdayInput.value,
@@ -116,7 +114,7 @@
             if (res.body.err_code === 0) {
 
             } else
-              alert('更新信息失败:' + res.body.message)
+              alert('更新个人信息失败:' + res.body.message)
           })
       },
 
