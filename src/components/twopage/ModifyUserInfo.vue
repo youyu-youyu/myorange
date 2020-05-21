@@ -112,7 +112,7 @@
             alert(document.getElementById('userPhoto_img').src)
             // alert(res.body.data)
             if (res.body.err_code === 0) {
-
+              alert('更新个人信息成功')
             } else
               alert('更新个人信息失败:' + res.body.message)
           })
