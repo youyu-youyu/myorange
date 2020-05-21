@@ -198,6 +198,7 @@
 
   .item1 {
     ul {
+      height: 160px;
       border-bottom: 1px solid #e0e0e0;
     }
   }
