@@ -4,9 +4,9 @@
     <div class="ticket_top">
       <!--      <div class="user_top_inner">-->
       <ul class="mui-table-view">
-        <li class="mui-media user_bottom">
+        <li class=" user_bottom">
           <router-link to="/modifyuserinfo">
-            <img class=" mui-pull-left" v-bind:src=userPhoto>
+            <img class="mui-media-object mui-pull-left" v-bind:src=userPhoto>
           </router-link>
           <div class="mui-media-body user_top_body">
             {{userName}}
