@@ -9,7 +9,7 @@
           <a class="mui-control-item" @click="discountEvent(1)">已过期({{expiredDiscountList.length}})</a>
           <a class="mui-control-item" @click="discountEvent(2)">已使用({{usedDiscountList.length}})</a>
         </div>
-        <div id="item1mobile" class="mui-slider-item  item1">
+        <div id="item1mobile" class="mui-slider-item mui-control-content  item1">
           <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
             <li class="mui-table-view-cell mui-media">
               <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>
