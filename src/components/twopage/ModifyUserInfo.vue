@@ -3,7 +3,7 @@
     <loading v-if="loading"></loading>
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
-      <img class="mui-pull-left modify-img" v-bind:src=basicInfoData.userPhoto>
+      <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=basicInfoData.userPhoto>
       <div class="mui-media-body mui-media userPhoto" @click="modifyUserPhoto()">
         更换头像
       </div>
@@ -54,7 +54,7 @@
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            alert(localIds)
+            document.getElementById('userPhoto_img').src=localIds[0]
           }
         });
 

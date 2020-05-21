@@ -278,7 +278,7 @@
           timestamp: miniInfo.timestamp, // 必填，生成签名的时间戳
           nonceStr: miniInfo.nonceStr, // 必填，生成签名的随机串
           signature: miniInfo.signature,// 必填，签名
-          jsApiList: ["chooseImage","scanQRCode","uploadImage"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          jsApiList: ["chooseImage", "scanQRCode", "uploadImage"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
           // alert(res)
@@ -425,16 +425,7 @@
 
       ///扫码
       startScan() {
-        wx.chooseImage({
-          count: 1, // 默认9
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-          success: function (res) {
-            var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            document.getElementById('id_test').src=localIds[0]
-          }
-        });
-        return;
+
         // let local = window.location.href;
         // localStorage.setItem(global_msg.isProcessQrCode, "false");
         // window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
