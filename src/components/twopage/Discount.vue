@@ -2,11 +2,8 @@
   <div class="record">
     <backbar title="优惠券"></backbar>
     <!-- 顶部滑动条 -->
-    <div id="slider" class="mui-slider discount">
-      <div
-        id="sliderSegmentedControl"
-        class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted"
-      >
+    <div class="discount">
+      <div class="mui-scroll-wrapper  mui-segmented-control mui-segmented-control-inverted">
         <div class="mui-scroll discount-inner">
           <a class="mui-control-item mui-active" @click="discountEvent(0)">可使用({{availableDiscountList.length}})</a>
           <a class="mui-control-item" @click="discountEvent(1)">已过期({{expiredDiscountList.length}})</a>
@@ -137,6 +134,11 @@
   };
 </script>
 <style lang="less" scoped>
+  .mui-active {
+    color: #000000 !important;
+    border-bottom: 1px solid transparent !important;
+  }
+
   .discount {
     margin-top: 50px;
   }
