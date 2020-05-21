@@ -4,7 +4,11 @@
     <!-- 顶部滑动条 -->
     <div class="discount">
 
-
+      <div class="discount-inner" style="text-align: center">
+        <a class="" @click="discountEvent(0)" >可使用({{availableDiscountList.length}})</a>
+        <a class="" @click="discountEvent(1)" style="margin-left: 15px">已过期({{expiredDiscountList.length}})</a>
+        <a class="mui-control-item" @click="discountEvent(2)"  style="margin-left: 15px">已使用({{usedDiscountList.length}})</a>
+      </div>
 
       <div id="item1mobile" class="mui-slider-item mui-control-content mui-active item1">
         <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
@@ -152,7 +156,7 @@
 
   .mui-control-content {
     // position: absolute !important;
-    margin-top: 40px;
+    margin-top: 10px;
     height: 100%;
   }
 
