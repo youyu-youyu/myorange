@@ -436,12 +436,13 @@
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
             var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            result=JSON.parse(result)
             // alert("scan code:" + result)
             /**
              * 扫到存彩票的二维码
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
-            alert(result)
+            alert(result.cmd)
             if (result.cmd === "qrStorageTicket") {
               alert("11")
               // ticketJSON = JSON.parse(ticketJSON);
