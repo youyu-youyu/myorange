@@ -436,16 +436,16 @@
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
             var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            result=JSON.parse(result)
+            if (result.indexOf("qrStorageTicket")) {
+
+              result = JSON.parse(result)
+            }
             // alert("scan code:" + result)
             /**
              * 扫到存彩票的二维码
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
-            alert(result.cmd)
             if (result.cmd === "qrStorageTicket") {
-              alert("11")
-              // ticketJSON = JSON.parse(ticketJSON);
               _this.storageLottery(result);
 
             }
@@ -565,9 +565,6 @@
 
       //扫码存彩票
       storageLottery(tickeyJSON) {
-        alert(312)
-        Toast(123)
-        alert(tickeyJSON.password)
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -577,8 +574,6 @@
               "password": tickeyJSON.password,
             }, {emulateJSON: true})
           .then(res => {
-            console.log(res);
-            localStorage.setItem(global_msg.qrCode, "");
             if (res.body.err_code === 0) {
               alert("存彩票成功！")
             } else {
