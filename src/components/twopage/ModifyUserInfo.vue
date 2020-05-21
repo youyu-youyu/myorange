@@ -87,17 +87,17 @@
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
             {
-              // "headimg":,
+              "headimg": document.getElementById('userPhoto_img').src,
               "username": this.$refs.userNameInput.value,
               "phone": this.$refs.userMobilPhoneInput.value,
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
           .then(res => {
-            console.log(res.body.data)
+            alert(res.body.data)
             if (res.body.err_code === 0) {
 
             } else
-              alert('获取小程序支付参数时错误：' + res.body.message)
+              alert('更新信息失败:' + res.body.message)
           })
       },
 
