@@ -278,7 +278,7 @@
           timestamp: miniInfo.timestamp, // 必填，生成签名的时间戳
           nonceStr: miniInfo.nonceStr, // 必填，生成签名的随机串
           signature: miniInfo.signature,// 必填，签名
-          jsApiList: ["chooseImage","scanQRCode"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          jsApiList: ["chooseImage","scanQRCode","uploadImage"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
           // alert(res)
@@ -431,7 +431,14 @@
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            alert(localIds)
+            wx.uploadImage({
+              localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+              isShowProgressTips: 1, // 默认为1，显示进度提示
+              success: function (res) {
+                var serverId = res.serverId; // 返回图片的服务器端ID
+                alert(serverId)
+              }
+            });
           }
         });
         return;
