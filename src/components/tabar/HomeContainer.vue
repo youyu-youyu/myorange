@@ -444,8 +444,9 @@
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
             if (result.cmd === "qrStorageTicket") {
+              alert(_this)
+              alert(this)
               _this.storageLottery(result);
-
             }
 
             /**
@@ -457,7 +458,6 @@
 
               // 00：机器，01：售币机
               if (result.substring(2, 4) === "01") {
-                alert("手臂及")
                 document.getElementById("cover").setAttribute("style", "display:block;")
                 document.getElementById("selectPay_id").setAttribute("style", "display:block;")
                 //
