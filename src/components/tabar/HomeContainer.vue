@@ -235,8 +235,6 @@
 
     },
     mounted() {
-      // console.log(wx)
-
 
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
