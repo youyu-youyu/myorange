@@ -109,9 +109,6 @@
     <div class="robot" id="robot_id">
       <div class="robot-inner">
         <div class="like">
-          <!--          <button class="mui-btn mui-btn-numbox-minus" type="button" >-</button>-->
-
-          <!--          <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>-->
           <div class="like-minus mui-icon mui-icon-minus-filled mui-btn-numbox-minus"></div>
           <div class="like-txt">2</div>
           <div class="like-total mui-icon mui-icon-plus-filled mui-btn-numbox-plus"></div>

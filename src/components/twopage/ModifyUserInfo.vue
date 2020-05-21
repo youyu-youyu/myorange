@@ -3,11 +3,11 @@
     <loading v-if="loading"></loading>
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
-      <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=basicInfoData.userPhoto>
+      <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=userPhoto>
       <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">
         更换头像
       </div>
-      <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
+      <input type="file" accept="image/*" @change="modifyPhoto()" class="hiddenInput"/>
       <div class="modify_inner">
         <input type="text" placeholder="请输入昵称" ref="userNameInput" readonly="readonly">
         <input type="tel" placeholder="请输入电话" ref="userMobilPhoneInput">
@@ -34,7 +34,7 @@
     data() {
       return {
         loading: false,
-        basicInfoData: "",
+        userPhoto: "",
         userMobilPhoneInput: "",
         userBirthdayInput: "",
       }
@@ -71,7 +71,7 @@
             }, {emulateJSON: true})
           .then(res => {
             if (res.body.err_code === 0) {
-              document.getElementById('userPhoto_img').src = res.body.data.userPhoto
+              this.userPhoto = res.body.data.userPhoto
               this.$refs.userNameInput.value = res.body.data.userName;
               this.$refs.userMobilPhoneInput.value = res.body.data.userPhone;
               this.$refs.userBirthdayInput.value = res.body.data.brithday;
