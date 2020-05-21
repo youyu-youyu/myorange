@@ -91,15 +91,15 @@
       routerBack() {
         // this.$router.go(-1); //返回上一层
         console.log("backBar:" + this.backHome);
-        if (this.backHome !== undefined) {
-          this.$router.push({path: '/home'})
+        if (this.backHome === undefined) {
+          this.$router.go(-1);
         } else
-          history.back(-1);
+          this.$router.push({path: '/home'})
       }
     }
   };
 </script>
 
 
-// WEBPACK FOOTER //
-// src/components/public/backBar.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/public/backBar.vue-->
