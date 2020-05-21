@@ -3,37 +3,33 @@
     <backbar title="优惠券"></backbar>
     <!-- 顶部滑动条 -->
     <div class="discount">
-      <div class="mui-scroll-wrapper  mui-segmented-control mui-segmented-control-inverted">
-        <div class="mui-scroll discount-inner">
-          <a class="mui-control-item mui-active" @click="discountEvent(0)">可使用({{availableDiscountList.length}})</a>
-          <a class="mui-control-item" @click="discountEvent(1)">已过期({{expiredDiscountList.length}})</a>
-          <a class="mui-control-item" @click="discountEvent(2)">已使用({{usedDiscountList.length}})</a>
-        </div>
-        <div id="item1mobile" class="mui-slider-item mui-control-content  item1">
-          <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
-            <li class="mui-table-view-cell mui-media">
-              <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>
-              <div class="mui-media-body discount_body" style="padding-left: 10px">
-                <div class="mui-ellipsis couponname">{{item.couponName}}</div>
-                <div class="deductMoney" style="float: left;padding-left: 10px;font-size: 30px;color: orange;">
-                  {{item.deductMoney}}
-                </div>
+
+
+
+      <div id="item1mobile" class="mui-slider-item mui-control-content mui-active item1">
+        <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
+          <li class="mui-table-view-cell mui-media">
+            <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>
+            <div class="mui-media-body discount_body" style="padding-left: 10px">
+              <div class="mui-ellipsis couponname">{{item.couponName}}</div>
+              <div class="deductMoney" style="float: left;padding-left: 10px;font-size: 30px;color: orange;">
+                {{item.deductMoney}}
               </div>
-              <button class="mui-pull-right discount_btn">立即使用</button>
-            </li>
-            <li class="mui-table-view-cell mui-media">
-              <a style="padding: 10px 10px;">
-                <div class="mui-pull-left discount_date">过期时间：{{item.endTime}}</div>
-                <div class="mui-media-body discount_txt">满足条件：需满{{item.buyMoney}}</div>
-              </a>
-              <a style="padding: 10px 10px;">
-                <div class="mui-pull-left" style="width: 50%">
-                  使用模块：{{item.useModule===1?"全部":item.useModule===2?"餐饮":"套餐"}}
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
+            </div>
+            <button class="mui-pull-right discount_btn">立即使用</button>
+          </li>
+          <li class="mui-table-view-cell mui-media">
+            <a style="padding: 10px 10px;">
+              <div class="mui-pull-left discount_date">过期时间：{{item.endTime}}</div>
+              <div class="mui-media-body discount_txt">满足条件：需满{{item.buyMoney}}</div>
+            </a>
+            <a style="padding: 10px 10px;">
+              <div class="mui-pull-left" style="width: 50%">
+                使用模块：{{item.useModule===1?"全部":item.useModule===2?"餐饮":"套餐"}}
+              </div>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
