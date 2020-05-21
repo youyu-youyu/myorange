@@ -455,16 +455,17 @@
              */
             //如果存在以AE开头的测试二维码
             if (result.startsWith("AE") && result.length === 12) {
+              alert(result)
               _this.deviceCode = result.substring(4, 12)
 
               // 00：机器，01：售币机
               if (result.substring(2, 4) === "01") {
-                _this.window.document.getElementById("cover").setAttribute("style", "display:block;")
-                _this.window.document.getElementById("selectPay_id").setAttribute("style", "display:block;")
+                _this.document.getElementById("cover").setAttribute("style", "display:block;")
+                _this.document.getElementById("selectPay_id").setAttribute("style", "display:block;")
                 //
               } else if (result.substring(2, 4) === "00") {
-                _this.window.document.getElementById("cover").setAttribute("style", "display:block;")
-                _this.window.document.getElementById("robot_id").setAttribute("style", "display:block;")
+                _this.document.getElementById("cover").setAttribute("style", "display:block;")
+                _this.document.getElementById("robot_id").setAttribute("style", "display:block;")
               }
             }
 
