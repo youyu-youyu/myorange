@@ -4,7 +4,7 @@
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
       <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=basicInfoData.userPhoto>
-      <div class="mui-media-body mui-media userPhoto" @click="modifyUserPhoto()">
+      <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">
         更换头像
       </div>
       <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
