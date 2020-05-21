@@ -48,22 +48,36 @@
     methods: {
       //更换头像
       modifyUserPhoto() {
+        let _this = this
         wx.chooseImage({
           count: 1, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            document.getElementById('userPhoto_img').src=localIds[0]
+            document.getElementById('userPhoto_img').src = localIds[0]
+            _this.uploadPictureToServer(localIds[0])
           }
         });
 
 
-        // this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/uploadimg`,
-        //   {
-        //     "file": ""
-        //   }, {emulateJSON: true})
       },
+      //上传图片到服务器
+      uploadPictureToServer(file) {
+        alert(file)
+        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/uploadimg`,
+          {
+            "file": file
+          }, {emulateJSON: true})
+          .then(res => {
+
+            if (res.body.err_code === 0) {
+              alert('上传图片成功!')
+            } else
+              alert('上传图片错误:' + res.body.message)
+          })
+      },
+
       //提交修改的用户信息
       submitModifyUserInfo() {
         // this.userMobilPhoneInput = this.$refs.userMobilPhoneInput.value;
