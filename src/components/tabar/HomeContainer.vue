@@ -149,6 +149,7 @@
   import global_msg from "../js/global.js";
   import "../css/home.less";
   import {Toast} from "mint-ui";
+  import wx from 'jWeixin';
 
   export default {
     data() {
