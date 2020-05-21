@@ -111,7 +111,8 @@
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
           .then(res => {
-            alert(res.body.data)
+            alert(document.getElementById('userPhoto_img').src)
+            // alert(res.body.data)
             if (res.body.err_code === 0) {
 
             } else

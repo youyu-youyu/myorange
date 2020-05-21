@@ -143,6 +143,7 @@
       </div>
     </div>
     <button @click="goMini()">跳转小程序</button>
+    <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>
   </div>
 </template>
 <script>
