@@ -70,7 +70,7 @@
             "file": file
           }, {emulateJSON: true})
           .then(res => {
-
+            alert()
             if (res.body.err_code === 0) {
               alert('上传图片成功!')
             } else
