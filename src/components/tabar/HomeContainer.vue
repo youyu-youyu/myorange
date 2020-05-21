@@ -445,7 +445,7 @@
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
             if (result.indexOf("qrStorageTicket") !== -1) {
               // ticketJSON = JSON.parse(ticketJSON);
-              this.storageLottery(ticketJSON);
+              this.storageLottery(result);
             }
 
             /**
