@@ -565,7 +565,8 @@
 
       //扫码存彩票
       storageLottery(tickeyJSON) {
-        Toast(tickeyJSON)
+        alert(312)
+        Toast(123)
         alert(tickeyJSON.password)
         this.$http
           //定义为全局使用global_msg.server_url
