@@ -169,7 +169,6 @@
         userLottery: "",
         coupons: "",
         deviceCode: "",
-        miniInfo: ""
       };
     },
     created: function () {
@@ -271,27 +270,35 @@
         // console.log(url)
 
       },
-      configInfo() {
+      configJSSDK(miniInfo) {
         // 通过config接口注入权限验证配置 【必需】
         wx.config({
           debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-          appId: this.miniInfo.appId, // 必填，公众号的唯一标识
-          timestamp: this.miniInfo.timestamp, // 必填，生成签名的时间戳
-          nonceStr: this.miniInfo.nonceStr, // 必填，生成签名的随机串
-          signature: this.miniInfo.signature,// 必填，签名
-          jsApiList: this.miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          appId: miniInfo.appId, // 必填，公众号的唯一标识
+          timestamp: miniInfo.timestamp, // 必填，生成签名的时间戳
+          nonceStr: miniInfo.nonceStr, // 必填，生成签名的随机串
+          signature: miniInfo.signature,// 必填，签名
+          jsApiList: miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
           // alert(res)
         });
         window.wx.ready(function () {
-
+          wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            success: function (res) {
+              var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+              alert(localIds)
+            }
+          });
         });
 
 
       },
       //获取微信jssdk配置
-      getMiniInfo() {
+      getJSSDKInfo() {
         this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）
@@ -305,8 +312,7 @@
 
           .then(res => {
             if (res.body.err_code === 0) {
-              this.miniInfo = res.body.data
-              this.configInfo()
+              this.configJSSDK(res.body.data)
             } else
               alert("获取微信jssdk配置失败:" + res.body.message)
           })
@@ -444,8 +450,6 @@
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
             if (result.cmd === "qrStorageTicket") {
-              alert(_this)
-              alert(this)
               _this.storageLottery(result);
             }
 
@@ -654,7 +658,7 @@
                 this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
 
-              this.getMiniInfo()
+              this.getJSSDKInfo()
             } else {
               alert("获取店铺失败:" + res.body.message)
             }
