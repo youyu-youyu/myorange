@@ -278,7 +278,7 @@
           timestamp: miniInfo.timestamp, // 必填，生成签名的时间戳
           nonceStr: miniInfo.nonceStr, // 必填，生成签名的随机串
           signature: miniInfo.signature,// 必填，签名
-          jsApiList: miniInfo.jsApiList,// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
+          jsApiList: ["chooseImage","scanQRCode"],// 必填，需要使用的JS接口列表 这里填写需要用到的微信api openlocation为使用微信内置地图查看位置接口
         });
         window.wx.error(function (res) {
           // alert(res)
