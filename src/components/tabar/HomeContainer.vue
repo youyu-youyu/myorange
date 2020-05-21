@@ -62,7 +62,7 @@
         <div class="home_top_boder_inner">
           <div class="item">
             <div class="home_top_inner_1">
-              <img class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_coin.png">
+              <img id="id_test" class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_coin.png">
               <div class="mui-media-body move" style="margin-top: 5px;text-align: center">
                 {{parseInt(userMoney)}}
                 <div class='mui-ellipsis home_block'>G币</div>
@@ -431,16 +431,7 @@
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            wx.uploadImage({
-              localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
-              isShowProgressTips: 1, // 默认为1，显示进度提示
-              success: function (res) {
-                var serverId = res.serverId; // 返回图片的服务器端ID
-                alert(serverId)
-              },fail:function (res) {
-                alert(res)
-              }
-            });
+            document.getElementById('id_test').src=localIds[0]
           }
         });
         return;
