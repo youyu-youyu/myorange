@@ -35,8 +35,8 @@
       return {
         loading: false,
         userPhoto: "",
-        userMobilPhoneInput: "",
-        userBirthdayInput: "",
+        // userMobilPhoneInput: "",
+        // userBirthdayInput: "",
       }
     },
     mounted() {
