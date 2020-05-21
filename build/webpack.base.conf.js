@@ -25,7 +25,6 @@ module.exports = {
     "vue-router": "VueRouter",
     "vuex": "Vuex",
     "vue-resource": "VueResource",
-    "weixin-js-sdk":"weixin-js-sdk"
   },
   output: {
     path: config.build.assetsRoot,
