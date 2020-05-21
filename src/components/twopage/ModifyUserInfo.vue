@@ -40,10 +40,8 @@
       }
     },
     mounted() {
-      this.basicInfoData = this.$store.state.userInfoData;
-      this.$refs.userNameInput.value = this.basicInfoData.userName;
-      this.$refs.userMobilPhoneInput.value = this.basicInfoData.userPhone;
-      this.$refs.userBirthdayInput.value = this.basicInfoData.brithday;
+      this.getPersonInfo();
+
     },
     methods: {
       //更换头像
@@ -61,6 +59,26 @@
         });
 
 
+      },
+      //获取个人信息
+      getPersonInfo() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .get(`${global_msg.method.getBaseUrl()}/api/mall/extdata`,
+            {
+              params: {}
+            }, {emulateJSON: true})
+          .then(res => {
+            if (res.body.err_code === 0) {
+              document.getElementById('userPhoto_img').src = res.body.data.userPhoto
+              this.$refs.userNameInput.value = res.body.data.userName;
+              this.$refs.userMobilPhoneInput.value = res.body.data.userPhone;
+              this.$refs.userBirthdayInput.value = res.body.data.brithday;
+            } else {
+              alert("获取门票信息失败：" + res.body.message);
+            }
+          })
       },
       //上传图片到服务器
       uploadPictureToServer(file) {
