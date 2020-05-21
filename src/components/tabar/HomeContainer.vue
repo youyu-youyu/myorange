@@ -446,6 +446,7 @@
             if (result.indexOf("qrStorageTicket") !== -1) {
               // ticketJSON = JSON.parse(ticketJSON);
               this.storageLottery(result);
+
             }
 
             /**
@@ -563,6 +564,7 @@
 
       //扫码存彩票
       storageLottery(tickeyJSON) {
+        alert(tickeyJSON.deviceId)
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
