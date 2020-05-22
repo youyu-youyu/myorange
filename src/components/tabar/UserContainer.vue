@@ -208,7 +208,9 @@
                 "userId": this.userId,
                 "shopId": this.$store.state.selectedShopData.shopId
               }
+
             }, {emulateJSON: true})
+        alert(222)
           .then(res => {
             alert(333)
             alert(res.body.data)
