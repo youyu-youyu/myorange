@@ -190,26 +190,24 @@
       },
       //幸运大转盘游戏
       fortuneWheel() {
-        let _this = this
         alert(111)
-        _this.$http
+        this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）
           .get('http://game.020orange.com',
             {
               params: {
-                "userName": _this.userName,
-                "userPhoto": _this.userPhoto,
-                "coin": _this.userTotalCoin,
-                "userId": _this.userId,
-                "shopId": _this.$store.state.selectedShopData.shopId
+                "userName": this.userName,
+                "userPhoto": this.userPhoto,
+                "coin": this.userTotalCoin,
+                "userId": this.userId,
+                "shopId": this.$store.state.selectedShopData.shopId
               }
 
             }, {emulateJSON: true})
         alert(222)
           .then(res => {
             alert(333)
-            alert(res.body.data)
             // if (res.body.err_code === 0) {
             //   alert("进入游戏大转盘游戏成功")
             // } else {
