@@ -197,15 +197,15 @@
         this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）
-          .get(`http://game.020orange.com`,
+          .post('http://game.020orange.com',
             {
-              params: {
-                "userName": this.userName,
-                "userPhoto": this.userPhoto,
-                "coin": this.userTotalCoin,
-                "userId": this.userId,
-                "shopId": this.$store.state.selectedShopData.shopId
-              }
+              // params: {
+              "userName": this.userName,
+              "userPhoto": this.userPhoto,
+              "coin": this.userTotalCoin,
+              "userId": this.userId,
+              "shopId": this.$store.state.selectedShopData.shopId
+              // }
             }, {emulateJSON: true})
           .then(res => {
             console.log(res.body)
