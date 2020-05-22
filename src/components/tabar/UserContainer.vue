@@ -190,16 +190,9 @@
       },
       //幸运大转盘游戏
       fortuneWheel() {
-        this.$router.push({
-          path: 'http://game.020orange.com',
-          query: {
-            "userName": this.userName,
-            "userPhoto": this.userPhoto,
-            "coin": this.userTotalCoin,
-            "userId": this.userId,
-            "shopId": this.$store.state.selectedShopData.shopId
-          }
-        })
+        document.location = "http://game.020orange.com?userName="
+          + this.userName + "&userPhoto=" + this.userPhoto + "&coin=" + this.userTotalCoin +
+          "&userId=" + this.userId + "&shopId=" + this.$store.state.selectedShopData.shopId
       }
     }
 
