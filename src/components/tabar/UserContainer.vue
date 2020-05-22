@@ -193,11 +193,11 @@
         this.$router.push({
           path: 'http://game.020orange.com',
           query: {
-            userName: this.userName,
-            userPhoto: this.userPhoto,
-            coin: this.userTotalCoin,
-            userId: this.userId,
-            shopId: this.$store.state.selectedShopData.shopId
+            "userName": this.userName,
+            "userPhoto": this.userPhoto,
+            "coin": this.userTotalCoin,
+            "userId": this.userId,
+            "shopId": this.$store.state.selectedShopData.shopId
           }
         })
       }
