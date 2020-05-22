@@ -162,7 +162,7 @@
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
       // localStorage.setItem("token","")
-      this.orderPaymentMini();
+
       this.getCoinRechargePackages();
       this.getPrePayPackages();
       //拿到携带的充值成功或失败的状态
@@ -220,7 +220,7 @@
         if (this.$store.state.type === 1) {
           this.orderPaymentH5();
         } else {
-          // this.orderPaymentMini();
+          this.orderPaymentMini();
         }
       },
       clickEvent(index, isPackage) {
