@@ -174,39 +174,35 @@
     },
 
     methods: {
-      //接收个人基本信息和账户信息
+      //接收个人基本信息
       getPersonMessage() {
         let basicInfoData = this.$store.state.userInfoData;
         this.userName = basicInfoData.userName;
         this.userPhoto = basicInfoData.userPhoto;
         this.userId = basicInfoData.userId;
         this.userTotalScore = basicInfoData.userScore;
-        console.log("basicInfoData")
-        console.log(basicInfoData)
-
+        //接收个人账户信息
         let accountInfoData = this.$store.state.userAccountData;
         this.userTotalLottery = accountInfoData.userTotalLottery;
         this.userTotalMoney = accountInfoData.userMoney;
         this.userTotalCoin = accountInfoData.userCoin;
         this.coupons = accountInfoData.coupons;
-        console.log("accountInfoData")
-        console.log(accountInfoData)
       },
       //幸运大转盘游戏
       fortuneWheel() {
+        let _this = this
         alert(111)
         this.$http
-        //定义为全局使用global_msg.server_url
-        //get请求（后端提供url）
-        alert(222)
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
           .get('http://game.020orange.com',
             {
               params: {
-                "userName": this.userName,
-                "userPhoto": this.userPhoto,
-                "coin": this.userTotalCoin,
-                "userId": this.userId,
-                "shopId": this.$store.state.selectedShopData.shopId
+                "userName": _this.userName,
+                "userPhoto": _this.userPhoto,
+                "coin": _this.userTotalCoin,
+                "userId": _this.userId,
+                "shopId": _this.$store.state.selectedShopData.shopId
               }
 
             }, {emulateJSON: true})
