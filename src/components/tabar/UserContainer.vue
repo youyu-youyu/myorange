@@ -192,7 +192,7 @@
       fortuneWheel() {
         let _this = this
         alert(111)
-        this.$http
+        _this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）
           .get('http://game.020orange.com',
