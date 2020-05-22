@@ -139,8 +139,8 @@
         </div>
       </div>
     </div>
-    <button @click="goMini()">跳转小程序</button>
-    <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>
+    <!--    <button @click="goMini()">跳转小程序</button>-->
+    <!--    <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>-->
   </div>
 </template>
 <script>
@@ -567,7 +567,7 @@
           .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
             {
               "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
-              "password": tickeyJSON.password,
+              "password": tickeyJSON.password, "orderNo": tickeyJSON.orderNo
             }, {emulateJSON: true})
           .then(res => {
             if (res.body.err_code === 0) {
