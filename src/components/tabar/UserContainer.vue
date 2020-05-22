@@ -124,7 +124,7 @@
     <div class="mui-content">
       <div class="mui_content_user_top">休闲驿站</div>
       <ul class="mui-table-view mui-grid-view mui-grid-9">
-        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
+        <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" @click="fortuneWheel()">
           <a href="#">
             <img src="../../assets/user/zhuanpan.png"/>
             <div class="mui-media-body">幸运大转盘</div>
@@ -148,6 +148,7 @@
 </template>
 <script>
   import "../css/user.less";
+  import global_msg from "../js/global";
 
   export default {
     data() {
@@ -169,20 +170,54 @@
 
     },
     mounted() {
-      let basicInfoData = this.$store.state.userInfoData;
-      this.userName = basicInfoData.userName;
-      this.userPhoto = basicInfoData.userPhoto;
-      this.userId = basicInfoData.userId;
-      this.userTotalScore = basicInfoData.userScore;
-
-      let accountInfoData = this.$store.state.userAccountData;
-      this.userTotalLottery = accountInfoData.userTotalLottery;
-      this.userTotalMoney = accountInfoData.userMoney;
-      this.userTotalCoin = accountInfoData.userCoin;
-      this.coupons = accountInfoData.coupons;
+      this.getPersonMessage();
     },
 
-    methods: {}
+    methods: {
+      //接收个人基本信息和账户信息
+      getPersonMessage() {
+        let basicInfoData = this.$store.state.userInfoData;
+        this.userName = basicInfoData.userName;
+        this.userPhoto = basicInfoData.userPhoto;
+        this.userId = basicInfoData.userId;
+        this.userTotalScore = basicInfoData.userScore;
+        console.log("basicInfoData")
+        console.log(basicInfoData)
+
+        let accountInfoData = this.$store.state.userAccountData;
+        this.userTotalLottery = accountInfoData.userTotalLottery;
+        this.userTotalMoney = accountInfoData.userMoney;
+        this.userTotalCoin = accountInfoData.userCoin;
+        this.coupons = accountInfoData.coupons;
+        console.log("accountInfoData")
+        console.log(accountInfoData)
+      },
+      //幸运大转盘游戏
+      fortuneWheel() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .get(`http://game.020orange.com`,
+            {
+              params: {
+                "userName": this.userName,
+                "userPhoto": this.userPhoto,
+                "coin": this.userTotalCoin,
+                "userId": this.userId,
+                "shopId": this.$store.state.selectedShopData.shopId
+              }
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log(res.body)
+            alert(res.body.data)
+            if (res.body.err_code === 0) {
+              alert("进入游戏大转盘游戏成功")
+            } else {
+              alert("进入游戏大转盘游戏失败：" + res.body.message);
+            }
+          })
+      }
+    }
 
   }
 </script>
