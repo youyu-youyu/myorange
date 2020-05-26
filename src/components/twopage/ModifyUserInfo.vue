@@ -9,7 +9,7 @@
       </div>
       <input type="file" accept="image/*" @change="modifyPhoto()" class="hiddenInput"/>
       <div class="modify_inner">
-        <input type="text" placeholder="请输入昵称" ref="userNameInput" readonly="readonly">
+        <input type="text" placeholder="请输入昵称" ref="userNameInput">
         <input type="tel" placeholder="请输入电话" ref="userMobilPhoneInput">
         <input type="text" placeholder="请输入生日" ref="userBirthdayInput" id="userBirthday">
         <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
@@ -78,9 +78,9 @@
               this.$refs.userNameInput.value = userData.userName;
               this.$refs.userMobilPhoneInput.value = userData.userPhone;
               this.$refs.userBirthdayInput.value = userData.brithday;
-              if (this.$refs.userBirthdayInput.value !== "") {
-                document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
-              }
+              // if (this.$refs.userBirthdayInput.value !== "") {
+              //   document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
+              // }
             } else {
               alert("获取个人信息失败：" + res.body.message);
             }
