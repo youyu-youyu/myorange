@@ -14,7 +14,7 @@
               <!--              <router-link to="/changepassword">-->
               <button @click="update(index)">修改密码</button>
               <!--              </router-link>-->
-              <button>解绑</button>
+              <button @click="unBound(index)">解绑</button>
             </td>
           </tr>
         </table>
@@ -43,14 +43,14 @@
     data() {
       return {
         entityCardIndex: 0,
-        entityCardsList: [
-          {
-            "cardNo": "97178BAF"
-          },
-          {
-            "cardNo": "379591AF"
-          }
-        ],
+        // entityCardsList: [
+        //   {
+        //     "cardNo": "97178BAF"
+        //   },
+        //   {
+        //     "cardNo": "379591AF"
+        //   }
+        // ],
 
       }
     },
@@ -58,6 +58,32 @@
       this.getEntityCards();
     },
     methods: {
+      //解绑
+      unBound(index) {
+        this.entityCardIndex = index;
+        console.log(this.entityCardsList[this.entityCardIndex].cardNo)
+        console.log(this.$store.state.selectedShopData.shopId)
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/entitycards/unbind`,
+            {
+              "shopId": this.$store.state.selectedShopData.shopId,
+              "cardNo	": this.entityCardsList[this.entityCardIndex].cardNo,
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log(res.body)
+            console.log(this.entityCardsList[this.entityCardIndex].cardNo)
+            console.log(this.$store.state.selectedShopData.shopId)
+            if (res.body.err_code === 0) {
+              //如果成功，从页面移除tr
+              alert("解绑成功！")
+            } else {
+              alert("解绑失败:" + res.body.message)
+            }
+          });
+
+      },
       //修改密码
       update(index) {
         this.entityCardIndex = index;
@@ -81,7 +107,7 @@
           .then(res => {
             console.log(res.body.data)
             if (res.body.err_code === 0) {
-              // this.entityCardsList = res.body.data
+              this.entityCardsList = res.body.data
             } else {
               alert("获取实体卡号失败" + res.body.message)
             }
