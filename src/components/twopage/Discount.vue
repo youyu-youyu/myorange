@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="discount_right">
-              <div class="">礼品券</div>
+              <div class="" style="padding: 5px">礼品券</div>
               <div class="">立即兑换</div>
             </div>
             <!--            <button class="mui-pull-right discount_btn">立即使用</button>-->
@@ -153,7 +153,7 @@
     display: flex;
     padding: 10px;
     background: #ffffff;
-    color: #7d7c7c;
+    color: #484848;
 
     .discount-inner-item {
       flex: 1;
@@ -219,6 +219,7 @@
 
   .discount_txt {
     font-size: 15px;
+    float: right;
   }
 
   .discount_backer {
