@@ -131,6 +131,7 @@
             // alert(res.body.data)
             if (res.body.err_code === 0) {
               alert('更新个人信息成功')
+              this.$router.go(-1);
             } else
               alert('更新个人信息失败:' + res.body.message)
           })
@@ -192,7 +193,7 @@
     width: 100% !important;
   }
 
-  .mx-icon-calendar {
-    top: 40% !important;
-  }
+  /*.mx-icon-calendar {*/
+  /*  top: 40% !important;*/
+  /*}*/
 </style>
