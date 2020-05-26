@@ -11,9 +11,9 @@
           <tr v-for="(item,index) in entityCardsList">
             <td>{{item.cardNo}}</td>
             <td>
-              <router-link to="/changepassword">
-                <button>修改密码</button>
-              </router-link>
+              <!--              <router-link to="/changepassword">-->
+              <button @click="update(index)">修改密码</button>
+              <!--              </router-link>-->
               <button>解绑</button>
             </td>
           </tr>
@@ -42,6 +42,7 @@
     name: "PhysicalCard",
     data() {
       return {
+        entityCardIndex: 0,
         entityCardsList: [
           {
             "cardNo": "97178BAF"
@@ -55,10 +56,15 @@
     },
     mounted() {
       this.getEntityCards();
-      console.log(this.entityCardsList)
-      console.log(this.entityCardsList[0].cardNo)
     },
     methods: {
+      //修改密码
+      update(index) {
+        this.entityCardIndex = index;
+        console.log(this.entityCardsList[this.entityCardIndex].cardNo)
+        this.$router.push({path: '/changepassword', query: {cardNo: this.entityCardsList[this.entityCardIndex].cardNo}})
+        //传当前所点击的卡号
+      },
       //获取实体卡号
       getEntityCards() {
 
@@ -84,17 +90,15 @@
       },
       // 添加实体卡(绑定)
       addEntityCards() {
-        let i = 0;
-        for (i; i < this.entityCardsList.length; i++) {
-          console.log(this.entityCardsList[i].cardNo)
-        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`,
             {
               "shopId": this.$store.state.selectedShopData.shopId,
-              "cardNo": this.entityCardsList[i].cardNo,
+              //传哪个cardNo？
+              // "cardNo": this.entityCardsList[i].cardNo,
+              "cardNo": "",
               "password": "",
 
             }, {emulateJSON: true})

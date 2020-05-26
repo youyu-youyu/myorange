@@ -4,27 +4,31 @@
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
       <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=userPhoto>
-      <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">
-        更换头像
+      <!--      <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">-->
+      <!--        更换头像-->
+      <!--      </div>-->
+      <div class="setting_right" @click="uploadHeadImg">
+        <div class="caption">更改头像</div>
       </div>
-      <input type="file" accept="image/*" @change="modifyPhoto()" class="hiddenInput"/>
-      <div class="modify_inner">
-        <input type="text" placeholder="请输入昵称" ref="userNameInput">
-        <input type="tel" placeholder="请输入手机号" ref="userMobilPhoneInput">
-        <div>
-          <date-picker v-model="time1" valueType="format" ref="userBirthdayInput" id="userBirthday"
-                       placeholder="请输入生日"></date-picker>
-        </div>
-        <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
+      <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
+    </div>
+    <div class="modify_inner">
+      <input type="text" placeholder="请输入昵称" ref="userNameInput">
+      <input type="tel" placeholder="请输入手机号" ref="userMobilPhoneInput">
+      <div>
+        <date-picker v-model="time1" valueType="format" ref="userBirthdayInput" id="userBirthday"
+                     placeholder="请输入生日"></date-picker>
       </div>
-      <div class="currentLevel_level">
-        <div class="currentLevel">
-          当前等级:黄金会员
-        </div>
-        <button class="userInfo_btn">提升等级</button>
+      <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
+    </div>
+    <div class="currentLevel_level">
+      <div class="currentLevel">
+        当前等级:黄金会员
       </div>
+      <button class="userInfo_btn">提升等级</button>
     </div>
   </div>
+  <!--  </div>-->
 </template>
 
 <script>
@@ -49,6 +53,22 @@
 
     },
     methods: {
+      // 打开图片上传
+      uploadHeadImg: function () {
+        this.$el.querySelector('.hiddenInput').click()
+      },
+      // 将头像显示
+      handleFile: function (e) {
+        let $target = e.target
+        let file = $target.files[0]
+        let reader = new FileReader()
+        reader.onload = (data) => {
+          let res = data.target
+          this.userPhoto = res.result
+          console.log(this.userPhoto)
+        }
+        reader.readAsDataURL(file)
+      },
 
       showDatePicker() {
         this.$refs.pickerData.open();
@@ -121,7 +141,7 @@
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
             {
-              "headimg": "",
+              "headimg": this.userPhoto,
               "username": this.$refs.userNameInput.value,
               "phone": phone,
               "birthday": this.$refs.userBirthdayInput.value,
@@ -191,6 +211,10 @@
 
   .mx-datepicker {
     width: 100% !important;
+  }
+
+  .setting_right {
+    margin-top: 50px;
   }
 
   /*.mx-icon-calendar {*/
