@@ -26,6 +26,7 @@
         <img src="../../assets/project/xiangmu_card1.png" class="physicalCard_img"/>
         <router-link to="/addcard">
           <button class="physicalCard_btn">添加实体卡</button>
+          <!--        <button class="physicalCard_btn" @click="addEntityCards()">添加实体卡</button>-->
         </router-link>
       </div>
     </div>
@@ -55,9 +56,10 @@
     mounted() {
       this.getEntityCards();
       console.log(this.entityCardsList)
+      console.log(this.entityCardsList[0].cardNo)
     },
     methods: {
-      //已有实体卡号获取
+      //获取实体卡号
       getEntityCards() {
 
         this.$http
@@ -75,11 +77,35 @@
             if (res.body.err_code === 0) {
               // this.entityCardsList = res.body.data
             } else {
-              alert("获取支付套餐失败" + res.body.message)
+              alert("获取实体卡号失败" + res.body.message)
             }
           })
 
-      }
+      },
+      // 添加实体卡(绑定)
+      addEntityCards() {
+        let i = 0;
+        for (i; i < this.entityCardsList.length; i++) {
+          console.log(this.entityCardsList[i].cardNo)
+        }
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`,
+            {
+              "shopId": this.$store.state.selectedShopData.shopId,
+              "cardNo": this.entityCardsList[i].cardNo,
+              "password": "",
+
+            }, {emulateJSON: true})
+          .then(res => {
+            if (res.body.err_code === 0) {
+            } else {
+              alert("添加实体卡失败:" + res.body.message)
+            }
+
+          });
+      },
 
     },
     components: {
