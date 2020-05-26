@@ -215,6 +215,7 @@
     font-size: 15px;
     /*line-height: 60px;*/
     /*white-space: initial;*/
+    /*qq*/
   }
 
   .discount_txt {
