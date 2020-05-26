@@ -3,24 +3,31 @@
     <backbar title="优惠券"></backbar>
     <!-- 顶部滑动条 -->
     <div class="discount">
-
       <div class="discount-inner" style="text-align: center">
-        <a class="" @click="discountEvent(0)" >可使用({{availableDiscountList.length}})</a>
-        <a class="" @click="discountEvent(1)" style="margin-left: 15px">已过期({{expiredDiscountList.length}})</a>
-        <a class="mui-control-item" @click="discountEvent(2)"  style="margin-left: 15px">已使用({{usedDiscountList.length}})</a>
+        <!--        <span class="discount-inner-item" @click="discountEvent(0)">可使用({{availableDiscountList.length}})</span>-->
+        <span class="discount-inner-item" @click="discountEvent(0)">可使用</span>
+        <!--        <span class="discount-inner-item" @click="discountEvent(1)">已过期({{expiredDiscountList.length}})</span>-->
+        <span class="discount-inner-item" @click="discountEvent(1)">已过期</span>
+        <!--        <span class="discount-inner-item" @click="discountEvent(2)">已使用({{usedDiscountList.length}})</span>-->
+        <span class="discount-inner-item" @click="discountEvent(2)">已使用</span>
       </div>
 
       <div id="item1mobile" class="mui-slider-item mui-control-content mui-active item1">
-        <ul class="mui-table-view mui-table-view-chevron" v-for="(item,index) in discountShowList">
+        <!--                <ul class="mui-table-view mui-table-view-chevron discount_ul" v-for="(item,index) in discountShowList">-->
+        <ul class="mui-table-view-chevron discount_ul" v-for="(item,index) in discountShowList">
           <li class="mui-table-view-cell mui-media">
-            <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>
+            <!--            <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>-->
             <div class="mui-media-body discount_body" style="padding-left: 10px">
               <div class="mui-ellipsis couponname">{{item.couponName}}</div>
               <div class="deductMoney" style="float: left;padding-left: 10px;font-size: 30px;color: orange;">
                 {{item.deductMoney}}
               </div>
             </div>
-            <button class="mui-pull-right discount_btn">立即使用</button>
+            <div class="discount_right">
+              <div class="">礼品券</div>
+              <div class="">立即兑换</div>
+            </div>
+            <!--            <button class="mui-pull-right discount_btn">立即使用</button>-->
           </li>
           <li class="mui-table-view-cell mui-media">
             <a style="padding: 10px 10px;">
@@ -28,7 +35,7 @@
               <div class="mui-media-body discount_txt">满足条件：需满{{item.buyMoney}}</div>
             </a>
             <a style="padding: 10px 10px;">
-              <div class="mui-pull-left" style="width: 50%">
+              <div class="mui-pull-left" style="width: 50%;font-size: 15px">
                 使用模块：{{item.useModule===1?"全部":item.useModule===2?"餐饮":"套餐"}}
               </div>
             </a>
@@ -48,7 +55,6 @@
         availableDiscountList: "",
         usedDiscountList: "",
         expiredDiscountList: "",
-
         discountShowList: "",
 
 
@@ -143,6 +149,18 @@
     margin-top: 50px;
   }
 
+  .discount-inner {
+    display: flex;
+    padding: 10px;
+    background: #ffffff;
+    color: #7d7c7c;
+
+    .discount-inner-item {
+      flex: 1;
+
+    }
+  }
+
   .mui-scroll {
     // margin-top: 5px;
     background: #e0e0e0;
@@ -155,23 +173,26 @@
   }
 
   .mui-control-content {
-    // position: absolute !important;
-    margin-top: 10px;
     height: 100%;
   }
 
-  button {
-    width: 100px;
-    height: 40px;
-  }
+  /*button {*/
+  /*  width: 100px;*/
+  /*  height: 40px;*/
+  /*}*/
 
-  .discount_btn {
-    border-radius: 20px;
-    margin-top: -45px;
-    margin-right: -65px;
-    background-color: orange;
+  /*.discount_btn {*/
+  /*  border-radius: 20px;*/
+  /*  margin-top: -25px;*/
+  /*  margin-right: -55px;*/
+  /*  background-color: orange;*/
 
-    // margin-left: 40px;
+  /*  // margin-left: 40px;*/
+  /*}*/
+  .discount_right {
+    float: right;
+    margin-top: -25px;
+    margin-right: -55px;
   }
 
   .discount__img {
@@ -188,10 +209,16 @@
 
   }
 
+
   .discount_date {
     width: 50%;
+    font-size: 15px;
     /*line-height: 60px;*/
     /*white-space: initial;*/
+  }
+
+  .discount_txt {
+    font-size: 15px;
   }
 
   .discount_backer {
@@ -201,9 +228,16 @@
   .item1 {
     ul {
       /*border-bottom: 1px solid #e0e0e0;*/
-      height: 160px !important;
+      width: 95%;
+      margin: 10px auto;
+      /*height: 160px !important;*/
+      padding-left: 0px;
+      border-radius: 15px;
+      border: 1px solid transparent !important;
+      background: #ffffff;
     }
   }
+
 </style>
 
 
