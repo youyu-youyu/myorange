@@ -18,7 +18,8 @@
     "qrcodejs2": "^0.0.2",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
-    "vue-waterfall2": "^1.9.6"
+    "vue-waterfall2": "^1.9.6",
+    "vue2-datepicker": "^3.5.0"
   },
   "devDependencies": {
     "@babel/core": "^6.0.0-bridge.1",

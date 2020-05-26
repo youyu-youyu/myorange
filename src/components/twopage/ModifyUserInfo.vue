@@ -10,8 +10,11 @@
       <input type="file" accept="image/*" @change="modifyPhoto()" class="hiddenInput"/>
       <div class="modify_inner">
         <input type="text" placeholder="请输入昵称" ref="userNameInput">
-        <input type="tel" placeholder="请输入电话" ref="userMobilPhoneInput">
-        <input type="text" placeholder="请输入生日" ref="userBirthdayInput" id="userBirthday">
+        <input type="tel" placeholder="请输入手机号" ref="userMobilPhoneInput">
+        <div>
+          <date-picker v-model="time1" valueType="format" ref="userBirthdayInput" id="userBirthday"
+                       placeholder="请输入生日"></date-picker>
+        </div>
         <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
       </div>
       <div class="currentLevel_level">
@@ -28,11 +31,15 @@
   import BackBar from "../public/backBar";
   import loading from "../public/loading/loading";
   import global_msg from "../js/global";
+  import DatePicker from 'vue2-datepicker';
+  import 'vue2-datepicker/index.css';
+
 
   export default {
     name: "ModifyUserInfo",
     data() {
       return {
+        time1: null,
         loading: false,
         userPhoto: "",
       }
@@ -77,7 +84,7 @@
               this.userPhoto = userData.userPhoto;
               this.$refs.userNameInput.value = userData.userName;
               this.$refs.userMobilPhoneInput.value = userData.userPhone;
-              this.$refs.userBirthdayInput.value = userData.brithday;
+              this.time1 = userData.brithday;
               // if (this.$refs.userBirthdayInput.value !== "") {
               //   document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
               // }
@@ -104,6 +111,11 @@
 
       //提交修改的用户信息
       submitModifyUserInfo() {
+        let phone = this.$refs.userMobilPhoneInput.value
+        if (!(/^1[3456789]\d{9}$/.test(phone))) {
+          alert("手机号有误，请重填");
+          return false;
+        }
         this.$http
           //定义为全局使用global_msg.server_url
           //post请求（后端提供url）
@@ -111,7 +123,7 @@
             {
               "headimg": "",
               "username": this.$refs.userNameInput.value,
-              "phone": this.$refs.userMobilPhoneInput.value,
+              "phone": phone,
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
           .then(res => {
@@ -128,7 +140,8 @@
     //如果修改信息，获取到input的信息，提交到服务器
     components: {
       BackBar,
-      loading
+      loading,
+      DatePicker
     }
   }
 </script>
@@ -173,5 +186,13 @@
     .currentLevel_level {
       margin-top: 50px;
     }
+  }
+
+  .mx-datepicker {
+    width: 100% !important;
+  }
+
+  .mx-icon-calendar {
+    top: 40% !important;
   }
 </style>
