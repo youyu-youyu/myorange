@@ -12,7 +12,7 @@
       </div>
       <input type="file" accept="image/*" @change="handleFile" class="hiddenInput"/>
     </div>
-    <div class="modify_inner">
+    <div class="modify_inner" style="width: 90%;margin: 0px auto">
       <input type="text" placeholder="请输入昵称" ref="userNameInput">
       <input type="tel" placeholder="请输入手机号" ref="userMobilPhoneInput">
       <div>
@@ -149,10 +149,7 @@
               "phone": phone,
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
-        console.log(this.userPhoto)
           .then(res => {
-            // alert(document.getElementById('userPhoto_img').src)
-            // alert(res.body.data)
             if (res.body.err_code === 0) {
               alert('更新个人信息成功')
               this.$router.go(-1);
@@ -191,10 +188,10 @@
       display: none;
     }
 
-    .modify_inner {
-      width: 90%;
-      margin: 0 auto;
-    }
+    /*.modify_inner {*/
+    /*  width: 90% !important;*/
+    /*  margin: 0px auto;*/
+    /*}*/
 
   }
 
