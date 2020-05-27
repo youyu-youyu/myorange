@@ -118,7 +118,6 @@
           .then(res => {
               if (res.body.err_code === 0) {
               } else {
-                alert("访问后台失败：" + res.body.message);
               }
             }
           )
