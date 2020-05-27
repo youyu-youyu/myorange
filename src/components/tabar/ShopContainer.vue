@@ -98,6 +98,7 @@
     created() {
       this.getShopCategory();
       this.getShopBanner();
+      this.backgroundAccess();
 
       //如果是从shopcardetail返回的页面，这个页面的count等于shopcardetail的count
       this.shopCarList = this.$store.state.shopCarList
@@ -105,7 +106,23 @@
 
     },
     methods: {
-
+      //后台访问
+      backgroundAccess() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .get(`${global_msg.method.getBaseUrl()}/mall/order/qxdd`,
+            {
+              params: {}
+            }, {emulateJSON: true})
+          .then(res => {
+              if (res.body.err_code === 0) {
+              } else {
+                alert("访问后台失败：" + res.body.message);
+              }
+            }
+          )
+      },
       //跳转购物车详情页面
       carDetailClick() {
         // console.log("传之前的:" + this.shopCarList)
@@ -113,7 +130,8 @@
         this.$router.push({
           path: '/shop/car/detail',
         });
-      },
+      }
+      ,
       // 点击添加
       addClick(index, isAdd) {
         this.currentSelectedProductIndex = index;
@@ -163,7 +181,8 @@
         }
         //强制刷新
         this.$forceUpdate()
-      },
+      }
+      ,
       categoryClickEvent(index) {
         this.productList = [];
         this.loading = true;
@@ -173,10 +192,12 @@
         this.categoryId = this.totalShopCategoryList[this.currentSelectedCategoryIndex].id;
         // console.log(this.totalShopCategoryList[this.currentSelectedCategoryIndex].id+"::111id")
         this.getProductList();
-      },
+      }
+      ,
       loadMore() {
         this.getProductList();
-      },
+      }
+      ,
       //主页分类
       getShopCategory() {
         this.$http
@@ -200,7 +221,8 @@
               alert("获取商城分类失败：" + res.body.message);
             }
           })
-      },
+      }
+      ,
       //主页banner
       getShopBanner() {
         this.$http
@@ -219,7 +241,8 @@
               alert("获取商城轮播图失败：" + res.body.message);
             }
           })
-      },
+      }
+      ,
 
       //商品列表
       getProductList() {
@@ -259,7 +282,8 @@
               alert("获取商品列表失败" + res.body.message);
             }
           })
-      },
+      }
+      ,
       //判断机型Android还是ios
       isAndroid() {
         let ua = navigator.userAgent, app = navigator.appVersion;
@@ -271,14 +295,16 @@
         if (isIOS) {
           return false;
         }
-      },
+      }
+      ,
 
 
     },
 
     beforeCreate() {
       console.log("ShopContainer 加载了1")
-    },
+    }
+    ,
     mounted() {
 
       // this.data = this.originData;
@@ -339,7 +365,8 @@
       //     if(e._isScroller) return;
       //     e.preventDefault();
       //   }, {passive: false}); //passive 参数不能省略
-    },
+    }
+    ,
     components: {
       loading
     }
