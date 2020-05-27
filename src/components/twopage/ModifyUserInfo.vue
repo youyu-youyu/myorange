@@ -65,6 +65,7 @@
         reader.onload = (data) => {
           let res = data.target
           this.userPhoto = res.result
+          console.log(222)
           console.log(this.userPhoto)
         }
         reader.readAsDataURL(file)
@@ -102,6 +103,8 @@
             if (res.body.err_code === 0) {
               let userData = res.body.data
               this.userPhoto = userData.userPhoto;
+              console.log(111)
+              console.log(this.userPhoto)
               this.$refs.userNameInput.value = userData.userName;
               this.$refs.userMobilPhoneInput.value = userData.userPhone;
               this.time1 = userData.brithday;
@@ -141,11 +144,12 @@
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
             {
-              "headimg": this.userPhoto,
+              "headimg": "",
               "username": this.$refs.userNameInput.value,
               "phone": phone,
               "birthday": this.$refs.userBirthdayInput.value,
             }, {emulateJSON: true})
+        console.log(this.userPhoto)
           .then(res => {
             // alert(document.getElementById('userPhoto_img').src)
             // alert(res.body.data)
@@ -188,25 +192,29 @@
     }
 
     .modify_inner {
-      width: 100%;
+      width: 90%;
+      margin: 0 auto;
     }
 
-    .userInfo_btn {
-      text-align: center;
-      width: 100px;
-      height: 40px;
-      margin-top: 20px;
-      left: 35%;
-      background: #00a1fe;
-    }
+  }
 
-    .currentLevel {
-      margin-top: 20px;
-    }
+  .userInfo_btn {
+    text-align: center;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+    left: 35%;
+    background: ghostwhite !important;
+    /*background: #00a1fe;*/
+  }
 
-    .currentLevel_level {
-      margin-top: 50px;
-    }
+  .currentLevel {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .currentLevel_level {
+    margin-top: 50px;
   }
 
   .mx-datepicker {
@@ -215,6 +223,11 @@
 
   .setting_right {
     margin-top: 50px;
+  }
+
+  .mx-input {
+    color: #000000 !important;
+    font-size: 16px !important;
   }
 
   /*.mx-icon-calendar {*/
