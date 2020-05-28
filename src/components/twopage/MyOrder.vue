@@ -30,8 +30,8 @@
                 data-wid="tab-top-subpage-4.html" @click="allClickEvent(3)">待收货
               </a>
             </div>
-            <div id="item1mobile" class=" mui-control-content mui-active">
-              <ul class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+            <div class=" mui-control-content mui-active">
+              <ul class=" mui-table-view-striped mui-table-view-condensed">
                 <li class="mui-table-view-cell myorder_padding" v-for="(item,index) in orderShowList"
                     @click="orderInfoClickEvent(index)">
                   <div class="mui-table">
