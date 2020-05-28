@@ -31,7 +31,7 @@
               </a>
             </div>
             <div class=" mui-control-content mui-active">
-              <ul class=" mui-table-view-striped mui-table-view-condensed">
+              <ul class="mui-table-view">
                 <li class="mui-table-view-cell myorder_padding" v-for="(item,index) in orderShowList"
                     @click="orderInfoClickEvent(index)">
                   <div class="mui-table">
