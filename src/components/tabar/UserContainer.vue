@@ -19,7 +19,7 @@
           </div>
           <div class="user_top_right">
             <img src="../../assets/user/diamond.png" style="width: 10px;">
-            <span style="line-height: 10px">钻石会员</span>
+            <span style="line-height: 10px">{{rankName}}</span>
           </div>
         </li>
       </ul>
@@ -156,6 +156,7 @@
         userName: "",
         userPhoto: "",
         userId: "",
+        rankName: "",
 
         userTotalScore: "",
         userTotalLottery: "",
@@ -181,6 +182,7 @@
         this.userPhoto = basicInfoData.userPhoto;
         this.userId = basicInfoData.userId;
         this.userTotalScore = basicInfoData.userScore;
+        this.rankName = basicInfoData.rankName
         //接收个人账户信息
         let accountInfoData = this.$store.state.userAccountData;
         this.userTotalLottery = accountInfoData.userTotalLottery;

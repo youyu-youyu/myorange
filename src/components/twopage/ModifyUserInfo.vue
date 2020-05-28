@@ -23,9 +23,9 @@
     </div>
     <div class="currentLevel_level">
       <div class="currentLevel">
-        当前等级:黄金会员
+        当前等级:{{this.$store.state.userInfoData.rankName}}
       </div>
-      <button class="userInfo_btn">提升等级</button>
+      <button class="userInfo_btn" @click="membershipLevelUpgrade()">提升等级</button>
     </div>
   </div>
   <!--  </div>-->
@@ -37,6 +37,7 @@
   import global_msg from "../js/global";
   import DatePicker from 'vue2-datepicker';
   import 'vue2-datepicker/index.css';
+  import {Toast, MessageBox} from "mint-ui"
 
 
   export default {
@@ -50,7 +51,6 @@
     },
     mounted() {
       this.getPersonInfo();
-
     },
     methods: {
       // 打开图片上传
@@ -89,6 +89,26 @@
         // });
 
 
+      },
+      //会员等级提升
+      membershipLevelUpgrade() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //get请求（后端提供url）
+          .get(`${global_msg.method.getBaseUrl()}/api/member/grading`,
+            {
+              params: {
+                "_timestamp": new Date().getTime()
+              }
+            }, {emulateJSON: true})
+          .then(res => {
+            console.log(res.body.data)
+            if (res.body.err_code === 0) {
+              Toast("会员等级提升成功")
+            } else {
+              alert("会员等级提升失败：" + res.body.message);
+            }
+          })
       },
       //获取个人信息
       getPersonInfo() {
@@ -139,24 +159,41 @@
           alert("手机号有误，请重填");
           return false;
         }
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
-            {
-              "headimg": "",
-              "username": this.$refs.userNameInput.value,
-              "phone": phone,
-              "birthday": this.$refs.userBirthdayInput.value,
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              alert('更新个人信息成功')
-              this.$router.go(-1);
-            } else
-              alert('更新个人信息失败:' + res.body.message)
-          })
+        MessageBox({
+          title: '提示',
+          message: "生日只可修改一次,确定修改成该生日?",
+          showCancelButton: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        }).then(action => {
+          if (action === 'confirm') {
+            //如果点确定，提交信息到服务器
+            document.getElementsByClassName('mx-input').setAttribute('pointer-events', 'none')
+            document.getElementById('userBirthday').setAttribute('pointer-events', 'none')
+            this.$http
+              //定义为全局使用global_msg.server_url
+              //post请求（后端提供url）
+              .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
+                {
+                  "headimg": "",
+                  "username": this.$refs.userNameInput.value,
+                  "phone": phone,
+                  "birthday": this.$refs.userBirthdayInput.value,
+                }, {emulateJSON: true})
+              .then(res => {
+                if (res.body.err_code === 0) {
+                  alert('更新个人信息成功')
+                  this.$router.go(-1);
+                } else
+                  alert('更新个人信息失败:' + res.body.message)
+              })
+          } else {
+            // this.$router.go(-1)
+          }
+
+        });
       },
+
 
     },
     //如果修改信息，获取到input的信息，提交到服务器
