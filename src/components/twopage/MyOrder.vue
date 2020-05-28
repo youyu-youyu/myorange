@@ -11,31 +11,31 @@
              mui-segmented-control-inverted">
             <div class="mui-scroll">
               <a
-                class="mui-control-item mui-active"
-                data-wid="tab-top-subpage-1.html" @click="allClickEvent(0)">全部
+                class="mui-control-item"
+                @click="allClickEvent(0)">全部
                 <!--  显示全部支付和未支付-->
               </a>
               <a
                 class="mui-control-item"
-                data-wid="tab-top-subpage-2.html" @click="allClickEvent(1)">待付款
+                @click="allClickEvent(1)">待付款
                 <!--  只显示没付款的-->
               </a>
               <a
                 class="mui-control-item"
-                data-wid="tab-top-subpage-3.html" @click="allClickEvent(2)">待发货
+                @click="allClickEvent(2)">待发货
                 <!-- 显示已付款未发货-->
               </a>
               <a
                 class="mui-control-item"
-                data-wid="tab-top-subpage-4.html" @click="allClickEvent(3)">待收货
+                @click="allClickEvent(3)">待收货
               </a>
             </div>
             <div class=" mui-control-content mui-active">
               <ul class="mui-table-view">
-                <li class="mui-table-view-cell myorder_padding" v-for="(item,index) in orderShowList"
+                <li class=" myorder_padding" v-for="(item,index) in orderShowList"
                     @click="orderInfoClickEvent(index)">
                   <div class="mui-table">
-                    <div class="mui-table-cell ">
+                    <div class="">
                       <span class="mui-ellipsis-2 myorder_txt ">订单号：{{item.order_sn}}</span>
                       <h5>创建订单时间：{{item.create_time}}</h5>
                       <p class="mui-h6 mui-ellipsis color_p">支付状态：{{item.status}}</p>
