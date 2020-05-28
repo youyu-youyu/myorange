@@ -16,9 +16,10 @@
       <input type="text" placeholder="请输入昵称" ref="userNameInput">
       <input type="tel" placeholder="请输入手机号" ref="userMobilPhoneInput">
       <div>
-        <date-picker v-model="time1" valueType="format" :editable="false"
-                     :disabled=false ref="userBirthdayInput"
+        <date-picker v-model="time1" valueType="format"
+                     ref="userBirthdayInput"
                      id="userBirthday"
+                     :disabled="disabled"
                      placeholder="请输入生日"></date-picker>
       </div>
       <button class="userInfo_btn" @click="submitModifyUserInfo()">提交</button>
@@ -38,23 +39,29 @@
   import loading from "../public/loading/loading";
   import global_msg from "../js/global";
   import DatePicker from 'vue2-datepicker';
+  import 'vue2-datepicker/locale/zh-cn';
   import 'vue2-datepicker/index.css';
   import {Toast, MessageBox} from "mint-ui"
 
 
   export default {
     name: "ModifyUserInfo",
+    props: {
+      disabled: {
+        default: ""
+      }
+    },
     data() {
       return {
         time1: null,
         loading: false,
         userPhoto: "",
-        editable: true
       }
     },
     mounted() {
       this.getPersonInfo();
-      document.getElementById('userBirthday').setAttribute('pointer-events', 'none')
+
+
     },
     methods: {
       // 打开图片上传
@@ -132,6 +139,10 @@
               this.$refs.userNameInput.value = userData.userName;
               this.$refs.userMobilPhoneInput.value = userData.userPhone;
               this.time1 = userData.brithday;
+              if (this.time1 !== "") {
+                //判断生日是否为空，不为空设置为不可编辑
+                this.disabled = true
+              }
               // if (this.$refs.userBirthdayInput.value !== "") {
               //   document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
               // }
@@ -172,8 +183,7 @@
         }).then(action => {
           if (action === 'confirm') {
             //如果点确定，提交信息到服务器
-            document.getElementById('userBirthday').setAttribute('pointer-events', 'none')
-            this.editable = true;
+            this.disabled = true
             this.$http
               //定义为全局使用global_msg.server_url
               //post请求（后端提供url）
@@ -191,8 +201,9 @@
                 } else
                   alert('更新个人信息失败:' + res.body.message)
               })
+            this.disabled = true;
           } else {
-            // this.$router.go(-1)
+            this.$router.go(-1)
           }
 
         });
@@ -266,6 +277,10 @@
   .mx-input {
     color: #000000 !important;
     font-size: 16px !important;
+  }
+
+  .mx-input.disabled {
+    color: #444343 !important;
   }
 
   /*.mx-icon-calendar {*/
