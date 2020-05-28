@@ -5,10 +5,9 @@
     <div class="myorder_inner">
       <div class="record">
         <!-- 顶部滑动条 -->
-        <div id="slider" class="mui-slider record_slider">
+        <div id="slider" class="record_slider">
           <div
-            class="mui-scroll-wrapper  mui-segmented-control
-             mui-segmented-control-inverted">
+            class="">
             <div class="mui-scroll">
               <a
                 class="mui-control-item"
@@ -32,14 +31,14 @@
             </div>
             <div class="">
               <ul class="">
-                <li class=" myorder_padding" v-for="(item,index) in orderShowList"
+                <li class="myorder_padding" v-for="(item,index) in orderShowList"
                     @click="orderInfoClickEvent(index)">
                   <div class="">
                     <div class="">
-                      <span class="mui-ellipsis-2 myorder_txt ">订单号：{{item.order_sn}}</span>
+                      <span class=" myorder_txt ">订单号：{{item.order_sn}}</span>
                       <h5>创建订单时间：{{item.create_time}}</h5>
-                      <p class="mui-h6 mui-ellipsis color_p">支付状态：{{item.status}}</p>
-                      <span class="mui-h5">{{item.order_money}}￥</span>
+                      <p class=" color_p">支付状态：{{item.status}}</p>
+                      <span class="">{{item.order_money}}￥</span>
                     </div>
                   </div>
                 </li>
@@ -165,6 +164,9 @@
   };
 </script>
 <style lang="less" scoped>
+  .myorder_inner {
+    overflow: auto;
+  }
 
   .record_slider {
 
