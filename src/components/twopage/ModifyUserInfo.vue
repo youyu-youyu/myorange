@@ -174,39 +174,25 @@
           alert("手机号有误，请重填");
           return false;
         }
-        MessageBox({
-          title: '提示',
-          message: "生日只可修改一次,确定修改成该生日?",
-          showCancelButton: true,
-          confirmButtonText: "确定",
-          cancelButtonText: "取消"
-        }).then(action => {
-          if (action === 'confirm') {
-            //如果点确定，提交信息到服务器
-            this.disabled = true
-            this.$http
-              //定义为全局使用global_msg.server_url
-              //post请求（后端提供url）
-              .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
-                {
-                  "headimg": "",
-                  "username": this.$refs.userNameInput.value,
-                  "phone": phone,
-                  "birthday": this.$refs.userBirthdayInput.value,
-                }, {emulateJSON: true})
-              .then(res => {
-                if (res.body.err_code === 0) {
-                  alert('更新个人信息成功')
-                  this.$router.go(-1);
-                } else
-                  alert('更新个人信息失败:' + res.body.message)
-              })
-            this.disabled = true;
-          } else {
-            this.$router.go(-1)
-          }
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
+            {
+              "headimg": "",
+              "username": this.$refs.userNameInput.value,
+              "phone": phone,
+              "birthday": this.$refs.userBirthdayInput.value,
+            }, {emulateJSON: true})
+          .then(res => {
+            if (res.body.err_code === 0) {
+              alert('更新个人信息成功')
+              this.$router.go(-1);
+            } else
+              alert('更新个人信息失败:' + res.body.message)
+          })
+        this.disabled = true;
 
-        });
       },
 
 
