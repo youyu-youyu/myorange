@@ -5,45 +5,26 @@
     <div class="myorder_inner">
       <div class="record">
         <!-- 顶部滑动条 -->
-        <div id="slider" class="record_slider">
-          <div
-            class="">
-            <div class="mui-scroll">
-              <a
-                class="mui-control-item"
-                @click="allClickEvent(0)">全部
-                <!--  显示全部支付和未支付-->
-              </a>
-              <a
-                class="mui-control-item"
-                @click="allClickEvent(1)">待付款
-                <!--  只显示没付款的-->
-              </a>
-              <a
-                class="mui-control-item"
-                @click="allClickEvent(2)">待发货
-                <!-- 显示已付款未发货-->
-              </a>
-              <a
-                class="mui-control-item"
-                @click="allClickEvent(3)">待收货
-              </a>
-            </div>
-            <div class="">
-              <ul class="">
-                <li class="myorder_padding" v-for="(item,index) in orderShowList"
-                    @click="orderInfoClickEvent(index)">
-                  <div class="">
-                    <div class="">
-                      <span class=" myorder_txt ">订单号：{{item.order_sn}}</span>
-                      <h5>创建订单时间：{{item.create_time}}</h5>
-                      <p class=" color_p">支付状态：{{item.status}}</p>
-                      <span class="">{{item.order_money}}￥</span>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+        <div class="record_slider">
+          <div class="myorder_1">
+            <span class="myorder-item" @click="allClickEvent(0)">全部
+              <!--  显示全部支付和未支付-->
+            </span>
+            <span class="myorder-item" @click="allClickEvent(1)">待付款
+              <!--  只显示没付款的-->
+            </span>
+            <span class="myorder-item" @click="allClickEvent(2)">待发货
+              <!-- 显示已付款未发货-->
+            </span>
+            <span class="myorder-item" @click="allClickEvent(3)">待收货
+            </span>
+          </div>
+          <div class="myorder_padding" v-for="(item,index) in orderShowList"
+               @click="orderInfoClickEvent(index)">
+            <span class=" myorder_txt ">订单号：{{item.order_sn}}</span>
+            <h5>创建订单时间：{{item.create_time}}</h5>
+            <p class=" color_p">支付状态：{{item.status}}</p>
+            <span class="">{{item.order_money}}￥</span>
           </div>
         </div>
       </div>
@@ -165,39 +146,13 @@
 </script>
 <style lang="less" scoped>
   .myorder_inner {
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .record_slider {
-
     margin-top: 50px;
   }
 
-  .mui-scroll {
-    padding: 10px 0;
-    // margin-top: 5px;
-    background: #e0e0e0;
-    width: 100% !important;
-  }
-
-  #sliderSegmentedControl {
-    background-color: #fff;
-  }
-
-  .mui-scroll {
-    text-align: center !important;
-  }
-
-  .mui-slider-indicator {
-    text-align: left !important;
-  }
-
-  .mui-control-content {
-    // position: absolute !important;
-    margin-top: 50px;
-    min-height: 1100px;
-    /*height: 200px;*/
-  }
 
   .record_content_img {
     width: 100px;
@@ -210,14 +165,32 @@
   }
 
   .myorder_padding {
-    padding-left: 30px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    margin-top: 10px;
   }
 
   .color_p {
     color: #8f8f94 !important;
   }
+
+  .myorder_1 {
+    /*display: flex;*/
+    width: 100%;
+
+    .myorder-item {
+      /*flex: 1;*/
+      width: 25% !important;
+      /*只设置width：25%还不行，还得设置float: left;*/
+      float: left;
+      text-align: center;
+      background-color: #9e9e9e;
+      padding: 10px 0;
+    }
+  }
 </style>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/MyOrder.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/twopage/MyOrder.vue-->
