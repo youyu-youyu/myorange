@@ -4,23 +4,23 @@
     <loading v-if="loading"></loading>
     <back-bar title="彩票记录"></back-bar>
     <div class="coinRecord">
-      <div class="in-and-out">
-        <div class="in">
-          存入彩票:111
-        </div>
-        <div class="out">
-          扣除彩票:1323
-        </div>
-      </div>
+<!--      <div class="in-and-out">-->
+      <!--        <div class="in">-->
+      <!--          存入彩票:111-->
+      <!--        </div>-->
+      <!--        <div class="out">-->
+      <!--          扣除彩票:1323-->
+      <!--        </div>-->
+      <!--      </div>-->
       <table>
-        <th>机台名称</th>
+        <th>创建时间</th>
         <th>票数</th>
-        <th>类型</th>
-        <!--<tr v-for="(item,index) in bitRecordList">-->
-        <tr>
-          <td>3</td>
-          <td>2</td>
-          <td>1</td>
+        <th>类型ID</th>
+        <tr v-for="(item,index) in lotteryRecordList">
+          <!--        <tr>-->
+          <td>{{item.createdAt}}</td>
+          <td>{{item.lottery}}</td>
+          <td>{{item.machineId}}</td>
         </tr>
       </table>
     </div>
@@ -36,7 +36,7 @@
   export default {
     data() {
       return {
-        meiTuanRecordList: [],
+        lotteryRecordList: [],
         loading: false,
       };
     },
@@ -52,14 +52,15 @@
           //post请求（后端提供url）
           .post(`${global_msg.method.getBaseUrl()}/api/lottery/log`,
             {
-              "shopId": this.$store.state.selectedShopData.shopId,
+              "shop_id": this.$store.state.selectedShopData.shopId,
             }, {emulateJSON: true})
           .then(res => {
             this.loading = false;
-            console.log(res.body.data)
+            console.log("res.body")
+            console.log(res.body)
             if (res.body.err_code === 0) {
               if (res.body.data.length > 0)
-                this.meiTuanRecordList = res.body.data
+                this.lotteryRecordList = res.body.data
               else {
                 Toast("未请求到数据");
               }
