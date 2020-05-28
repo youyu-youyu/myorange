@@ -7,8 +7,7 @@
         <!-- 顶部滑动条 -->
         <div id="slider" class="mui-slider record_slider">
           <div
-            id="sliderSegmentedControl"
-            class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control
+            class="mui-scroll-wrapper  mui-segmented-control
              mui-segmented-control-inverted">
             <div class="mui-scroll">
               <a
