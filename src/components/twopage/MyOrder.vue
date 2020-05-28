@@ -30,11 +30,11 @@
                 @click="allClickEvent(3)">待收货
               </a>
             </div>
-            <div class=" mui-control-content mui-active">
-              <ul class="mui-table-view">
+            <div class="">
+              <ul class="">
                 <li class=" myorder_padding" v-for="(item,index) in orderShowList"
                     @click="orderInfoClickEvent(index)">
-                  <div class="mui-table">
+                  <div class="">
                     <div class="">
                       <span class="mui-ellipsis-2 myorder_txt ">订单号：{{item.order_sn}}</span>
                       <h5>创建订单时间：{{item.create_time}}</h5>
