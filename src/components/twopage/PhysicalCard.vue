@@ -43,7 +43,7 @@
     data() {
       return {
         entityCardIndex: 0,
-        entityCardsList:""
+        entityCardsList: ""
 
       }
     },
@@ -62,7 +62,7 @@
           .post(`${global_msg.method.getBaseUrl()}/api/entitycards/unbind`,
             {
               "shopId": this.$store.state.selectedShopData.shopId,
-              "cardNo	": this.entityCardsList[this.entityCardIndex].cardNo,
+              "cardNo": this.entityCardsList[this.entityCardIndex].cardNo,
             }, {emulateJSON: true})
           .then(res => {
             console.log(res.body)
