@@ -43,9 +43,9 @@
 
             }, {emulateJSON: true})
           .then(res => {
-            console.log(res.body.data)
             if (res.body.err_code === 0) {
               alert("添加成功！")
+              this.$router.go(-1)
             } else {
               alert("添加实体卡失败:" + res.body.message)
             }

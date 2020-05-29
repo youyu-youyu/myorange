@@ -43,14 +43,7 @@
     data() {
       return {
         entityCardIndex: 0,
-        // entityCardsList: [
-        //   {
-        //     "cardNo": "97178BAF"
-        //   },
-        //   {
-        //     "cardNo": "379591AF"
-        //   }
-        // ],
+        entityCardsList:""
 
       }
     },
