@@ -112,32 +112,9 @@
               alert("获取实体卡号失败" + res.body.message)
             }
           })
-
-      },
-      // 添加实体卡(绑定)
-      addEntityCards() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId,
-              //传哪个cardNo？
-              // "cardNo": this.entityCardsList[i].cardNo,
-              "cardNo": "",
-              "password": "",
-
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-            } else {
-              alert("添加实体卡失败:" + res.body.message)
-            }
-
-          });
-      },
-
+      }
     },
+
     components: {
       BackBar,
       loading
