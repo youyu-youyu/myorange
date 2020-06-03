@@ -171,7 +171,7 @@
       };
     },
     created: function () {
-      console.log("测试用例master")
+      alert("测试用例master")
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
