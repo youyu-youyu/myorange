@@ -26,9 +26,7 @@
     methods: {
       //直接提交卡号和密码
       submitAddCard() {
-
         this.addEntityCards();
-        document.location = window.location.href;
       },
       // 添加实体卡(绑定)
       addEntityCards() {

@@ -171,7 +171,15 @@
       };
     },
     created: function () {
-
+      if (this.type === 1) {
+        if (global_msg.company !== -1) {
+          this.getCode();
+        } else {
+          this.getLastSelectedShop();
+        }
+      } else {
+        this.miniLogin();
+      }
       /**
        * 处理购买套餐结果回调开始
        */
@@ -236,15 +244,7 @@
 
       // console.log("AE010055023".substring(4, 12))
       this.parseUrlBrand();
-      if (this.type === 1) {
-        if (global_msg.company !== -1) {
-          this.getCode();
-        } else {
-          this.getLastSelectedShop();
-        }
-      } else {
-        this.miniLogin();
-      }
+
 
     },
 
