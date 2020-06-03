@@ -69,15 +69,7 @@
               console.log(this.$store.state.selectedShopData.shopId)
               if (res.body.err_code === 0) {
                 alert("解绑成功！")
-                //如果成功，从页面移除tr
-                //首先获取给for循环中每一行数据加上删除事件
-                //获取到每行的table
-                //获取到每行的tr
-                // 解绑成功后，删除点击解绑的当前的tr
-                // 或者，解绑成功后返回主页，刷新页面
-                let index = index.parentNode.rowIndex;
-                let table = document.getElementById("table");
-                table.unBound(index);
+                this.getEntityCards()
               } else {
                 alert("解绑失败:" + res.body.message)
               }
