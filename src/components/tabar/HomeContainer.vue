@@ -27,7 +27,7 @@
                   src="../../assets/home/home_sing.png"
                 />
                 <div class="mui-media-body home_day">
-                  每日签到
+                  每日签
                   <p class="mui-ellipsis">签到赚积分</p>
                 </div>
               </router-link>
@@ -171,7 +171,6 @@
       };
     },
     created: function () {
-      alert("测试用例master")
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
