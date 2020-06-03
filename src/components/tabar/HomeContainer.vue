@@ -336,6 +336,7 @@
             case "orange":
               global_msg.setCompany(0);
               this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orange");
+              console.log("测试用例")
               break;
             case "galaxy":
               global_msg.setCompany(2);
