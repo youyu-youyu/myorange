@@ -650,7 +650,7 @@
               if (result === "1" || result === "0")
                 this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
-              // this.getJSSDKInfo()
+              this.getJSSDKInfo()
             } else {
               alert("获取店铺失败:" + res.body.message)
             }

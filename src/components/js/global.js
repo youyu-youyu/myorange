@@ -1,5 +1,7 @@
 const orange_url = 'https://plmokn28.020orange.com';
-const xiaozhu_url = 'https://plmokn28.020orange.com';
+//正式环境域名
+// staging
+const production = 'https://saas.orangecrt.com';
 const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
@@ -55,7 +57,7 @@ export default {
       if (company === 0) {
         return orange_url;
       } else if (company === 1) {
-        return xiaozhu_url;
+        return production;
       } else if (company === 2) {
         return galaxy_url;
       } else {
