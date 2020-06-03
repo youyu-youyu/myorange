@@ -26,7 +26,9 @@
     methods: {
       //直接提交卡号和密码
       submitAddCard() {
+
         this.addEntityCards();
+        document.location = window.location.href;
       },
       // 添加实体卡(绑定)
       addEntityCards() {
@@ -55,10 +57,9 @@
       scanAddCard() {
         ///扫码绑定
         let local = window.location.href;
-        alert(local);
         localStorage.setItem(global_msg.isProcessQrCode, "false");
         window.location.href = `http://sao315.com/w/api/saoyisao?redirect_uri=${local}`;
-        alert(window.location.href)
+        // alert(window.location.href)
         //扫码完成回到homeContainer页面处理信息
       },
 

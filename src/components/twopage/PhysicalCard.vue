@@ -11,9 +11,7 @@
           <tr v-for="(item,index) in entityCardsList">
             <td>{{item.cardNo}}</td>
             <td>
-              <!--              <router-link to="/changepassword">-->
               <button @click="update(index)">修改密码</button>
-              <!--              </router-link>-->
               <button @click="unBound(index)">解绑</button>
             </td>
           </tr>
@@ -51,6 +49,7 @@
       this.getEntityCards();
     },
     methods: {
+      //解绑后删除该列数据
       //解绑
       unBound(index) {
         this.entityCardIndex = index;
@@ -65,16 +64,25 @@
               "cardNo": this.entityCardsList[this.entityCardIndex].cardNo,
             }, {emulateJSON: true})
           .then(res => {
-            console.log(res.body)
-            console.log(this.entityCardsList[this.entityCardIndex].cardNo)
-            console.log(this.$store.state.selectedShopData.shopId)
-            if (res.body.err_code === 0) {
-              //如果成功，从页面移除tr
-              alert("解绑成功！")
-            } else {
-              alert("解绑失败:" + res.body.message)
+              console.log(res.body)
+              console.log(this.entityCardsList[this.entityCardIndex].cardNo)
+              console.log(this.$store.state.selectedShopData.shopId)
+              if (res.body.err_code === 0) {
+                alert("解绑成功！")
+                //如果成功，从页面移除tr
+                //首先获取给for循环中每一行数据加上删除事件
+                //获取到每行的table
+                //获取到每行的tr
+                // 解绑成功后，删除点击解绑的当前的tr
+                // 或者，解绑成功后返回主页，刷新页面
+                let index = index.parentNode.rowIndex;
+                let table = document.getElementById("table");
+                table.unBound(index);
+              } else {
+                alert("解绑失败:" + res.body.message)
+              }
             }
-          });
+          );
 
       },
       //修改密码
