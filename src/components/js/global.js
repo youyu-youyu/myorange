@@ -1,11 +1,11 @@
-const orange_url = 'https://plmokn28.020orange.com';
-//正式环境域名
+const orange_url = 'https://plmokn28.020orange.com';//测试环境域名
 // staging
-const production = 'https://saas.orangecrt.com';
+const production_url = 'https://saas.orangecrt.com';//正式环境域名
 const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
-const orangeBrandId = '169766137633050624';
+const productionBrandId='76702093133615104'
+const orangeBrandId = '169766137633050624';//测试环境品牌id
 const testBrandId = '170843706449072128';
 const galaxyBrandId = '173825699113734144';
 
@@ -35,7 +35,7 @@ export default {
       if (company === 0) {
         return orangeBrandId;
       } else if (company === 1) {
-        return testBrandId;
+        return productionBrandId;
       } else if (company === 2) {
         return galaxyBrandId
       } else {
@@ -57,7 +57,7 @@ export default {
       if (company === 0) {
         return orange_url;
       } else if (company === 1) {
-        return production;
+        return production_url;
       } else if (company === 2) {
         return galaxy_url;
       } else {
