@@ -242,6 +242,7 @@
 
     },
     mounted() {
+      console.log("测试用例master")
     },
 
     methods: {
