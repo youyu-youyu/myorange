@@ -5,7 +5,6 @@ import router from './router'
 import './lib/mui/css/icons-extra.css'
 //引入loading
 import loading from './components/public/loading/loading'
-
 // Vue.http.headers.common['contentType'] = 'application/json;charset=UTF-8';
 import app from './App.vue'
 import waterfall from 'vue-waterfall2'

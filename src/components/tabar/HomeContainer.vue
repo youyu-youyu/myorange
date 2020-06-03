@@ -242,10 +242,6 @@
 
     },
     mounted() {
-
-      // console.log("AE010055023".substring(4, 12))
-
-
     },
 
     methods: {
@@ -344,6 +340,10 @@
             case "galaxy":
               global_msg.setCompany(2);
               this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=galaxy");
+              break;
+            case "production":
+              global_msg.setCompany(3);
+              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=production");
               break;
             default:
               global_msg.setCompany(-1);
@@ -628,7 +628,6 @@
       //获取店铺所需要的的三个参数在选择店铺页面选中的时候要保存在localStorage里
 
       getLastSelectedShop() {
-
         this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）

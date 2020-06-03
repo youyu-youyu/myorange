@@ -1,15 +1,17 @@
-const orange_url = 'https://plmokn28.020orange.com';//测试环境域名
-// staging
+const orange_url = 'https://plmokn28.020orange.com';
+const xiaozhu_url = 'https://plmokn28.020orange.com';
 const production_url = 'https://saas.orangecrt.com';//正式环境域名
 const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
-const productionBrandId = '76702093133615104'
-const orangeBrandId = '169766137633050624';//测试环境品牌id
+const orangeBrandId = '169766137633050624';
+const productionBrandId = '76702093133615104';
+
 const testBrandId = '170843706449072128';
 const galaxyBrandId = '173825699113734144';
 
 
+const productionAppId = "wxfc2079e5d7f21d07";
 const orangeAppId = "wxfc2079e5d7f21d07";
 const xiaozhuAppId = "wx828d6d5d15e47ca3";
 const galaxyAppId = "wx03291eeea47291fc";
@@ -35,9 +37,11 @@ export default {
       if (company === 0) {
         return orangeBrandId;
       } else if (company === 1) {
-        return productionBrandId;
+        return testBrandId;
       } else if (company === 2) {
         return galaxyBrandId
+      } else if (company === 3) {
+        return productionBrandId;
       } else {
         return orangeBrandId;
       }
@@ -46,20 +50,25 @@ export default {
       if (company === 0) {
         return orangeAppId;
       } else if (company === 1) {
-        return orangeAppId;
+        return xiaozhuAppId;
       } else if (company === 2) {
         return galaxyAppId
+      } else if (company === 3) {
+        return productionAppId
       } else {
         return orangeAppId;
       }
     },
+
     getBaseUrl: function () {
       if (company === 0) {
         return orange_url;
       } else if (company === 1) {
-        return production_url;
+        return xiaozhu_url;
       } else if (company === 2) {
         return galaxy_url;
+      } else if (company === 3) {
+        return production_url;
       } else {
         return local_url;
       }
@@ -102,11 +111,17 @@ export default {
           if (res.body.err_code === 0) {
             _this.$store.commit('setUserInfoData', res.body.data);
             console.log("userId:" + res.body.data.userId)
-          } else
+          } else {
+
             alert("获取账户信息失败：" + res.body.message);
+          }
         })
     },
+
   },
+
+
+
 
 }
 
