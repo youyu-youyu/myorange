@@ -181,8 +181,10 @@
         if (global_msg.company !== -1) {
           //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
           if (localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
+            alert("getLastSelectedShop")
             this.getLastSelectedShop();
           } else {
+            alert("getLastSelectedShop")
             this.getCode();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
