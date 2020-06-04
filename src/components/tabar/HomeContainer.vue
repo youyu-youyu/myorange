@@ -181,7 +181,7 @@
           this.getCode();
           // } else {
           // 授完权才有code
-          this.publicAccountLogin();
+          // this.publicAccountLogin();
           // }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
           //现在要做的就是：如果第一次进来或者token'过期才授权，其他时候进来，不用跳到授权页面直接登录
