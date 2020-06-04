@@ -178,8 +178,7 @@
         if (global_msg.company !== -1) {
           //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
           alert("token过期？:" + (localStorage.getItem("isTokenExpire").indexOf("true") === -1))
-          if (localStorage.getItem("isTokenExpire").indexOf("true") === -1 || localStorage.getItem("isTokenExpire") != undefined
-            || localStorage.getItem("isTokenExpire") != null) {
+          if (localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
             this.getLastSelectedShop();
             alert("getLastSelectedShop")
           } else {
