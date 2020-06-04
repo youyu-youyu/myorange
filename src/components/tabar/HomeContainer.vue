@@ -182,6 +182,7 @@
           } else {
             //这里已经拿到了token过期的状态了，可以选择getCode授权或者以后会新加刷新token功能
             this.getCode();
+
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
           //现在要做的就是：如果第一次进来或者token'过期才授权，其他时候进来，不用跳到授权页面直接登录
@@ -252,10 +253,27 @@
 
     },
     mounted() {
+      // this.refreshToken()
       // console.log(this.getUrlCode().code)
     },
 
     methods: {
+      //刷新token
+      refreshToken() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post网络请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
+            {}, {emulateJSON: true})
+          .then(res => {
+            console.log(res.body.data)
+            if (res.body.err_code === 0) {
+
+            } else {
+              alert("刷新Token失败:" + res.body.message);
+            }
+          });
+      },
       //跳转小程序主页面
       goMini() {
         window.wx.miniProgram.navigateTo({
