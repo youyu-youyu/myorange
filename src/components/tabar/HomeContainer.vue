@@ -182,13 +182,11 @@
       if (this.type === 1) {
         if (global_msg.company !== -1) {
           //如果第一次进来如果token为空，或者token未过期时(indexOf的检查字符串中有没有指定的子字符串,当不包含的时.返回-1.)
-          if (localStorage.getItem("isTokenExpire") === null || localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
-            this.getLastSelectedShop();
-          } else {
-            //这里已经拿到了token过期的状态了，可以选择getCode授权或者以后会新加刷新token功能
-            //如果是token过期，直接刷新token
-            //如果第一次进来 ，直接授权
+          if (localStorage.getItem("isFirstEnter") === null) {
+            localStorage.setItem("isFirstEnter", "false");
             this.getCode();
+          } else {
+            this.getLastSelectedShop();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
           //现在要做的就是：如果第一次进来或者token'过期才授权，其他时候进来，不用跳到授权页面直接登录
