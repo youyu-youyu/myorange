@@ -420,7 +420,7 @@
           "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
           "type": 1
           // 固定值type：1:公众号，2:小程序
-        },function () {
+        },function (res) {
           console.log("代理模式请求成功")
           if (res.body.err_code === 0) {
             localStorage.setItem('token_type', res.body.data.token_type);
