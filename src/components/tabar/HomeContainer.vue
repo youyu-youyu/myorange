@@ -171,11 +171,11 @@
       };
     },
     created: function () {
-      if (localStorage.getItem("isFirstEnter1") === null
-        || localStorage.getItem("isFirstEnter1").indexOf("true") !== -1) {
+      if (localStorage.getItem("isFirstEnter2") === null
+        || localStorage.getItem("isFirstEnter2").indexOf("true") !== -1) {
         alert("模拟了")
         localStorage.setItem("token", "111");
-        localStorage.setItem("isFirstEnter1", "false")
+        localStorage.setItem("isFirstEnter2", "false")
       }
 
       this.parseUrlBrand();
@@ -187,7 +187,7 @@
             alert("getLastSelectedShop")
             this.getLastSelectedShop();
           } else {
-            alert("getLastSelectedShop")
+            alert("getCode")
             this.getCode();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
