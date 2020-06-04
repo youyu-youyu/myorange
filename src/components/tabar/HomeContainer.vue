@@ -182,12 +182,12 @@
           } else {
             //这里已经拿到了token过期的状态了，可以选择getCode授权或者以后会新加刷新token功能
             //如果第一次进来 ，直接授权
-            if (localStorage.getItem("isFirstEnter").indexOf("true") !== -1) {
-              this.getCode();
-              localStorage.setItem("isFirstEnter", "false")
+            if (window.localStorage.getItem('token') != null) {
+              this.refreshToken()
             }
             //如果是token过期，直接刷新token
-            this.refreshToken()
+            this.getCode();
+
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
           //现在要做的就是：如果第一次进来或者token'过期才授权，其他时候进来，不用跳到授权页面直接登录
