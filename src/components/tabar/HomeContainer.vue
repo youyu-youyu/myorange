@@ -171,12 +171,12 @@
       };
     },
     created: function () {
-      if (localStorage.getItem("isFirstEnter11") === null
-        || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
-        alert("模拟了")
-        localStorage.setItem("token", "111");
-        localStorage.setItem("isFirstEnter11", "false")
-      }
+      // if (localStorage.getItem("isFirstEnter11") === null
+      //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
+      //   alert("模拟了")
+      //   localStorage.setItem("token", "111");
+      //   localStorage.setItem("isFirstEnter11", "false")
+      // }
       this.parseUrlBrand();
       //如果是公众号
       if (this.type === 1) {
@@ -187,9 +187,6 @@
           } else {
             //这里已经拿到了token过期的状态了，可以选择getCode授权或者以后会新加刷新token功能
             //如果是token过期，直接刷新token
-            if (localStorage.getItem("isTokenExpire").indexOf("true") !== -1) {
-              this.refreshToken()
-            }
             //如果第一次进来 ，直接授权
             this.getCode();
           }
