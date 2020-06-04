@@ -50,7 +50,7 @@ Vue.http.interceptors.push((request, next) => {
             localStorage.setItem('token', res.body.data.access_token);
             localStorage.setItem("isTokenExpire", "false");
             console.log(111)
-            console.log(response.body);
+            console.log(request);
 
           } else {
             alert("刷新Token失败:" + res.body.message);
