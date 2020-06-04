@@ -180,6 +180,7 @@
           if (!localStorage.getItem("isTokenExpire", "false") && this.code == null || this.code === "") {
             this.getCode();
           } else {
+            // 授完权才有code
             this.publicAccountLogin();
           }
 
@@ -401,6 +402,8 @@
               // 固定值type：1:公众号，2:小程序
             }, {emulateJSON: true})
           .then(res => {
+            alert("this.code")
+            alert(this.code)
             if (res.body.err_code === 0) {
               localStorage.setItem('token_type', res.body.data.token_type);
               localStorage.setItem('token', res.body.data.access_token);
