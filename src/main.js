@@ -19,7 +19,7 @@ Vue.use(waterfall)
 Vue.http.headers.common['Accept'] = 'application/x.orange.mini.v2+json';
 Vue.http.interceptors.push((request, next) => {
   if (global_msg.company !== -1)
-    request.headers.set('Authorization', window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token'));
+    request.headers.set('Authorization', window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token') + "11");
   else
     request.headers.set('Authorization', 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU');
   // console.log("456")
@@ -30,7 +30,8 @@ Vue.http.interceptors.push((request, next) => {
         alert('token 已过期,即将刷新');
         localStorage.setItem("isTokenExpire", "true");
         localStorage.setItem("code", "");
-        location.href = "#/home";
+
+        location.href = store.state.homeHtml;
       } else if (status_code === 405) {
         alert("HTTP状态码405")
       } else if (status_code === 500) {
