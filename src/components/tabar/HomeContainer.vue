@@ -171,12 +171,17 @@
       };
     },
     created: function () {
-
+      if (localStorage.getItem("isFirstEnter11") === null
+        || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
+        alert("模拟了")
+        localStorage.setItem("token", "111");
+        localStorage.setItem("isFirstEnter11", "false")
+      }
       this.parseUrlBrand();
       //如果是公众号
       if (this.type === 1) {
         if (global_msg.company !== -1) {
-          //如果第一次进来如果token为空，或者token未过期时(indexOf("true") === -1当不存在时返回-1)
+          //如果第一次进来如果token为空，或者token未过期时(indexOf的检查字符串中有没有指定的子字符串,当不包含的时.返回-1.)
           if (localStorage.getItem("isTokenExpire") === null || localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
             this.getLastSelectedShop();
           } else {

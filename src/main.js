@@ -25,25 +25,39 @@ Vue.http.interceptors.push((request, next) => {
   // console.log("456")
   next(function (response) {
     let status_code = response.body.status_code;
-    if (status_code !== 200) {
+    if (status_code === 200)
+      return response
+    // alert(window.localStorage.getItem('token') == null)
+    if (status_code === 401) { //与后台约定登录失效的返回码
+      // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
+      // if (window.localStorage.getItem('token') != null) {
+      //   alert('token 已过期,即将刷新');
+      // }
+      // localStorage.setItem("isTokenExpire", "true");
+      // localStorage.setItem("code", "");
+      // //状态码为401的时候，调回主页
+      // location.href = store.state.homeHtml;
+      Vue.http
+        //定义为全局使用global_msg.server_url
+        //post网络请求（后端提供url）
+        .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
+          {}, {emulateJSON: true})
+        .then(res => {
+          console.log(res.body.data)
+          if (res.body.err_code === 0) {
 
-      // alert(window.localStorage.getItem('token') == null)
-      if (status_code === 401) { //与后台约定登录失效的返回码
-        //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
-        if (window.localStorage.getItem('token') != null) {
-          alert('token 已过期,即将刷新');
-        }
-        localStorage.setItem("isTokenExpire", "true");
-        localStorage.setItem("code", "");
-        //状态码为401的时候，调回主页
-        location.href = store.state.homeHtml;
-      } else if (status_code === 405) {
-        alert("HTTP状态码405")
-      } else if (status_code === 500) {
-        alert("HTTP状态码500")
-      }
+          } else {
+            alert("刷新Token失败:" + res.body.message);
+          }
+        });
+
+
+    } else if (status_code === 405) {
+      alert("HTTP状态码405")
+    } else if (status_code === 500) {
+      alert("HTTP状态码500")
     }
-    return response
+
   })
 });
 //state相当于对外的只读状态,使用store.commit方法通过触发mutations改变state
