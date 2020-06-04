@@ -32,6 +32,8 @@ Vue.http.interceptors.push((request, next) => {
       // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
       // if (window.localStorage.getItem('token') != null) {
       alert('token 已过期,即将刷新');
+      console.log(111)
+      console.log(response)
       // }
       // localStorage.setItem("isTokenExpire", "true");
       // localStorage.setItem("code", "");
@@ -51,6 +53,20 @@ Vue.http.interceptors.push((request, next) => {
             localStorage.setItem("isTokenExpire", "false");
             console.log(111)
             console.log(request);
+            if (request.method.indexOf("GET") !== -1){
+              // get请求
+              Vue.http
+                //定义为全局使用global_msg.server_url
+                //post网络请求（后端提供url）
+                .get(request.url,
+                  {
+                    params: request.params
+                  }, {emulateJSON: true})
+                .then(res => {
+                  return response
+                });
+            }
+
 
           } else {
             alert("刷新Token失败:" + res.body.message);
