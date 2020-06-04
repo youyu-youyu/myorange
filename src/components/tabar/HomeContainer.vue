@@ -171,23 +171,16 @@
       };
     },
     created: function () {
-      if (localStorage.getItem("isFirstEnter2") === null
-        || localStorage.getItem("isFirstEnter2").indexOf("true") !== -1) {
-        alert("模拟了")
-        localStorage.setItem("token", "111");
-        localStorage.setItem("isFirstEnter2", "false")
-      }
 
       this.parseUrlBrand();
+      //如果是公众号
       if (this.type === 1) {
         if (global_msg.company !== -1) {
-          //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
-          // if (localStorage.getItem())
+          //如果第一次进来或者token为空，或者已经存在token
           if (localStorage.getItem("isTokenExpire") === null || localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
-            alert("getLastSelectedShop")
             this.getLastSelectedShop();
           } else {
-            alert("getCode")
+            //这里已经拿到了token过期的状态了，可以选择getCode授权或者以后会新加刷新token功能
             this.getCode();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
@@ -335,7 +328,7 @@
         // let value =document.getElementById("value").value;
       },
 
-
+      //返回的主页面
       parseUrlBrand() {
         if (window.location.href.indexOf("brand") !== -1) {
           let brand = this.getUrlParam("brand");
