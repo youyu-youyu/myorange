@@ -180,7 +180,9 @@
           if (localStorage.getItem("isTokenExpire") || localStorage.getItem("isTokenExpire") == undefined
             || localStorage.getItem("isTokenExpire") == null) {
             this.getCode();
+            alert("getCode")
           } else {
+            alert("getLastSelectedShop")
             this.getLastSelectedShop();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
