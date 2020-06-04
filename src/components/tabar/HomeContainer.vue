@@ -171,13 +171,14 @@
       };
     },
     created: function () {
-
+      localStorage.setItem("token", "111");
 
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
           //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
-          if (localStorage.getItem("isTokenExpire")) {
+          if (localStorage.getItem("isTokenExpire") || localStorage.getItem("isTokenExpire") == undefined
+            || localStorage.getItem("isTokenExpire") == null) {
             this.getCode();
           } else {
             this.getLastSelectedShop();
