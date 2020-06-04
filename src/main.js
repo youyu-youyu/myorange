@@ -49,7 +49,7 @@ Vue.http.interceptors.push((request, next) => {
             localStorage.setItem('token_type', res.body.data.token_type);
             localStorage.setItem('token', res.body.data.access_token);
             localStorage.setItem("isTokenExpire", "false");
-            request()
+            request.request()
           } else {
             alert("刷新Token失败:" + res.body.message);
           }
