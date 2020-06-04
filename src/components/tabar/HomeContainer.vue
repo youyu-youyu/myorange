@@ -171,8 +171,9 @@
       };
     },
     created: function () {
-      if (localStorage.getItem("isFirstEnter").indexOf("true") !== -1
-        || localStorage.getItem("isFirstEnter") === null) {
+      if (localStorage.getItem("isFirstEnter") === null
+        || localStorage.getItem("isFirstEnter").indexOf("true") !== -1
+      ) {
         localStorage.setItem("token", "111");
         localStorage.setItem("isFirstEnter", "false")
       }
@@ -182,7 +183,7 @@
         if (global_msg.company !== -1) {
           //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
           // if (localStorage.getItem())
-          if (localStorage.getItem("isTokenExpire").indexOf("true") === -1 || localStorage.getItem("isTokenExpire") === null) {
+          if (localStorage.getItem("isTokenExpire") === null || localStorage.getItem("isTokenExpire").indexOf("true") === -1) {
             alert("getLastSelectedShop")
             this.getLastSelectedShop();
           } else {
