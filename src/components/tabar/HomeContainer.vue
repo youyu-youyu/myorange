@@ -27,7 +27,7 @@
                   src="../../assets/home/home_sing.png"
                 />
                 <div class="mui-media-body home_day">
-                  每日签到*
+                  每日签到
                   <p class="mui-ellipsis">签到赚积分</p>
                 </div>
               </router-link>
