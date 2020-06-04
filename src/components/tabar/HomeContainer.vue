@@ -457,7 +457,6 @@
             if (r.accuracy == null) {
               alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
-              return;
             } else {
               const myGeo = new BMap.Geocoder();
               myGeo.getLocation(
