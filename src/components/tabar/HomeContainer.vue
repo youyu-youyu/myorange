@@ -171,10 +171,18 @@
       };
     },
     created: function () {
+
+
       this.parseUrlBrand();
       if (this.type === 1) {
         if (global_msg.company !== -1) {
-          this.getCode();
+          //如果第一次进来或者token'过期才授权，其他进来，不用跳到授权页面
+          if (!localStorage.getItem("isTokenExpire", "false") && this.code == null || this.code === "") {
+            this.getCode();
+          } else {
+            this.miniLogin();
+          }
+
         } else {
           this.getLastSelectedShop();
         }
@@ -483,7 +491,7 @@
         let local = window.location.href; // 获取页面url
         this.code = this.getUrlCode().code// 截取url中的code
 
-        //授权
+        //授权//每次进来的时候code都是空的
         if (this.code == null || this.code === "") {
           // 如果没有code，则去请求
           window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
@@ -499,7 +507,9 @@
               //post网络请求（后端提供url）
               .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
                 {
-                  "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`, "type": 1
+                  "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+                  "type": 1
+                  // 固定值type：1:公众号，2:小程序
                 }, {emulateJSON: true})
               .then(res => {
                 if (res.body.err_code === 0) {
