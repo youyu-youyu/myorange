@@ -180,7 +180,7 @@
           if (!localStorage.getItem("isTokenExpire", "false") && this.code == null || this.code === "") {
             this.getCode();
           } else {
-            this.miniLogin();
+            this.publicAccountLogin();
           }
 
         } else {
@@ -389,6 +389,36 @@
             }
           });
       },
+      //公众哈登录
+      publicAccountLogin() {
+        this.$http
+          //定义为全局使用global_msg.server_url
+          //post网络请求（后端提供url）
+          .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
+            {
+              "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+              "type": 1
+              // 固定值type：1:公众号，2:小程序
+            }, {emulateJSON: true})
+          .then(res => {
+            if (res.body.err_code === 0) {
+              localStorage.setItem('token_type', res.body.data.token_type);
+              localStorage.setItem('token', res.body.data.access_token);
+              localStorage.setItem("isTokenExpire", "false");
+              if (localStorage.getItem("shopId") !== "undefined" &&
+                localStorage.getItem("shopId") !== "" &&
+                localStorage.getItem("shopId") !== null &&
+                localStorage.getItem("shopId") !== undefined) {
+                this.getLastSelectedShop();
+              } else
+                this.getLocation();
+
+              localStorage.setItem("code", this.getUrlCode().code);
+            } else
+              alert("登录失败：" + res.body.message);
+          });
+
+      },
       getUrlKey: function (name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
       },
@@ -502,32 +532,7 @@
         } else {
           //如果截取url中的code不等于保存的code，才登录
           if (this.getUrlCode().code !== localStorage.getItem("code")) {
-            this.$http
-              //定义为全局使用global_msg.server_url
-              //post网络请求（后端提供url）
-              .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
-                {
-                  "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
-                  "type": 1
-                  // 固定值type：1:公众号，2:小程序
-                }, {emulateJSON: true})
-              .then(res => {
-                if (res.body.err_code === 0) {
-                  localStorage.setItem('token_type', res.body.data.token_type);
-                  localStorage.setItem('token', res.body.data.access_token);
-                  localStorage.setItem("isTokenExpire", "false");
-                  if (localStorage.getItem("shopId") !== "undefined" &&
-                    localStorage.getItem("shopId") !== "" &&
-                    localStorage.getItem("shopId") !== null &&
-                    localStorage.getItem("shopId") !== undefined) {
-                    this.getLastSelectedShop();
-                  } else
-                    this.getLocation();
-
-                  localStorage.setItem("code", this.getUrlCode().code);
-                } else
-                  alert("登录失败：" + res.body.message);
-              });
+            this.publicAccountLogin()
           } else {
             `${global_msg.method.getUserAccountInfo(this)}`;
             `${global_msg.method.getUserBasicInfo(this)}`;
