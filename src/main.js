@@ -63,7 +63,7 @@ Vue.http.interceptors.push((request, next) => {
 
       });
       return promise.then(function (data) {
-        console.log("failRequest:" + data)
+        console.log(data)
         return data;
       })
 
