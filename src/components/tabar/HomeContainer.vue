@@ -171,11 +171,11 @@
       };
     },
     created: function () {
-      if (localStorage.getItem("isFirstEnter") === null
-        || localStorage.getItem("isFirstEnter").indexOf("true") !== -1
-      ) {
+      if (localStorage.getItem("isFirstEnter1") === null
+        || localStorage.getItem("isFirstEnter1").indexOf("true") !== -1) {
+        alert("模拟了")
         localStorage.setItem("token", "111");
-        localStorage.setItem("isFirstEnter", "false")
+        localStorage.setItem("isFirstEnter1", "false")
       }
 
       this.parseUrlBrand();
