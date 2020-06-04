@@ -51,22 +51,9 @@ Vue.http.interceptors.push((request, next) => {
             localStorage.setItem('token_type', res.body.data.token_type);
             localStorage.setItem('token', res.body.data.access_token);
             localStorage.setItem("isTokenExpire", "false");
-            console.log(111)
-            console.log(request);
-            if (request.method.indexOf("GET") !== -1){
-              // get请求
-              Vue.http
-                //定义为全局使用global_msg.server_url
-                //post网络请求（后端提供url）
-                .get(request.url,
-                  {
-                    params: request.params
-                  }, {emulateJSON: true})
-                .then(res => {
-                  return response
-                });
-            }
-
+            return Vue.http(request).then(data => {
+              return data
+            })
 
           } else {
             alert("刷新Token失败:" + res.body.message);
