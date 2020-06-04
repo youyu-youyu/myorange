@@ -183,7 +183,7 @@
         if (global_msg.company !== -1) {
           //如果第一次进来如果token为空，或者token未过期时(indexOf的检查字符串中有没有指定的子字符串,当不包含的时.返回-1.)
           if (localStorage.getItem("isFirstEnter") === null) {
-            localStorage.setItem("isFirstEnter", "false");
+
             this.getCode();
           } else {
             this.getLastSelectedShop();
@@ -431,6 +431,7 @@
               localStorage.setItem('token_type', res.body.data.token_type);
               localStorage.setItem('token', res.body.data.access_token);
               localStorage.setItem("isTokenExpire", "false");
+              localStorage.setItem("isFirstEnter", "false");
               if (localStorage.getItem("shopId") !== "undefined" &&
                 localStorage.getItem("shopId") !== "" &&
                 localStorage.getItem("shopId") !== null &&
@@ -443,7 +444,6 @@
             } else
               alert("登录失败：" + res.body.message);
           });
-
       },
       getUrlKey: function (name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
