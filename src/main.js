@@ -31,7 +31,7 @@ Vue.http.interceptors.push((request, next) => {
     if (status_code === 401) { //与后台约定登录失效的返回码
       // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
       // if (window.localStorage.getItem('token') != null) {
-      //   alert('token 已过期,即将刷新');
+        alert('token 已过期,即将刷新');
       // }
       // localStorage.setItem("isTokenExpire", "true");
       // localStorage.setItem("code", "");
@@ -48,6 +48,7 @@ Vue.http.interceptors.push((request, next) => {
             localStorage.setItem('token_type', res.body.data.token_type);
             localStorage.setItem('token', res.body.data.access_token);
             localStorage.setItem("isTokenExpire", "false");
+            alert("Token刷新成功，重新请求")
             next();
           } else {
             alert("刷新Token失败:" + res.body.message);
