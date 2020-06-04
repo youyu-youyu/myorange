@@ -27,11 +27,12 @@ Vue.http.interceptors.push((request, next) => {
     let status_code = response.body.status_code;
     if (status_code !== 200) {
 
+      // alert(window.localStorage.getItem('token') == null)
       if (status_code === 401) { //与后台约定登录失效的返回码
-        // if (window.localStorage.getItem('token') !== "111") {
-        alert("token::" + window.localStorage.getItem('token'))
-        alert('token 已过期,即将刷新');
-        // }
+        if (window.localStorage.getItem('token') != null) {
+          alert('token 已过期,即将刷新');
+        }
+
         //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
         localStorage.setItem("isTokenExpire", "true");
         localStorage.setItem("code", "");
