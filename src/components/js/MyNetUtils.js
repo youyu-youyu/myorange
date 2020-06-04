@@ -1,4 +1,4 @@
-import global_msg from "./components/js/global";
+import global_msg from "./global";
 import Vue from "vue";
 
 export default {
