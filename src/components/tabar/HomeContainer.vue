@@ -337,6 +337,7 @@
 
       //返回的主页面
       parseUrlBrand() {
+        let _this = this
         if (window.location.href.indexOf("brand") !== -1) {
           let brand = this.getUrlParam("brand");
           if (brand === undefined) {
@@ -347,27 +348,27 @@
           switch (brand) {
             case "test":
               global_msg.setCompany(1);
-              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=test");
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=test");
               break;
             case "orange":
               global_msg.setCompany(0);
-              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orange");
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orange");
               console.log("测试用例master")
               break;
             case "galaxy":
               global_msg.setCompany(2);
-              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=galaxy");
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=galaxy");
               break;
             case "production":
               global_msg.setCompany(3);
-              this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=production");
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=production");
               break;
             default:
               global_msg.setCompany(-1);
               break;
           }
         } else
-          this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html");
+          _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html");
 
       },
       //小程序登录
@@ -651,16 +652,18 @@
     // 然后就可以在页面上进行双向数据绑定展示出结果或者用作其他处理；
     computed: {
       getShopName: function () {
-        return this.$store.state.selectedShopData.shopName
+        let _this = this
+        return _this.$store.state.selectedShopData.shopName
       },
     },
     watch: {
       "$store.state.userAccountData"(t, e) {
+        let _this = this
         console.log("个人数据发生变化");
-        this.userMoney = this.$store.state.userAccountData.userMoney;
-        this.userCoin = this.$store.state.userAccountData.userCoin;
-        this.userLottery = this.$store.state.userAccountData.userLottery;
-        this.coupons = this.$store.state.userAccountData.coupons;
+        this.userMoney = _this.$store.state.userAccountData.userMoney;
+        this.userCoin = _this.$store.state.userAccountData.userCoin;
+        this.userLottery = _this.$store.state.userAccountData.userLottery;
+        this.coupons = _this.$store.state.userAccountData.coupons;
       }
     },
 
