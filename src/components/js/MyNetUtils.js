@@ -27,7 +27,7 @@ export default {
           });
       }
     },
-    get: function (url, params, successCallback) {
+    get: function (url, params, successCallback, failedCallback) {
       if (global_msg.myNetType === 0) {
         // vue-resource请求框架
         Vue.http
@@ -38,7 +38,11 @@ export default {
             params
           }, {emulateJSON: true})
           .then(res => {
-            successCallback(res)
+            if (res.body.err_code === 0) {
+              successCallback(res.body)
+            } else {
+              failedCallback(res.body.message)
+            }
           });
       } else {
         // axios网络请求框架

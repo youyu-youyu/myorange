@@ -63,14 +63,15 @@
         this.$router.push({path: '/project/tickets/bag', query: {cardId: this.cardId}});
       },
       getProject() {
+        let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects`, {
           "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
         }, function (body) {
-          this.projectPhotoList = body.data;
+          _this.projectPhotoList = body.data;
           for (let i = 0; i < this.projectPhotoList.length; i++) {
-            this.projectPhotoList[i].photo_url = this.projectPhotoList[i].photo_url === ""
+            _this.projectPhotoList[i].photo_url = _this.projectPhotoList[i].photo_url === ""
               ? require("../../assets/project/xiangmu_card1.png")
-              : this.projectPhotoList[i].photo_url;
+              : _this.projectPhotoList[i].photo_url;
           }
         }, function (message) {
           alert("获取项目失败：" + message);
