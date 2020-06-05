@@ -52,10 +52,10 @@
             二维码每30秒自动更新
           </div>
         </div>
-<!--        <div class="tabar_tabar" fixed>-->
-<!--          <p class="tabar_tabar_txt1">使用星礼卡，同步支付星星</p>-->
-<!--          <a><p class="tabar_tabar_txt2">获取一张好生意卡</p></a>-->
-<!--        </div>-->
+        <!--        <div class="tabar_tabar" fixed>-->
+        <!--          <p class="tabar_tabar_txt1">使用星礼卡，同步支付星星</p>-->
+        <!--          <a><p class="tabar_tabar_txt2">获取一张好生意卡</p></a>-->
+        <!--        </div>-->
       </div>
     </div>
   </div>
@@ -222,7 +222,8 @@
     /*.tabar_middle_inner_txt {*/
 
     /*}*/
-    .tabar_middle_qr-txt{
+
+    .tabar_middle_qr-txt {
       font-size: 25px;
       font-weight: 600;
       padding: 20px 10px;
