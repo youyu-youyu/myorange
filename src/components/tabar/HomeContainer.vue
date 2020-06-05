@@ -416,28 +416,28 @@
       },
       //公众号登录
       publicAccountLogin() {
-        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`,{
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
           "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
           "type": 1
           // 固定值type：1:公众号，2:小程序
-        },function (res) {
-          console.log("代理模式请求成功")
-          if (res.body.err_code === 0) {
-            localStorage.setItem('token_type', res.body.data.token_type);
-            localStorage.setItem('token', res.body.data.access_token);
-            localStorage.setItem("isTokenExpire", "false");
-            localStorage.setItem("isFirstEnter", "false");
-            if (localStorage.getItem("shopId") !== "undefined" &&
-              localStorage.getItem("shopId") !== "" &&
-              localStorage.getItem("shopId") !== null &&
-              localStorage.getItem("shopId") !== undefined) {
-              this.getLastSelectedShop();
-            } else
-              this.getLocation();
+        }, function (body) {
 
-            localStorage.setItem("code", this.getUrlCode().code);
+          console.log("代理模式请求成功")
+          localStorage.setItem('token_type', body.data.token_type);
+          localStorage.setItem('token', body.data.access_token);
+          localStorage.setItem("isTokenExpire", "false");
+          localStorage.setItem("isFirstEnter", "false");
+          if (localStorage.getItem("shopId") !== "undefined" &&
+            localStorage.getItem("shopId") !== "" &&
+            localStorage.getItem("shopId") !== null &&
+            localStorage.getItem("shopId") !== undefined) {
+            this.getLastSelectedShop();
           } else
-            alert("登录失败：" + res.body.message);
+            this.getLocation();
+
+          localStorage.setItem("code", this.getUrlCode().code);
+        }, function (message) {
+          alert("登录失败：" + message);
         })
         // this.$http
         //   //定义为全局使用global_msg.server_url
