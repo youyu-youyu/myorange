@@ -181,7 +181,6 @@
           // 跳转支付
           if (_this.$refs.cellChild.payType === 1) {
             window.location.href = body.data.pay_url;
-            Toast("支付失败！");
           } else {
             Toast("支付成功！");
             _this.$router.push("/");
