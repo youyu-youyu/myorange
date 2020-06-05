@@ -68,7 +68,7 @@
           "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
         }, function (body) {
           _this.projectPhotoList = body.data;
-          for (let i = 0; i < this.projectPhotoList.length; i++) {
+          for (let i = 0; i < _this.projectPhotoList.length; i++) {
             _this.projectPhotoList[i].photo_url = _this.projectPhotoList[i].photo_url === ""
               ? require("../../assets/project/xiangmu_card1.png")
               : _this.projectPhotoList[i].photo_url;
