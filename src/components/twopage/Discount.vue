@@ -48,6 +48,7 @@
 <script>
   import backbar from "../public/backBar.vue";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     data() {
@@ -56,8 +57,6 @@
         usedDiscountList: "",
         expiredDiscountList: "",
         discountShowList: "",
-
-
       };
     },
     mounted() {
@@ -69,57 +68,40 @@
     methods: {
       //可使用优惠券
       availableDiscount: function () {
-        this.$http.get(`${global_msg.method.getBaseUrl()}` + "/api/member/coupons", {
-          params: {
-            _timestamp: (new Date).getTime(),
-            shopId: this.$store.state.selectedShopData.shopId
-          }
-        }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.availableDiscountList = res.body.data
-              this.discountEvent(0);
-            } else {
-              alert("获取优惠券信息错误：" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/coupons`, {
+          _timestamp: (new Date).getTime(),
+          shopId: _this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.availableDiscountList = body.data
+          _this.discountEvent(0);
+        }, function (message) {
+          alert("获取优惠券信息错误：" + message)
+        })
       },
       //已过期优惠券
       expiredDiscount: function () {
-        this.$http.get(`${global_msg.method.getBaseUrl()}` + "/api/member/usedcoupons", {
-          params: {
-            _timestamp: (new Date).getTime(),
-            shopId: this.$store.state.selectedShopData.shopId
-          }
-        }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.usedDiscountList = res.body.data
-              console.log("已过期优惠券")
-              console.log(this.expiredDiscountList)
-            } else {
-              alert("获取优惠券信息错误：" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/usedcoupons`, {
+          _timestamp: (new Date).getTime(),
+          shopId: _this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.usedDiscountList = body.data
+        }, function (message) {
+          alert("获取优惠券信息错误：" + message)
+        })
       },
       //已使用优惠券
       usedDiscount: function () {
-        this.$http.get(`${global_msg.method.getBaseUrl()}` + "/api/member/duecoupons", {
-          params: {
-            "_timestamp:": (new Date).getTime(),
-            shopId: this.$store.state.selectedShopData.shopId
-          }
-        }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-
-              this.expiredDiscountList = res.body.data
-              console.log("已使用优惠券")
-              console.log(this.usedDiscountList)
-            } else {
-              alert("获取优惠券信息错误：" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/duecoupons`, {
+          "_timestamp:": (new Date).getTime(),
+          shopId: _this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.expiredDiscountList = body.data
+        }, function (message) {
+          alert("获取优惠券信息错误：" + message)
+        })
       },
       discountEvent(type) {
         this.discountShowList = [];

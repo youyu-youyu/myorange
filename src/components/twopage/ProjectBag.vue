@@ -88,6 +88,7 @@
   import global_msg from "../js/global";
   import Cell from "../public/cell"
   import {Toast} from "mint-ui"
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "ProjectBag",
@@ -174,73 +175,49 @@
         } else if (this.$refs.cellChild.payType === 4) {
           payUrl = coinPay
         }
-        console.log("payUrl" + payUrl)
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
-            {
-              "orderNo": this.orderNumber
-            }, {emulateJSON: true})
-          .then(res => {
-            // console.log(res.body)
-            if (res.body.err_code === 0) {
-              // localStorage.setItem("payStatus", "1");
-              // 跳转支付
-              if (this.$refs.cellChild.payType === 1) {
-                window.location.href = res.body.data.pay_url;
-              } else {
-                Toast("支付成功！");
-                this.$router.push("/");
-              }
-            } else {
-              alert("h5获取支付失败:" + res.body.message);
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
+          "orderNo": this.orderNumber
+        }, function (body) {
+          // 跳转支付
+          if (_this.$refs.cellChild.payType === 1) {
+            window.location.href = body.data.pay_url;
+          } else {
+            Toast("支付成功！");
+            _this.$router.push("/");
+          }
+        }, function (message) {
+          alert("h5获取支付失败:" + message);
+        })
       },
 
       orderPaymentMini() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`,
-            {
-              "orderNo": this.orderNumber
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`, {
+          "orderNo": this.orderNumber
+        }, function (body) {
 
-            } else
-              alert('获取小程序支付参数时错误：' + res.body.message)
-          })
+        }, function (message) {
+          alert('获取小程序支付参数时错误：' + message)
+        })
       },
       //获取项目详细信息
       getProjectInformation() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/projects/information`,
-            {
-              //从上个页面接口获取键值对
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`,
-                "shopId": this.$store.state.selectedShopData.shopId,
-                "cardId": this.data.cardId
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.projectDetailInfoObject = res.body.data;
-              this.price = this.projectDetailInfoObject.actual_price
-              let bagData = res.body.data;
-              this.projectDetailInfoObject.photo_url = this.projectDetailInfoObject.photo_url
-              === "" ? require("../../assets/project/xiangmu_card1.png") : bagData.photo_url;
-
-            } else {
-              alert("获取项目信息失败" + res.body.message);
-              this.$router.go(-1);
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects/information`, {
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "cardId": this.data.cardId
+        }, function (body) {
+          _this.projectDetailInfoObject = body.data;
+          _this.price = _this.projectDetailInfoObject.actual_price
+          let bagData = body.data;
+          _this.projectDetailInfoObject.photo_url = _this.projectDetailInfoObject.photo_url
+          === "" ? require("../../assets/project/xiangmu_card1.png") : bagData.photo_url;
+        }, function (message) {
+          alert("获取项目信息失败" + message);
+          _this.$router.go(-1);
+        })
       },
     },
     components: {

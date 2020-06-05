@@ -51,6 +51,7 @@
   import backBar from "../public/backBar";
   import global_msg from "../js/global";
   import Cell from "../public/cell"
+  import myNetUtils from "../js/MyNetUtils.js";
   import loading from "../public/loading/loading";
 
 
@@ -127,6 +128,8 @@
       },
 
       orderPaymentH5() {
+        //回调函数的this指向回调
+        let _this = this
         let payUrl = ""
         let wxPay = '/api/payment/shouqianba';
         let prePay = "/api/payment/predeposit";
@@ -138,28 +141,19 @@
         } else if (this.$refs.cellChild.payType === 4) {
           payUrl = coinPay
         }
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
-            {
-              "orderNo": this.orderNumber
-            }, {emulateJSON: true})
-          .then(res => {
-
-            if (res.body.err_code === 0) {
-              // localStorage.setItem("payStatus", "1");
-              // 跳转支付
-              if (this.$refs.cellChild.payType === 1) {
-                window.location.href = res.body.data.pay_url;
-              } else {
-                Toast("支付成功！");
-                this.$router.push("/");
-              }
-            } else {
-              alert("h5获取支付url失败" + res.body.message)
-            }
-          })
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
+          "orderNo": this.orderNumber
+        }, function (body) {
+          // 跳转支付
+          if (_this.$refs.cellChild.payType === 1) {
+            window.location.href = body.data.pay_url;
+          } else {
+            Toast("支付成功！");
+            _this.$router.push("/");
+          }
+        }, function (message) {
+          alert("h5获取支付url失败" + message)
+        })
       },
 
       orderPaymentMini() {
@@ -178,30 +172,21 @@
           })
       },
       gettickectInformation() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/tickets/information`,
-            {
-              //从上个页面接口获取键值对
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`,
-                "shopId": this.$store.state.selectedShopData.shopId,
-                "cardId": this.data.cardId
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            // console.log(res.body.data)
-            if (res.body.err_code === 0) {
-              this.ticketDetailInfoObject = res.body.data;
-              this.price = this.ticketDetailInfoObject.actual_price
-              this.ticketDetailInfoObject.photo_url = this.ticketDetailInfoObject.photo_url === "" ? require("../../assets/project/xiangmu_card5.png") : this.ticketDetailInfoObject.photo_url;
-            } else {
-              alert("获取门票信息失败" + res.body.message);
-              this.$router.go(-1);
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets/information`, {
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "cardId": this.data.cardId
+        }, function (body) {
+          _this.loading = false;
+          _this.ticketDetailInfoObject = body.data;
+          _this.price = _this.ticketDetailInfoObject.actual_price
+          _this.ticketDetailInfoObject.photo_url = _this.ticketDetailInfoObject.photo_url === "" ?
+            require("../../assets/project/xiangmu_card5.png") : _this.ticketDetailInfoObject.photo_url;
+        }, function (message) {
+          alert("获取门票信息失败" + message);
+          _this.$router.go(-1);
+        })
       },
     },
     components: {
