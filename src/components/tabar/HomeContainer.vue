@@ -24,8 +24,7 @@
               <router-link to="/everydaysign">
                 <img
                   class="mui-media-object mui-pull-left home__item_img"
-                  src="../../assets/home/home_sing.png"
-                />
+                  src="../../assets/home/home_sing.png"/>
                 <div class="mui-media-body home_day">
                   每日签到
                   <p class="mui-ellipsis">签到赚积分</p>

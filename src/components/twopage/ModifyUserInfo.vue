@@ -48,9 +48,7 @@
   export default {
     name: "ModifyUserInfo",
     props: {
-      disabled: {
-        default: ""
-      }
+      disabled: ''
     },
     data() {
       return {
@@ -122,7 +120,7 @@
             _this.$refs.userNameInput.value = userData.userName;
             _this.$refs.userMobilPhoneInput.value = userData.userPhone;
             _this.time1 = userData.brithday;
-            if (_this.time1 !== "") {
+            if (_this.time1 !== "" && _this.time1 !== null) {
               //判断生日是否为空，不为空设置为不可编辑
               _this.disabled = true
             }
@@ -154,7 +152,7 @@
           return false;
         }
         let _this = this
-        this.disabled = true;
+        // this.disabled = true;
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`, {
           "headimg": "",
           "username": this.$refs.userNameInput.value,

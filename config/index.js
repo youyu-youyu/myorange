@@ -63,11 +63,11 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, 'D:\\mini-h5\\index.html'),
+    index: path.resolve(__dirname, 'D:\\new-mini-h5\\index.html'),
 
     // Paths
     // assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsRoot: path.resolve(__dirname, 'D:\\mini-h5'),
+    assetsRoot: path.resolve(__dirname, 'D:\\new-mini-h5'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
     /**
