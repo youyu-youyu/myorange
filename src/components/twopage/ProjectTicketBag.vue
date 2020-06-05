@@ -53,6 +53,7 @@
   import Cell from "../public/cell"
   import myNetUtils from "../js/MyNetUtils.js";
   import loading from "../public/loading/loading";
+  import {Toast} from "mint-ui"
 
 
   export default {
