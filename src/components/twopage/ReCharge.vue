@@ -133,6 +133,7 @@
   import Cell from "../public/cell";
   import {Toast, MessageBox} from "mint-ui";
   import loading from "../public/loading/loading"
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "ReCharge",
@@ -249,82 +250,53 @@
           this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
           this.price = this.showData.amount;
-          console.log("pre")
           this.cardType = 0;
         }
 
-        console.log(this.price);
       },
       //提交订单
       commitOrder() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/order/store`,
-            {
-              "cardId": this.cardId,
-              "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.price,
-              "sumcoin": this.showData.sumcoin,
-              "cardType": this.cardType,
-              "payType": this.$refs.cellChild.payType,
-              "notifyUrl": this.$store.state.homeHtml
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            if (res.body.err_code === 0) {
-              this.order = res.body.data.orderNo;
-              this.showBox = 0;
-              // console.log(this.order);
-              this.judgePay();
-            } else {
-              alert("提交订单失败:" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
+          "cardId": this.cardId,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "actualPrice": this.price,
+          "sumcoin": this.showData.sumcoin,
+          "cardType": this.cardType,
+          "payType": this.$refs.cellChild.payType,
+          "notifyUrl": this.$store.state.homeHtml
+        }, function (body) {
+          _this.loading = false;
+          _this.order = body.data.orderNo;
+          _this.showBox = 0;
+          // console.log(this.order);
+          _this.judgePay();
+        }, function (message) {
+          alert("提交订单失败:" + message)
+        })
       },
       //获取充币套餐
       getCoinRechargePackages() {
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/coins`, {
+          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.coinRechargePackageList = body.data;
+        }, function (message) {
+          alert("获取支付套餐失败" + message)
+        })
 
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/coins`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId
-              }
-            }, {emulateJSON: true})
-
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.coinRechargePackageList = res.body.data;
-              console.log("获取充币套餐：")
-              console.log(this.coinRechargePackageList)
-
-            } else
-              alert("获取支付套餐失败" + res.body.message)
-          })
       },
       //获取预存款套餐
       getPrePayPackages() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/prerecharge`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.PrePayPackageList = res.body.data;
-              console.log("获取预存款套餐")
-              console.log(this.PrePayPackageList)
-            } else {
-              alert("获取预存款套餐失败")
-            }
-          });
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/prerecharge`, {
+          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
+        }, function (body) {
+          _this.PrePayPackageList = body.data;
+        }, function (message) {
+          alert("获取预存款套餐失败" + message)
+        })
       },
       orderPaymentH5() {
         let payUrl;
@@ -335,30 +307,21 @@
         } else if (this.$refs.cellChild.payType === 4) {
           payUrl = prePay
         }
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}` + payUrl,
-            {
-              "orderNo": this.order
-            }, {emulateJSON: true})
-          .then(res => {
-            console.log("payUrl:")
-            console.log(payUrl)
-            // console.log("cardType:" + this.cardType);
-            if (res.body.err_code === 0) {
-              localStorage.setItem("payStatus", "1");
-              // 跳转支付
-              if (this.$refs.cellChild.payType === 1) {
-                window.location.href = res.body.data.pay_url;
-              } else {
-                Toast("支付成功!");
-                this.$router.go(-1);
-              }
-            } else {
-              alert("获取支付url失败" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
+          "orderNo": this.order
+        }, function (body) {
+          localStorage.setItem("payStatus", "1");
+          // 跳转支付
+          if (_this.$refs.cellChild.payType === 1) {
+            window.location.href = body.data.pay_url;
+          } else {
+            Toast("支付成功!");
+            _this.$router.go(-1);
+          }
+        }, function (message) {
+          alert("获取支付url失败" + message)
+        })
       },
       mini() {
         // 通过config接口注入权限验证配置 【必需】
@@ -379,22 +342,15 @@
         // });
       },
       orderPaymentMini() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`,
-            {
-              "orderNo": this.order
-            }, {emulateJSON: true})
-          .then(res => {
-            console.log("小程序支付")
-            console.log(res.body.data)
-            this.mini();
-            if (res.body.err_code === 0) {
-              this.miniInfo = res.body.data
-            } else
-              alert('获取小程序支付参数时错误:' + res.body.message)
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`, {
+          "orderNo": this.order
+        }, function (body) {
+          _this.mini();
+          _this.miniInfo = body.data
+        }, function (message) {
+          alert('获取小程序支付参数时错误:' + message)
+        })
       },
       //1.子点击时传参数过来
       changeMoneyWithPayType(payType) {
