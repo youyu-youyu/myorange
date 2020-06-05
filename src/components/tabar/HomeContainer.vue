@@ -373,30 +373,23 @@
       },
       //小程序登录
       miniLogin: function () {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post网络请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/auth/login`,
-            {
-              "code": this.miniCode, "brand_id": `${global_msg.method.getBrandId()}`, "type": 2
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              localStorage.setItem('token_type', res.body.data.token_type);
-              localStorage.setItem('token', res.body.data.access_token);
-              localStorage.setItem("isTokenExpire", "false");
-              if (localStorage.getItem("shopId") !== "undefined" &&
-                localStorage.getItem("shopId") !== "" &&
-                localStorage.getItem("shopId") !== null) {
-                this.getLastSelectedShop();
-              } else
-                this.getLocation();
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
+          "code": this.miniCode, "brand_id": `${global_msg.method.getBrandId()}`, "type": 2
+        }, function (body) {
+          localStorage.setItem('token_type', body.data.token_type);
+          localStorage.setItem('token', body.data.access_token);
+          localStorage.setItem("isTokenExpire", "false");
+          if (localStorage.getItem("shopId") !== "undefined" &&
+            localStorage.getItem("shopId") !== "" &&
+            localStorage.getItem("shopId") !== null) {
+            this.getLastSelectedShop();
+          } else
+            this.getLocation();
 
-              localStorage.setItem("code", this.getUrlCode().code);
-            } else {
-              alert("小程序登录失败：" + res.body.message);
-            }
-          });
+          localStorage.setItem("code", this.getUrlCode().code);
+        }, function (message) {
+          alert("小程序登录失败：" + message);
+        })
       },
       //公众号登录
       publicAccountLogin() {

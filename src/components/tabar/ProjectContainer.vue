@@ -14,12 +14,6 @@
           <mt-swipe-item v-for="(item,index) in projectPhotoList" class="my-swipe-item">
             <img :src="item.photo_url" alt="加载错误" @click="projectClickEvent(index)" class="ticket_img">
             <div class="project_middle_inner_mint_txt " style="padding: 20px 20px;">{{item.cardName}}</div>
-            <!--            <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
-            <!--            </div>-->
-            <!--            <div class="project_discount">-->
-            <!--              <span class="project_middle_inner_mint_txt project_middle_inner_mint_discount">8.5折</span><span-->
-            <!--              class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
-            <!--            </div>-->
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -31,12 +25,6 @@
             <mt-swipe-item v-for="(item,index) in ticketPhotoList" class="my-swipe-item">
               <img :src="item.photo_url" alt="加载错误" @click="tickectClickEvent(index)" class="ticket_img">
               <div class="project_middle_inner_mint_txt " style="padding: 20px 20px;">{{item.cardName}}</div>
-              <!--              <div class="project_middle_inner_mint_txt" style="padding-left: 20px;font-size: 25px;font-weight: 800">年卡-->
-              <!--              </div>-->
-              <!--              <div class="project_discount">-->
-              <!--                <span class="project_middle_inner_mint_txt">8.5折</span><span-->
-              <!--                class="project_middle_inner_mint_txt project_middle_inner_mint_price">￥1288</span>-->
-              <!--              </div>-->
             </mt-swipe-item>
           </mt-swipe>
 
@@ -48,6 +36,7 @@
 <script>
   import "../css/project.less";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     data() {
@@ -74,28 +63,40 @@
         this.$router.push({path: '/project/tickets/bag', query: {cardId: this.cardId}});
       },
       getProject() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/projects`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-
-              this.projectPhotoList = res.body.data;
-              for (let i = 0; i < this.projectPhotoList.length; i++) {
-                this.projectPhotoList[i].photo_url = this.projectPhotoList[i].photo_url === ""
-                  ? require("../../assets/project/xiangmu_card1.png")
-                  : this.projectPhotoList[i].photo_url;
-              }
-            } else {
-              alert("获取项目失败：" + res.body.message);
-            }
-          })
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects`, {
+          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
+        }, function (body) {
+          this.projectPhotoList = body.data;
+          for (let i = 0; i < this.projectPhotoList.length; i++) {
+            this.projectPhotoList[i].photo_url = this.projectPhotoList[i].photo_url === ""
+              ? require("../../assets/project/xiangmu_card1.png")
+              : this.projectPhotoList[i].photo_url;
+          }
+        }, function (message) {
+          alert("获取项目失败：" + message);
+        })
+        // this.$http
+        //   //定义为全局使用global_msg.server_url
+        //   //get请求（后端提供url）
+        //   .get(`${global_msg.method.getBaseUrl()}/api/projects`,
+        //     {
+        //       params: {
+        //         "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
+        //       }
+        //     }, {emulateJSON: true})
+        //   .then(res => {
+        //     if (res.body.err_code === 0) {
+        //
+        //       this.projectPhotoList = res.body.data;
+        //       for (let i = 0; i < this.projectPhotoList.length; i++) {
+        //         this.projectPhotoList[i].photo_url = this.projectPhotoList[i].photo_url === ""
+        //           ? require("../../assets/project/xiangmu_card1.png")
+        //           : this.projectPhotoList[i].photo_url;
+        //       }
+        //     } else {
+        //       alert("获取项目失败：" + res.body.message);
+        //     }
+        //   })
       },
       getTicket() {
         this.$http
