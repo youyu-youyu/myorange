@@ -263,22 +263,6 @@
     },
 
     methods: {
-      //刷新token
-      refreshToken() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post网络请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
-            {}, {emulateJSON: true})
-          .then(res => {
-            console.log(res.body.data)
-            if (res.body.err_code === 0) {
-
-            } else {
-              alert("刷新Token失败:" + res.body.message);
-            }
-          });
-      },
       //跳转小程序主页面
       goMini() {
         window.wx.miniProgram.navigateTo({
@@ -359,8 +343,6 @@
             return;
           }
           brand = brand.split("#")[0];
-          console.log("brand")
-          console.log(brand)
           // 跟if(brand==="test")一个意思
           switch (brand) {
             case "test":
@@ -388,6 +370,7 @@
           this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html");
 
       },
+      //小程序登录
       miniLogin: function () {
         this.$http
           //定义为全局使用global_msg.server_url
@@ -627,21 +610,29 @@
 
       //扫码存彩票
       storageLottery(tickeyJSON) {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
-            {
-              "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
-              "password": tickeyJSON.password, "orderNo": tickeyJSON.orderNo
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              alert("存彩票成功！")
-            } else {
-              alert("存彩票失败！" + res.body.message)
-            }
-          });
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/storageticket`, {
+          "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
+          "password": tickeyJSON.password, "orderNo": tickeyJSON.orderNo
+        }, function (body) {
+          alert("存彩票成功！")
+        }, function (message) {
+          alert("存彩票失败！" + message)
+        })
+        // this.$http
+        //   //定义为全局使用global_msg.server_url
+        //   //post请求（后端提供url）
+        //   .post(`${global_msg.method.getBaseUrl()}/api/storageticket`,
+        //     {
+        //       "deviceId": tickeyJSON.deviceId, "ticketNumber": tickeyJSON.ticketNumber,
+        //       "password": tickeyJSON.password, "orderNo": tickeyJSON.orderNo
+        //     }, {emulateJSON: true})
+        //   .then(res => {
+        //     if (res.body.err_code === 0) {
+        //
+        //     } else {
+        //
+        //     }
+        //   });
       },
       //扫码取币
       scanCodeGetCoin(coinsNum) {
@@ -666,60 +657,90 @@
       //获取最近的店
       getNearestShop(log, lat) {
         let _this = this;
-        _this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
-            {
-              "shopLat": lat, "shopLog": log, "brand_id": `${global_msg.method.getBrandId()}`,
-            }, {emulateJSON: true})
-          .then(res => {
-            // console.log(res.body);
-            if (res.body.err_code === 0) {
-              //
-              this.$store.commit('setSelectedShopData', res.body.data);
-              let shopNameData = res.body.data;
-              _this.shopName = shopNameData.shopName;
-              _this.slidePhoto = shopNameData.slidePhoto;
-              `${global_msg.method.getUserAccountInfo(this)}`;
-              `${global_msg.method.getUserBasicInfo(this)}`
-            } else {
-              alert("请求最近店铺失败:" + res.body.message);
-            }
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
+          "shopLat": lat, "shopLog": log, "brand_id": `${global_msg.method.getBrandId()}`,
+        }, function (body) {
+          this.$store.commit('setSelectedShopData', body.data);
+          let shopNameData = body.data;
+          _this.shopName = shopNameData.shopName;
+          _this.slidePhoto = shopNameData.slidePhoto;
+          `${global_msg.method.getUserAccountInfo(this)}`;
+          `${global_msg.method.getUserBasicInfo(this)}`
+        }, function (message) {
+          alert("请求最近店铺失败:" + message);
+        })
+        // _this.$http
+        //   //定义为全局使用global_msg.server_url
+        //   //post请求（后端提供url）
+        //   .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
+        //     {
+        //       "shopLat": lat, "shopLog": log, "brand_id": `${global_msg.method.getBrandId()}`,
+        //     }, {emulateJSON: true})
+        //   .then(res => {
+        //     // console.log(res.body);
+        //     if (res.body.err_code === 0) {
+        //       //
+        //       this.$store.commit('setSelectedShopData', res.body.data);
+        //       let shopNameData = res.body.data;
+        //       _this.shopName = shopNameData.shopName;
+        //       _this.slidePhoto = shopNameData.slidePhoto;
+        //       `${global_msg.method.getUserAccountInfo(this)}`;
+        //       `${global_msg.method.getUserBasicInfo(this)}`
+        //     } else {
+        //
+        //     }
 
-          });
+        // });
       },
 
       //由于刷新页面导致上次选择的店铺不存在，这里通过获取店铺接口重新拿到上次选择的店铺
       //获取店铺所需要的的三个参数在选择店铺页面选中的时候要保存在localStorage里
 
       getLastSelectedShop() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
-            {
-              "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
-              "shopLog": localStorage.getItem("shopLog"),
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              // this.$store.state.selectedShopData = res.body.data;
-              this.$store.commit('setSelectedShopData', res.body.data);
-              let shopNameData = res.body.data;
-              this.shopName = shopNameData.shopName;
-              this.slidePhoto = shopNameData.slidePhoto;
-              `${global_msg.method.getUserAccountInfo(this)}`;
-              `${global_msg.method.getUserBasicInfo(this)}`;
-              let result = localStorage.getItem("payStatusResult")
-              if (result === "1" || result === "0")
-                this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
+          "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+          "shopLog": localStorage.getItem("shopLog"),
+        }, function (body) {
+          this.$store.commit('setSelectedShopData', body.data);
+          let shopNameData = body.data;
+          this.shopName = shopNameData.shopName;
+          this.slidePhoto = shopNameData.slidePhoto;
+          `${global_msg.method.getUserAccountInfo(this)}`;
+          `${global_msg.method.getUserBasicInfo(this)}`;
+          let result = localStorage.getItem("payStatusResult")
+          if (result === "1" || result === "0")
+            this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
-              this.getJSSDKInfo()
-            } else {
-              alert("获取店铺失败:" + res.body.message)
-            }
-          })
+          this.getJSSDKInfo()
+        }, function (message) {
+          alert("获取店铺失败:" + message)
+        })
+        // this.$http
+        //   //定义为全局使用global_msg.server_url
+        //   //get请求（后端提供url）
+        //   .post(`${global_msg.method.getBaseUrl()}/api/shop/select`,
+        //     {
+        //       "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+        //       "shopLog": localStorage.getItem("shopLog"),
+        //     }, {emulateJSON: true})
+        //   .then(res => {
+        //     if (res.body.err_code === 0) {
+        //       // this.$store.state.selectedShopData = res.body.data;
+        //       this.$store.commit('setSelectedShopData', res.body.data);
+        //       let shopNameData = res.body.data;
+        //       this.shopName = shopNameData.shopName;
+        //       this.slidePhoto = shopNameData.slidePhoto;
+        //       `${global_msg.method.getUserAccountInfo(this)}`;
+        //       `${global_msg.method.getUserBasicInfo(this)}`;
+        //       let result = localStorage.getItem("payStatusResult")
+        //       if (result === "1" || result === "0")
+        //         this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
+        //
+        //       this.getJSSDKInfo()
+        //     } else {
+        //       alert("获取店铺失败:" + res.body.message)
+        //     }
+        //   })
       },
 
 
