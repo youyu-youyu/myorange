@@ -32,8 +32,6 @@ Vue.http.interceptors.push((request, next) => {
       // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
       // if (window.localStorage.getItem('token') != null) {
       alert('token 已过期,即将刷新');
-      console.log(111)
-      console.log(response)
       // }
       // localStorage.setItem("isTokenExpire", "true");
       // localStorage.setItem("code", "");
@@ -47,14 +45,12 @@ Vue.http.interceptors.push((request, next) => {
           .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
             {}, {emulateJSON: true})
           .then(res => {
-            alert(res.body.data)
             if (res.body.err_code === 0) {
               localStorage.setItem('token_type', res.body.data.token_type);
               localStorage.setItem('token', res.body.data.access_token);
               localStorage.setItem("isTokenExpire", "false");
               console.log("重新请求")
               resolve();
-
             } else {
               alert("刷新Token失败:" + res.body.message);
               reject("");
@@ -63,8 +59,9 @@ Vue.http.interceptors.push((request, next) => {
 
       });
       return promise.then(function () {
-        return Vue.http(request).then(data => {
-          return data
+
+        return Vue.http(request).then(res => {
+          return res
         })
       })
 

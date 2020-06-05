@@ -16,7 +16,11 @@ export default {
           });
       } else {
         // axios网络请求框架
-
+        Vue.axios.post(url,
+          params, {emulateJSON: true})
+          .then(res => {
+            successCallback(res)
+          });
       }
     },
     get: function (url, params, successCallback) {
@@ -34,7 +38,11 @@ export default {
           });
       } else {
         // axios网络请求框架
-
+        Vue.axios.get(url,
+          params, {emulateJSON: true})
+          .then(res => {
+            successCallback(res)
+          });
       }
     }
 

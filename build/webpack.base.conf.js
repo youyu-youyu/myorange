@@ -25,6 +25,7 @@ module.exports = {
     "vue-router": "VueRouter",
     "vuex": "Vuex",
     "vue-resource": "VueResource",
+    "axios": "axios"
   },
   output: {
     path: config.build.assetsRoot,
