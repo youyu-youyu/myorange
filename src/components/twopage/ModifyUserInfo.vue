@@ -41,7 +41,8 @@
   import DatePicker from 'vue2-datepicker';
   import 'vue2-datepicker/locale/zh-cn';
   import 'vue2-datepicker/index.css';
-  import {Toast, MessageBox} from "mint-ui"
+  import {Toast, MessageBox} from "mint-ui";
+  import myNetUtils from "../js/MyNetUtils.js";
 
 
   export default {
@@ -103,52 +104,30 @@
       },
       //会员等级提升
       membershipLevelUpgrade() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/member/grading`,
-            {
-              params: {
-                "_timestamp": new Date().getTime()
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            console.log(res.body.data)
-            if (res.body.err_code === 0) {
-              Toast("会员等级提升成功")
-            } else {
-              alert("会员等级提升失败：" + res.body.message);
-            }
-          })
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/grading`, {
+          "_timestamp": new Date().getTime()
+        }, function (body) {
+          Toast("会员等级提升成功")
+        }, function (message) {
+          alert("会员等级提升失败：" + message);
+        })
       },
       //获取个人信息
       getPersonInfo() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/mall/extdata`,
-            {
-              params: {}
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              let userData = res.body.data
-              this.userPhoto = userData.userPhoto;
-              console.log(111)
-              console.log(this.userPhoto)
-              this.$refs.userNameInput.value = userData.userName;
-              this.$refs.userMobilPhoneInput.value = userData.userPhone;
-              this.time1 = userData.brithday;
-              if (this.time1 !== "") {
-                //判断生日是否为空，不为空设置为不可编辑
-                this.disabled = true
-              }
-              // if (this.$refs.userBirthdayInput.value !== "") {
-              //   document.getElementById('userBirthday').setAttribute('disabled', 'disabled')
-              // }
-            } else {
-              alert("获取个人信息失败：" + res.body.message);
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/extdata`, {},
+          function (body) {
+            let userData = body.data
+            _this.userPhoto = userData.userPhoto;
+            _this.$refs.userNameInput.value = userData.userName;
+            _this.$refs.userMobilPhoneInput.value = userData.userPhone;
+            _this.time1 = userData.brithday;
+            if (_this.time1 !== "") {
+              //判断生日是否为空，不为空设置为不可编辑
+              _this.disabled = true
             }
+          }, function (message) {
+            alert("获取个人信息失败：" + message);
           })
       },
       //上传图片到服务器
@@ -174,24 +153,19 @@
           alert("手机号有误，请重填");
           return false;
         }
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`,
-            {
-              "headimg": "",
-              "username": this.$refs.userNameInput.value,
-              "phone": phone,
-              "birthday": this.$refs.userBirthdayInput.value,
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              alert('更新个人信息成功')
-              this.$router.go(-1);
-            } else
-              alert('更新个人信息失败:' + res.body.message)
-          })
+        let _this = this
         this.disabled = true;
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`, {
+          "headimg": "",
+          "username": this.$refs.userNameInput.value,
+          "phone": phone,
+          "birthday": this.$refs.userBirthdayInput.value,
+        }, function (body) {
+          alert('更新个人信息成功')
+          _this.$router.go(-1);
+        }, function (message) {
+          alert('更新个人信息失败:' + message)
+        })
 
       },
 

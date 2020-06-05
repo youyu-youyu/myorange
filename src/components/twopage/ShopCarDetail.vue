@@ -85,6 +85,7 @@
   import global_msg from "../js/global";
   import Cell from "../public/cell";
   import loading from "../public/loading/loading";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "CarDetail",
@@ -140,92 +141,70 @@
       }
     },
     mounted() {
-      this.orderReadyPay();
-
+      let _this = this
+      _this.orderReadyPay();
     },
     methods: {
       //生成订单准备支付
       orderReadyPay() {
-        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/orderbuy`, {
-          "addrid": this.address.id, "brand_id": `${global_msg.method.getBrandId()}`,
-          "payjson": JSON.stringify(this.payJSONList), "notifyUrl": this.$store.state.homeHtml,
-        }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              console.log(res.body.data)
-              this.payMoney = res.body.data.paymoney;
-              this.sumPrice = this.payMoney;
-              this.order_sn = res.body.data.order_sn;
-              this.addressList = [];
-              this.addressList = this.addressList.concat(res.body.data);
-              if (res.body.data.sqbpay === 1) {
-                this.payType0 = "微信支付"
-              } else if (res.body.data.sqbpay === 2) {
-                this.payType0 = ""
-              }
-              if (res.body.data.jfpay === 1) {
-                this.payType1 = "积分支付"
-              } else if (res.body.data.jfpay === 2) {
-                this.payType1 = ""
-              }
-              if (res.body.data.cppay === 1) {
-                this.payType2 = "彩票支付"
-              } else if (res.body.data.cppay === 2) {
-                this.payType2 = ""
-              }
-            } else {
-              alert("生成订单准备支付失败" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/orderbuy`, {
+          "addrid": _this.address.id, "brand_id": `${global_msg.method.getBrandId()}`,
+          "payjson": JSON.stringify(_this.payJSONList), "notifyUrl": _this.$store.state.homeHtml,
+        }, function (body) {
+          _this.payMoney = body.data.paymoney;
+          _this.sumPrice = _this.payMoney;
+          _this.order_sn = body.data.order_sn;
+          _this.addressList = [];
+          _this.addressList = _this.addressList.concat(body.data);
+          if (body.data.sqbpay === 1) {
+            _this.payType0 = "微信支付"
+          } else if (body.data.sqbpay === 2) {
+            _this.payType0 = ""
+          }
+          if (body.data.jfpay === 1) {
+            _this.payType1 = "积分支付"
+          } else if (body.data.jfpay === 2) {
+            _this.payType1 = ""
+          }
+
+          if (body.data.cppay === 1) {
+            _this.payType2 = "彩票支付"
+          } else if (body.data.cppay === 2) {
+            _this.payType2 = ""
+          }
+        }, function (message) {
+          alert("生成订单准备支付失败" + message)
+        })
       },
       //彩票支付
       lotteryPay() {
-        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/lotterypay`,
-          {
-            "order_sn": this.order_sn,
-          }, {emulateJSON: true})
-          .then(res => {
-            console.log(res.body);
-            if (res.body.err_code === 0) {
-
-            } else {
-              alert("彩票支付失败:" + res.body.message)
-            }
-          })
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/lotterypay`, {
+          "order_sn": this.order_sn,
+        }, function (body) {
+        }, function (message) {
+          alert("彩票支付失败:" + message)
+        })
       },
       //积分支付
       integralPay() {
-        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/integralpay`,
-          {
-            "order_sn": this.order_sn,
-          }, {emulateJSON: true})
-          .then(res => {
-            console.log(res.body);
-            if (res.body.err_code === 0) {
-
-            } else {
-              alert("积分支付失败:" + res.body.message)
-            }
-          })
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/integralpay`, {
+          "order_sn": this.order_sn,
+        }, function (body) {
+        }, function (message) {
+          alert("积分支付失败:" + message)
+        })
       },
       // //收钱吧支付接口
       shouqianbaPayment() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/mall/payorder`,
-            {
-              "order_sn": this.order_sn, "shopid": this.$store.state.selectedShopData.shopId,
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              // 跳转支付
-              window.location.href = res.body.data.pay_url;
-            } else {
-              alert("获取支付url失败：" + res.body.message);
-            }
-
-          })
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/payorder`, {
+          "order_sn": this.order_sn, "shopid": this.$store.state.selectedShopData.shopId,
+        }, function (body) {
+          // 跳转支付
+          window.location.href = body.data.pay_url;
+        }, function (message) {
+          alert("获取支付url失败：" + message);
+        })
       },
       //点击支付生成订单
       pay() {

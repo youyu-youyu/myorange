@@ -37,6 +37,7 @@
   import backBar from "../public/backBar.vue";
   import global_msg from "../js/global";
   import loading from "../public/loading/loading";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     data() {
@@ -52,26 +53,18 @@
     },
     methods: {
       getTicketRecord() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/tickets/own`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`,
-                "shopId": this.$store.state.selectedShopData.shopId,
-                "useFlag": 1
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            console.log(res.body);
-            if (res.body.err_code === 0) {
-              this.projectRecordList = res.body.data
-            } else {
-              alert("获取门票信息失败：" + res.body.message);
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets/own`, {
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "useFlag": 1
+        }, function (body) {
+          _this.loading = false;
+          _this.projectRecordList = body.data
+        }, function (message) {
+          _this.loading = false;
+          alert("获取门票信息失败：" + message);
+        })
       },
     },
     components: {
@@ -94,6 +87,10 @@
   .projectrecord {
     margin-top: 60px;
     overflow-y: auto !important;
+  }
+
+  .mui-table-view:before {
+    background-color: transparent !important;
   }
 
   .projectrecord-border {

@@ -35,6 +35,7 @@
   import BackBar from "../public/backBar";
   import loading from "../public/loading/loading";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "PhysicalCard",
@@ -42,7 +43,6 @@
       return {
         entityCardIndex: 0,
         entityCardsList: ""
-
       }
     },
     mounted() {
@@ -53,58 +53,33 @@
       //解绑
       unBound(index) {
         this.entityCardIndex = index;
-        console.log(this.entityCardsList[this.entityCardIndex].cardNo)
-        console.log(this.$store.state.selectedShopData.shopId)
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/entitycards/unbind`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId,
-              "cardNo": this.entityCardsList[this.entityCardIndex].cardNo,
-            }, {emulateJSON: true})
-          .then(res => {
-              console.log(res.body)
-              console.log(this.entityCardsList[this.entityCardIndex].cardNo)
-              console.log(this.$store.state.selectedShopData.shopId)
-              if (res.body.err_code === 0) {
-                alert("解绑成功！")
-                this.getEntityCards()
-              } else {
-                alert("解绑失败:" + res.body.message)
-              }
-            }
-          );
-
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/unbind`, {
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "cardNo": this.entityCardsList[this.entityCardIndex].cardNo,
+        }, function (body) {
+          alert("解绑成功！")
+          _this.getEntityCards()
+        }, function (message) {
+          alert("解绑失败:" + message)
+        })
       },
       //修改密码
       update(index) {
         this.entityCardIndex = index;
-        console.log(this.entityCardsList[this.entityCardIndex].cardNo)
         this.$router.push({path: '/changepassword', query: {cardNo: this.entityCardsList[this.entityCardIndex].cardNo}})
         //传当前所点击的卡号
       },
       //获取实体卡号
       getEntityCards() {
-
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/entitycards`,
-            {
-              params: {
-                "shopId": this.$store.state.selectedShopData.shopId
-              }
-            }, {emulateJSON: true})
-
-          .then(res => {
-            console.log(res.body.data)
-            if (res.body.err_code === 0) {
-              this.entityCardsList = res.body.data
-            } else {
-              alert("获取实体卡号失败" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/entitycards`, {
+          "shopId": this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.entityCardsList = body.data
+        }, function (message) {
+          alert("获取实体卡号失败" + message)
+        })
       }
     },
 

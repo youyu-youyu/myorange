@@ -5,9 +5,6 @@
       >
         <div class="homelocation_inner" :class="{temp:index===selectedIndex}">
           <div class="mui-pull-left homelocation_img">
-            <!--            地址-->
-            <!--            <img src="../../assets/home/shuijiao.jpg" class="homelocation_img">-->
-            <!--            <img :src="item.shopImg"  alt="加载错误" class="homelocation_img">-->
           </div>
           <div class="mui-pull-body homelocation_body">
             <div>{{item.shopName}}</div>
@@ -75,6 +72,7 @@
 <script>
   import {Toast} from 'mint-ui'
   import global_msg from "../js/global.js";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
 
@@ -94,21 +92,14 @@
       //接口图片错误显示默认图片
       //获取门店列表
       getShopList() {
-        this.$http.get(`${global_msg.method.getBaseUrl()}/api/shop/list`,
-          {
-            params: {
-              "count": 100, "page": 1, path: this.pathId,
-            }
-          }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.shopList = res.body.data
-            } else {
-              alert("获取门店列表失败：" + res.body.message);
-
-            }
-            console.log(this.shopList)
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/shop/list`, {
+          "count": 100, "page": 1, path: this.pathId,
+        }, function (body) {
+          _this.shopList = body.data
+        }, function (message) {
+          alert("获取门店列表失败：" + message);
+        })
       },
       //点击传参到主页面
       clickEvent(index) {
@@ -126,5 +117,5 @@
 </script>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/HomeLocation.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/twopage/HomeLocation.vue-->

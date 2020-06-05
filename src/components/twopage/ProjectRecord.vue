@@ -45,6 +45,7 @@
   import backBar from "../public/backBar.vue";
   import global_msg from "../js/global";
   import loading from "../public/loading/loading";
+  import myNetUtils from "../js/MyNetUtils.js";
 
 
   export default {
@@ -62,25 +63,18 @@
     },
     methods: {
       getProjectRecord() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/projects/own`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`,
-                "shopId": this.$store.state.selectedShopData.shopId,
-                "useFlag": 1
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            if (res.body.err_code === 0) {
-              this.projectRecordList = res.body.data
-            } else {
-              alert("获取项目记录失败" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects/own`, {
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "useFlag": 1
+        }, function (body) {
+          _this.loading = false;
+          _this.projectRecordList = body.data
+        }, function (message) {
+          _this.loading = false;
+          alert("获取项目记录失败" + message)
+        })
       },
     },
     components: {

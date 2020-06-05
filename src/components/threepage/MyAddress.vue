@@ -9,8 +9,8 @@
         <span class="mui-pull-right back_txt_2" @click="addAddress()">添加新地址</span>
       </div>
     </div>
-    <div class="address" >
-      <div class="address_content" v-for="(item,index) in addressList" >
+    <div class="address">
+      <div class="address_content" v-for="(item,index) in addressList">
         <a><span class="mui-icon mui-icon-navigate mui-pull-left add_left"></span></a>
         <div class="address_content_inner mui-media-body" @click="selectAddressClick(index)">
           <span>{{item.fullname}}</span>&nbsp;&nbsp;<span>{{item.mobile}}</span>
@@ -31,6 +31,7 @@
 <script>
   import {Toast} from "mint-ui"
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "MyAddress",
@@ -42,7 +43,7 @@
         mobile: "",
         full_address: "",
         editIndex: "",
-        selectIndex:"",
+        selectIndex: "",
       }
     },
     created() {
@@ -61,7 +62,8 @@
         //点击编辑时回到添加收货地址页面，并且添加收货地址详细信息中显示需要编辑的信息
         //点击哪个下标，显示哪个
         //点击编辑的一瞬间就应该从数据库拿数据
-        this.$router.push({path: '/addaddress', query: {updateAddress: this.addressList[this.editIndex]}
+        this.$router.push({
+          path: '/addaddress', query: {updateAddress: this.addressList[this.editIndex]}
         });
       },
 
@@ -71,23 +73,20 @@
       },
       //获取收货地址列表
       getReceivingAddressList() {
-        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/addrlist`, {
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/addrlist`, {
           "brand_id": `${global_msg.method.getBrandId()}`
-        }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-
-              this.addressList = [];
-              // this.addressList =res.body.data;
-              this.addressList = this.addressList.concat(res.body.data);
-            } else {
-              alert("获取收货地址列表失败"+res.body.message)
-            }
-          })
+        }, function (body) {
+          _this.addressList = [];
+          // this.addressList =res.body.data;
+          _this.addressList = _this.addressList.concat(body.data);
+        }, function (message) {
+          alert("获取收货地址列表失败" + message)
+        })
       },
       //选择地址
-      selectAddressClick(index){
-        this.selectIndex=index;
+      selectAddressClick(index) {
+        this.selectIndex = index;
         //传点击的地址
         this.$router.push({path: '/shop/car/detail', query: {addressIndex: this.addressList[this.selectIndex]}});
         // this.$router.go(-1); //返回上一层
@@ -234,7 +233,6 @@ back_top_all {
   margin-top: 10px;
 }
 </style>
-
 
 
 // WEBPACK FOOTER //

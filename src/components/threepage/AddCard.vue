@@ -15,6 +15,7 @@
   import BackBar from "../public/backBar";
   import loading from "../public/loading/loading";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "AddCard",
@@ -32,25 +33,17 @@
       addEntityCards() {
         let cardNumber = this.$refs.cardNumber.value;
         let cardPassword = this.$refs.cardPassword.value;
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId,
-              "cardNo": cardNumber,
-              "password": cardPassword,
-
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              alert("添加成功！")
-              this.$router.go(-1)
-            } else {
-              alert("添加实体卡失败:" + res.body.message)
-            }
-
-          });
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`, {
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "cardNo": cardNumber,
+          "password": cardPassword,
+        }, function (body) {
+          alert("添加成功！")
+          _this.$router.go(-1)
+        }, function (message) {
+          alert("添加实体卡失败:" + message)
+        })
       },
       scanAddCard() {
         ///扫码绑定

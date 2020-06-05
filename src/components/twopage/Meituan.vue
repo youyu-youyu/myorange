@@ -38,7 +38,9 @@
     },
     methods: {
       //美团购买记录
+
       payRecord() {
+        let _this = this
         this.$http
           //定义为全局使用global_msg.server_url
           //get请求（后端提供url）

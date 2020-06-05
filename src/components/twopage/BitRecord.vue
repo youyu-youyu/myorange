@@ -24,6 +24,7 @@
   import global_msg from "../js/global";
   import {Toast} from "mint-ui";
   import loading from "../public/loading/loading";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     data() {
@@ -39,28 +40,20 @@
     methods: {
       //充值记录
       payRecord() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/leaderboard/coins`,
-            {
-              params: {
-                "shopId": this.$store.state.selectedShopData.shopId,
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            if (res.body.err_code === 0) {
-              if (res.body.data.length > 0)
-                this.bitRecordList = res.body.data;
-              else {
-                Toast("未请求到数据");
-              }
-              console.log(this.bitRecordList)
-            } else {
-              alert("获取充币记录失败" + res.body.message);
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/leaderboard/coins`, {
+          "shopId": this.$store.state.selectedShopData.shopId,
+        }, function (body) {
+          _this.loading = false;
+          if (body.data.length > 0)
+            _this.bitRecordList = body.data;
+          else {
+            Toast("未请求到数据");
+          }
+        }, function (message) {
+          _this.loading = false;
+          alert("获取充币记录失败" + message);
+        })
       },
     },
     components: {

@@ -69,6 +69,7 @@
   import global_msg from '../js/global.js'
   import {Toast} from "mint-ui";
   import loading from "../public/loading/loading";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     data() {
@@ -98,85 +99,76 @@
       },
       signDay() {
         this.loading = true;
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/sign`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId
-            }, {emulateJSON: true})
-          .then(response => {
-            this.loading = false;
-            if (response.body.err_code === 0) {
-              Toast("签到成功");
-              //签到成功之后重新调用获取 签到列表接口刷新列表
-              `${global_msg.method.getUserAccountInfo(this)}`;
-              `${global_msg.method.getUserBasicInfo(this)}`
-              this.getSign();
-            } else {
-              Toast("签到失败:" + response.body.message);
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/sign`, {
+          "shopId": this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.loading = false;
+          Toast("签到成功");
+          //签到成功之后重新调用获取 签到列表接口刷新列表
+          `${global_msg.method.getUserAccountInfo(_this)}`;
+          `${global_msg.method.getUserBasicInfo(_this)}`
+          _this.getSign();
+        }, function (message) {
+          _this.loading = false;
+          Toast("签到失败:" + message);
+        })
       },
       getSign() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/sign/info`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              let data = res.body.data;
-              console.log(res.body)
-              this.signCount = data.sign_count;
-              this.keyList = [];//把keyList置为空，避免累计追加数组
-              this.valueList = [];
-              let obj = data.sign_list;
-              let tempKeyList = [];//新定义数组用来计算
-              let tempValueList = [];
-              for (let i in obj) {
-                tempKeyList.push(i);
-                tempValueList.push(obj[i]);
-              }
-              this.keyList = this.keyList.concat(tempKeyList);
-              this.valueList = this.valueList.concat(tempValueList);
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/sign/info`, {
+          "shopId": this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          let data = body.data;
 
-              for (let i = 0; i < this.keyList.length; i++) {
-                this.keyList[i] = this.keyList[i].split("-")[1] + "." + this.keyList[i].split("-")[2];
+          _this.signCount = data.sign_count;
+          _this.keyList = [];//把keyList置为空，避免累计追加数组
+          _this.valueList = [];
+          let obj = data.sign_list;
+          console.log(obj)
+          let tempKeyList = [];//新定义数组用来计算
+          let tempValueList = [];
+          for (let i in obj) {
+            tempKeyList.push(i);
+            tempValueList.push(obj[i]);
+          }
+          _this.keyList = _this.keyList.concat(tempKeyList);
+          _this.valueList = _this.valueList.concat(tempValueList);
+          console.log(_this.valueList)
 
-                let day1 = new Date();
-                //月份
-                let date = (day1.getMonth() + 1) < 10 ? "0" + (day1.getMonth() + 1) : (day1.getMonth() + 1);
-                //今天
-                let currentDay2 = day1.getDate() < 10 ? "0" + day1.getDate() : day1.getDate();
-                //昨天
-                let preDay = day1.getDate() - 1
-                let preDay2 = preDay < 10 ? "0" + preDay : preDay;
-                // 明天
-                let tomorrowDay = day1.getDate() + 1
-                let tomorrowDay1 = tomorrowDay < 10 ? "0" + tomorrowDay : tomorrowDay;
-                //小于10，在前面加上0，如5/7变成05/07
+          for (let i = 0; i < _this.keyList.length; i++) {
+            _this.keyList[i] = _this.keyList[i].split("-")[1] + "." + _this.keyList[i].split("-")[2];
 
-                // 如果是昨天day1.getDate()-1
-                // 明天day1.getDate()+1
-                // 如果数字小于10 ，在前面添加0
-                //然后做对比
-                if (this.keyList[i] === date + "." + currentDay2) {
-                  this.keyList[i] = "今日";
-                }
-                if (this.keyList[i] === date + "." + preDay2) {
-                  this.keyList[i] = "昨日";
-                }
-                if (this.keyList[i] === date + "." + tomorrowDay1) {
-                  this.keyList[i] = "明日";
-                }
-              }
-            } else {
-              alert("获取签到列表失败：" + res.body.message);
+            let day1 = new Date();
+            //月份
+            let date = (day1.getMonth() + 1) < 10 ? "0" + (day1.getMonth() + 1) : (day1.getMonth() + 1);
+            //今天
+            let currentDay2 = day1.getDate() < 10 ? "0" + day1.getDate() : day1.getDate();
+            //昨天
+            let preDay = day1.getDate() - 1
+            let preDay2 = preDay < 10 ? "0" + preDay : preDay;
+            // 明天
+            let tomorrowDay = day1.getDate() + 1
+            let tomorrowDay1 = tomorrowDay < 10 ? "0" + tomorrowDay : tomorrowDay;
+            //小于10，在前面加上0，如5/7变成05/07
+
+            // 如果是昨天day1.getDate()-1
+            // 明天day1.getDate()+1
+            // 如果数字小于10 ，在前面添加0
+            //然后做对比
+            if (_this.keyList[i] === date + "." + currentDay2) {
+              _this.keyList[i] = "今日";
             }
-          })
+            if (_this.keyList[i] === date + "." + preDay2) {
+              _this.keyList[i] = "昨日";
+            }
+            if (_this.keyList[i] === date + "." + tomorrowDay1) {
+              _this.keyList[i] = "明日";
+            }
+          }
+        }, function (message) {
+          alert("获取签到列表失败：" + message);
+        })
       },
     },
     components: {
