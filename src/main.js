@@ -30,9 +30,9 @@ Vue.http.interceptors.push((request, next) => {
     // alert(window.localStorage.getItem('token') == null)
     if (status_code === 401) { //与后台约定登录失效的返回码
       // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
-      // if (window.localStorage.getItem('token') != null) {
-      alert('token 已过期,即将刷新');
-      // }
+      if (window.localStorage.getItem('token') != null) {
+        alert('token 已过期,即将刷新');
+      }
       // localStorage.setItem("isTokenExpire", "true");
       // localStorage.setItem("code", "");
       // //状态码为401的时候，调回主页
