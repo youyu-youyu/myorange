@@ -1,3 +1,5 @@
+import myNetUtils from "../js/MyNetUtils.js";
+
 const orange_url = 'https://plmokn28.020orange.com';
 const xiaozhu_url = 'https://plmokn28.020orange.com';
 const production_url = 'https://saas.orangecrt.com';//正式环境域名
@@ -77,46 +79,23 @@ export default {
 
     //获取用户账户信息
     getUserAccountInfo: function (_this) {
-      _this.$http
-        //定义为全局使用global_msg.server_url
-        //get请求（后端提供url）
-        .get(`${this.getBaseUrl()}/api/me`,
-          {
-            params: {
-              "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
-            }
-          }, {emulateJSON: true})
-        .then(res => {
-          console.log(res.body.data);
-          if (res.body.err_code === 0) {
-            // alert("姓名:" + res.body.data.userName);
-            _this.$store.commit('setUserAccountData', res.body.data);
-          } else {
-            alert("获取用户信息失败:" + res.body.message);
-          }
-        })
+      myNetUtils.method.get(`${this.getBaseUrl()}/api/me`, {
+        "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
+      }, function (body) {
+        _this.$store.commit('setUserAccountData', body.data);
+      }, function (message) {
+        alert("获取用户信息失败:" + message);
+      })
     },
     //获取用户基本信息
     getUserBasicInfo: function (_this) {
-      _this.$http
-        //定义为全局使用global_msg.server_url
-        //get请求（后端提供url）
-        .get(`${this.getBaseUrl()}/api/member/user`,
-          {
-            params: {
-              "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
-            }
-          }, {emulateJSON: true})
-        .then(res => {
-          console.log(res.body.data);
-          if (res.body.err_code === 0) {
-            _this.$store.commit('setUserInfoData', res.body.data);
-            console.log("userId:" + res.body.data.userId)
-          } else {
-
-            alert("获取账户信息失败：" + res.body.message);
-          }
-        })
+      myNetUtils.method.get(`${this.getBaseUrl()}/api/member/user`, {
+        "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
+      }, function (body) {
+        _this.$store.commit('setUserInfoData', body.data);
+      }, function (message) {
+        alert("获取账户信息失败：" + message);
+      })
     },
 
   },

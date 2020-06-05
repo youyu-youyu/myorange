@@ -65,7 +65,7 @@
       getProject() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects`, {
-          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
+          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
         }, function (body) {
           _this.projectPhotoList = body.data;
           for (let i = 0; i < _this.projectPhotoList.length; i++) {
@@ -76,51 +76,21 @@
         }, function (message) {
           alert("获取项目失败：" + message);
         })
-        // this.$http
-        //   //定义为全局使用global_msg.server_url
-        //   //get请求（后端提供url）
-        //   .get(`${global_msg.method.getBaseUrl()}/api/projects`,
-        //     {
-        //       params: {
-        //         "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
-        //       }
-        //     }, {emulateJSON: true})
-        //   .then(res => {
-        //     if (res.body.err_code === 0) {
-        //
-        //       this.projectPhotoList = res.body.data;
-        //       for (let i = 0; i < this.projectPhotoList.length; i++) {
-        //         this.projectPhotoList[i].photo_url = this.projectPhotoList[i].photo_url === ""
-        //           ? require("../../assets/project/xiangmu_card1.png")
-        //           : this.projectPhotoList[i].photo_url;
-        //       }
-        //     } else {
-        //       alert("获取项目失败：" + res.body.message);
-        //     }
-        //   })
       },
       getTicket() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/tickets`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.ticketPhotoList = res.body.data;
-              for (let i = 0; i < this.ticketPhotoList.length; i++) {
-                if (this.ticketPhotoList[i].photo_url === "") {
-                  this.ticketPhotoList[i].photo_url = require("../../assets/project/xiangmu_card5.png");
-                }
-              }
-            } else {
-              alert("获取门票失败：" + res.body.message);
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets`, {
+          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
+        }, function (body) {
+          _this.ticketPhotoList = body.data;
+          for (let i = 0; i < _this.ticketPhotoList.length; i++) {
+            if (_this.ticketPhotoList[i].photo_url === "") {
+              _this.ticketPhotoList[i].photo_url = require("../../assets/project/xiangmu_card5.png");
             }
-          })
+          }
+        }, function (message) {
+          alert("获取门票失败：" + message);
+        })
       },
     }
   }

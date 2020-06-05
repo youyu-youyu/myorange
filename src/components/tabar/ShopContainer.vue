@@ -71,6 +71,7 @@
   // import mui from '../../lib/mui/js/mui.js'
   import "../css/shop.less";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
   import {Toast} from "mint-ui";
   import loading from "../public/loading/loading";
   /*
@@ -108,19 +109,10 @@
     methods: {
       //后台访问
       backgroundAccess() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/mall/order/qxdd`,
-            {
-              params: {}
-            }, {emulateJSON: true})
-          .then(res => {
-              if (res.body.err_code === 0) {
-              } else {
-              }
-            }
-          )
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/mall/order/qxdd`, {},
+          function () {
+          }, function () {
+          })
       },
       //跳转购物车详情页面
       carDetailClick() {
@@ -199,90 +191,65 @@
       ,
       //主页分类
       getShopCategory() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/mall/category`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.totalShopCategoryList = res.body.data;
-              if (this.totalShopCategoryList.length === 0) {
-                Toast("未获得分类数据");
-                return;
-              }
-              this.categoryClickEvent(0);
-            } else {
-              alert("获取商城分类失败：" + res.body.message);
-            }
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/category`, {
+          "brand_id": `${global_msg.method.getBrandId()}`
+        }, function (body) {
+          _this.totalShopCategoryList = body.data;
+          if (_this.totalShopCategoryList.length === 0) {
+            Toast("未获得分类数据");
+            return;
+          }
+          _this.categoryClickEvent(0);
+        }, function (message) {
+          alert("获取商城分类失败：" + message);
+        })
       }
       ,
       //主页banner
       getShopBanner() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/mall/banner`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`
-              }
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.shopBannerList = res.body.data;
-            } else {
-              alert("获取商城轮播图失败：" + res.body.message);
-            }
-          })
-      }
-      ,
-
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/banner`, {
+          "brand_id": `${global_msg.method.getBrandId()}`
+        }, function (body) {
+          _this.shopBannerList = body.data;
+        }, function (message) {
+          alert("获取商城轮播图失败：" + message);
+        })
+      },
       //商品列表
       getProductList() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/mall/productlist`,
-            {
-              // 在请求完上一页的时候加载page变为2：this.pageIndex++
-              "brand_id": `${global_msg.method.getBrandId()}`,
-              "category_id": this.categoryId,
-              "page": this.pageIndex,
-              "count": 20
-            }, {emulateJSON: true})
-          .then(res => {
-            this.loading = false;
-            if (res.body.err_code === 0) {
-              this.productList = this.productList.concat(res.body.data);
-              //定义一个i为0；如果i小于产品列表长度
-              for (let i = 0; i < this.productList.length; i++) {
-                //定义data接收某个产品(产品列表下标)
-                let data = this.productList[i];
-                //如果没有count属性
-                if (!data.hasOwnProperty("count"))
-                  //自行设置data中的count的值为0
-                  data["count"] = 0;
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/productlist`, {
+          // 在请求完上一页的时候加载page变为2：this.pageIndex++
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "category_id": _this.categoryId,
+          "page": _this.pageIndex,
+          "count": 20
+        }, function (body) {
+          _this.loading = false;
+          _this.productList = _this.productList.concat(body.data);
+          //定义一个i为0；如果i小于产品列表长度
+          for (let i = 0; i < _this.productList.length; i++) {
+            //定义data接收某个产品(产品列表下标)
+            let data = _this.productList[i];
+            //如果没有count属性
+            if (!data.hasOwnProperty("count"))
+              //自行设置data中的count的值为0
+              data["count"] = 0;
+          }
+          for (let i = 0; i < _this.productList.length; i++) {
+            for (let j = 0; j < _this.shopCarList.length; j++) {
+              if (_this.productList[i].id === _this.shopCarList[j].id) {
+                _this.productList[i].count = _this.shopCarList[j].count;
               }
-              for (let i = 0; i < this.productList.length; i++) {
-                for (let j = 0; j < this.shopCarList.length; j++) {
-                  if (this.productList[i].id === this.shopCarList[j].id) {
-                    this.productList[i].count = this.shopCarList[j].count;
-                  }
-                }
-              }
-
-            } else {
-              alert("获取商品列表失败" + res.body.message);
             }
-          })
-      }
-      ,
+          }
+        }, function (message) {
+          _this.loading = false;
+          alert("获取商品列表失败" + message);
+        })
+      },
       //判断机型Android还是ios
       isAndroid() {
         let ua = navigator.userAgent, app = navigator.appVersion;
@@ -294,8 +261,7 @@
         if (isIOS) {
           return false;
         }
-      }
-      ,
+      },
 
 
     },

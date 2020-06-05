@@ -148,6 +148,7 @@
 </template>
 <script>
   import "../css/user.less";
+
   import global_msg from "../js/global";
 
   export default {
