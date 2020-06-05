@@ -79,7 +79,6 @@
       <div class="jifen_txt">2.这里可以写一些项目的规则</div>
       <div class="jifen_txt">3.这里可以写一些项目的规则</div>
     </div>
-
   </div>
 </template>
 
@@ -182,6 +181,7 @@
           // 跳转支付
           if (_this.$refs.cellChild.payType === 1) {
             window.location.href = body.data.pay_url;
+            Toast("支付失败！");
           } else {
             Toast("支付成功！");
             _this.$router.push("/");
