@@ -164,10 +164,7 @@
         }, function (message) {
           alert('更新个人信息失败:' + message)
         })
-
       },
-
-
     },
     //如果修改信息，获取到input的信息，提交到服务器
     components: {
