@@ -392,6 +392,7 @@
       },
       //公众号登录
       publicAccountLogin() {
+        let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
           "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
           "type": 1
@@ -408,11 +409,11 @@
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
             localStorage.getItem("shopId") !== undefined) {
-            this.getLastSelectedShop();
+            _this.getLastSelectedShop();
           } else
-            this.getLocation();
+            _this.getLocation();
 
-          localStorage.setItem("code", this.getUrlCode().code);
+          localStorage.setItem("code", _this.getUrlCode().code);
         }, function (message) {
           alert("登录失败：" + message);
         })
