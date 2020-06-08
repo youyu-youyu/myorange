@@ -392,16 +392,13 @@
       },
       //公众号登录
       publicAccountLogin() {
-        let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
-          "code": _this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+          "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
           "type": 1
           // 固定值type：1:公众号，2:小程序
         }, function (body) {
-          console.log("登录")
-          console.log(body.data)
-          //返回expires_in为token的过期时间
-          // console.log("代理模式请求成功")
+
+          console.log("代理模式请求成功")
           localStorage.setItem('token_type', body.data.token_type);
           localStorage.setItem('token', body.data.access_token);
           localStorage.setItem("isTokenExpire", "false");
@@ -411,10 +408,11 @@
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
             localStorage.getItem("shopId") !== undefined) {
-            _this.getLastSelectedShop();
+            this.getLastSelectedShop();
           } else
-            _this.getLocation();
-          localStorage.setItem("code", _this.getUrlCode().code);
+            this.getLocation();
+
+          localStorage.setItem("code", this.getUrlCode().code);
         }, function (message) {
           alert("登录失败：" + message);
         })
