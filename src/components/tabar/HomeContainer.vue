@@ -411,7 +411,8 @@
             localStorage.getItem("shopId") !== undefined) {
             _this.getLastSelectedShop();
           } else
-            _this.getLocation();
+            alert("getLocation")
+          _this.getLocation();
 
           localStorage.setItem("code", _this.getUrlCode().code);
         }, function (message) {
