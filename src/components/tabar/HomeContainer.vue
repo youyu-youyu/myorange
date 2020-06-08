@@ -414,7 +414,7 @@
             _this.getLastSelectedShop();
           } else
             _this.getLocation();
-          localStorage.setItem("code", this.getUrlCode().code);
+          localStorage.setItem("code", _this.getUrlCode().code);
         }, function (message) {
           alert("登录失败：" + message);
         })
