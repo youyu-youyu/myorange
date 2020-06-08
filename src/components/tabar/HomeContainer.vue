@@ -406,7 +406,7 @@
           localStorage.setItem('token', body.data.access_token);
           localStorage.setItem("isTokenExpire", "false");
           localStorage.setItem("isFirstEnter", "false");
-          localStorage.setItem("expires_in",body.data.expires_in);
+          localStorage.setItem("expires_in", body.data.expires_in);
           if (localStorage.getItem("shopId") !== "undefined" &&
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
@@ -427,7 +427,7 @@
         let _this = this;
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
-          if (_this.getStatu() === BMAP_STATUS_SUCCESS) {
+          if (this.getStatus() === BMAP_STATUS_SUCCESS) {
             if (r.accuracy == null) {
               alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
