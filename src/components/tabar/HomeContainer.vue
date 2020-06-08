@@ -392,8 +392,9 @@
       },
       //公众号登录
       publicAccountLogin() {
+        let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
-          "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+          "code": _this.code, "brand_id": `${global_msg.method.getBrandId()}`,
           "type": 1
           // 固定值type：1:公众号，2:小程序
         }, function (body) {
@@ -410,10 +411,9 @@
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
             localStorage.getItem("shopId") !== undefined) {
-            this.getLastSelectedShop();
+            _this.getLastSelectedShop();
           } else
-            this.getLocation();
-
+            _this.getLocation();
           localStorage.setItem("code", this.getUrlCode().code);
         }, function (message) {
           alert("登录失败：" + message);
@@ -427,7 +427,7 @@
         let _this = this;
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
-          if (this.getStatus() === BMAP_STATUS_SUCCESS) {
+          if (_this.getStatus() === BMAP_STATUS_SUCCESS) {
             if (r.accuracy == null) {
               alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
