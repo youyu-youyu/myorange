@@ -597,9 +597,13 @@
       },
       //获取最近的店
       getNearestShop(log, lat) {
+        console.log("获取店铺")
         let _this = this;
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
-          "shopLat": lat, "shopLog": log, "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopLat": lat,
+          "shopLog": log,
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId
         }, function (body) {
           _this.$store.commit('setSelectedShopData', body.data);
           let shopNameData = body.data;
