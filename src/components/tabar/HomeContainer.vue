@@ -409,6 +409,7 @@
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
             localStorage.getItem("shopId") !== undefined) {
+            alert("getLastSelectedShop")
             _this.getLastSelectedShop();
           } else
             alert("getLocation")
