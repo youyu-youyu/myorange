@@ -427,7 +427,7 @@
         let _this = this;
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
-          if (_this.getStatus() === BMAP_STATUS_SUCCESS) {
+          if (_this.getStatu() === BMAP_STATUS_SUCCESS) {
             if (r.accuracy == null) {
               alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
