@@ -399,11 +399,13 @@
         }, function (body) {
           console.log("登录")
           console.log(body.data)
+          //返回expires_in为token的过期时间
           // console.log("代理模式请求成功")
           localStorage.setItem('token_type', body.data.token_type);
           localStorage.setItem('token', body.data.access_token);
           localStorage.setItem("isTokenExpire", "false");
           localStorage.setItem("isFirstEnter", "false");
+          localStorage.setItem("expires_in", body.data.expires_in)
           if (localStorage.getItem("shopId") !== "undefined" &&
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&

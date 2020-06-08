@@ -40,7 +40,11 @@ if (global_msg.myNetType === 0) {
         // location.href = store.state.homeHtml;
         //刷新token接口
         let promise = new Promise(function (resolve, reject) {
+          // if (expires_in<3600)
+          // 判断如果expires_in小于3600秒，则刷新token
+          //怎么获取expires_in,expires_in在登录接口和刷新接口
           console.log("进来刷新token页面")
+          console.log("expires_in:" + expires_in)
           Vue.http
             //定义为全局使用global_msg.server_url
             //post网络请求（后端提供url）
