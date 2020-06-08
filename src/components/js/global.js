@@ -35,7 +35,6 @@ export default {
     company = index;
   },
   method: {
-
     getBrandId: function () {
       if (company === 0) {
         return orangeBrandId;

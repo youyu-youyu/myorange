@@ -397,8 +397,9 @@
           "type": 1
           // 固定值type：1:公众号，2:小程序
         }, function (body) {
-
-          console.log("代理模式请求成功")
+          console.log("登录")
+          console.log(body.data)
+          // console.log("代理模式请求成功")
           localStorage.setItem('token_type', body.data.token_type);
           localStorage.setItem('token', body.data.access_token);
           localStorage.setItem("isTokenExpire", "false");
