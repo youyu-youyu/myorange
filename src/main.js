@@ -75,7 +75,6 @@ if (global_msg.myNetType === 0) {
       } else if (status_code === 500) {
         alert("HTTP状态码500")
       }
-
     })
   });
 } else {

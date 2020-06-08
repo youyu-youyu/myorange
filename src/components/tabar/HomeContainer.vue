@@ -405,6 +405,7 @@
           localStorage.setItem("isTokenExpire", "false");
           localStorage.setItem("isFirstEnter", "false");
           localStorage.setItem("expires_in", body.data.expires_in);
+          window.localStorage.getItem('expires_in')
           if (localStorage.getItem("shopId") !== "undefined" &&
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
