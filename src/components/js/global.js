@@ -166,13 +166,16 @@ export default {
           localStorage.getItem("shopId") !== "" &&
           localStorage.getItem("shopId") !== null &&
           localStorage.getItem("shopId") !== undefined) {
-          _this.getLastSelectedShop();
+          // _this.getLastSelectedShop();
+          `${this.getLastSelectedShop()}`
+
         } else
-          _this.getLocation();
+          `${this.getLocation()}`
+        // _this.getLocation();
 
         localStorage.setItem("code", code);
       }, function (message) {
-        alert("登录失败：" + message);
+        // alert("登录失败：" + message);
       })
     },
 
