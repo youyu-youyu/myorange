@@ -231,7 +231,7 @@ export default {
     getLastSelectedShop: function () {
       console.log("进来getLastSelectedShop")
       let _this = this
-      myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
+      myNetUtils.method.post(`${this.getBaseUrl()}/api/shop/select`, {
         "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
         "shopLog": localStorage.getItem("shopLog"),
       }, function (body) {
@@ -239,8 +239,8 @@ export default {
         let shopNameData = body.data;
         _this.shopName = shopNameData.shopName;
         _this.slidePhoto = shopNameData.slidePhoto;
-        `${global_msg.method.getUserAccountInfo(_this)}`;
-        `${global_msg.method.getUserBasicInfo(_this)}`;
+        `${this.getUserAccountInfo(_this)}`;
+        `${this.getUserBasicInfo(_this)}`;
         let result = localStorage.getItem("payStatusResult")
         if (result === "1" || result === "0")
           _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
