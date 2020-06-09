@@ -100,11 +100,17 @@ export default {
     getCode(_this) {
       // 非静默授权，第一次有弹框
       _this.code = "";
+      console.log("111")
+      console.log(_this.code)
       let local = window.location.href; // 获取页面url
+      console.log("local")
+      console.log(local)
       _this.code = this.getUrlCode().code// 截取url中的code
-
+      console.log("_this.code")
+      console.log(_this.code)
       //授权//每次进来的时候code都是空的
       if (_this.code == null || _this.code === "") {
+        console.log("_this.code == null ")
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
           local
@@ -114,6 +120,7 @@ export default {
       } else {
         //如果截取url中的code不等于保存的code，才登录
         if (_this.getUrlCode().code !== localStorage.getItem("code")) {
+          console.log("publicAccountLogin")
           _this.publicAccountLogin()
         } else {
           `${global_msg.method.getUserAccountInfo(_this)}`;
