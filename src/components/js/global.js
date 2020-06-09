@@ -100,20 +100,13 @@ export default {
     //微信授权
     getCode(_this) {
       // 非静默授权，第一次有弹框
-      console.log("进入授权")
       let code = ""
       // localStorage.setItem("code", "")
       // _this.code = "";
-      console.log("111")
       let local = window.location.href; // 获取页面url
-      console.log("local")
-      console.log(local)
       code = this.getUrlCode().code// 截取url中的code
-      console.log("_this.code")
-      console.log(code)
       //授权//每次进来的时候code都是空的
       if (code === undefined) {
-        console.log("_this.code == null ")
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
           local
@@ -150,15 +143,12 @@ export default {
     //公众号登录
     publicAccountLogin(_this, code) {
       // let that = this
-      console.log("publicAccountLogin:")
-      console.log(code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
         "code": code, "brand_id": `${this.getBrandId()}`,
         "type": 1
         // 固定值type：1:公众号，2:小程序
       }, function (body) {
 
-        console.log("代理模式请求成功")
         localStorage.setItem('token_type', body.data.token_type);
         localStorage.setItem('token', body.data.access_token);
         localStorage.setItem("isTokenExpire", "false");
@@ -168,18 +158,11 @@ export default {
           localStorage.getItem("shopId") !== "" &&
           localStorage.getItem("shopId") !== null &&
           localStorage.getItem("shopId") !== undefined) {
-          // _this.getLastSelectedShop();
-          console.log("getLastSelectedShop")
+
           getLastSelectedShop()
-          // `${this.getLastSelectedShop()}`
 
         } else {
-          console.log("111getLocation")
-          // `${this.getLocation(_this)}`;//undefined
           getLocation()
-          // that.method.getLocation()//charAt
-          // this.getLocation(_this) //undefined
-          // _this.getLocation(_this)//null
         }
 
 
