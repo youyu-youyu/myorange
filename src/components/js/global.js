@@ -1,4 +1,5 @@
 import myNetUtils from "../js/MyNetUtils.js";
+import {getLocation} from "less/lib/less/utils";
 
 const orange_url = 'https://plmokn28.020orange.com';
 const xiaozhu_url = 'https://plmokn28.020orange.com';
@@ -172,7 +173,8 @@ export default {
         } else {
           console.log("111getLocation")
           // `${this.getLocation(_this)}`;//undefined
-          this.method.getLocation()
+          getLocation(_this)
+          // _this.method.getLocation(_this)
           // this.getLocation(_this) //undefined
           // _this.getLocation(_this)//null
         }
