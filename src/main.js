@@ -40,12 +40,8 @@ if (global_msg.myNetType === 0) {
         ////
 
         // 非静默授权，第一次有弹框
-          // 如果没有code，则去请求
-          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
-            local
-          )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
-
-
+        // 如果没有code，则去请求
+        window.location.href = "https://www.baidu.com"
 
 
         return;
