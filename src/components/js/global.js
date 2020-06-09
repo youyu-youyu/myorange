@@ -99,6 +99,7 @@ export default {
     //微信授权
     getCode(_this) {
       // 非静默授权，第一次有弹框
+      console.log("进入授权")
       _this.code = "";
       console.log("111")
       console.log(_this.code)
