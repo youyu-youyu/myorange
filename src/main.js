@@ -33,10 +33,10 @@ if (global_msg.myNetType === 0) {
       if (status_code === 460) {//返回状态为460，直接登录
         console.log("460" + window.location.href)
         localStorage.setItem("token", "")
+        localStorage.removeItem('isFirstEnter');
         window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
         // `${global_msg.method.getCode(this)}`;
-
 
         ////
 
