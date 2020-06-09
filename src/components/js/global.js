@@ -100,7 +100,8 @@ export default {
     getCode(_this) {
       // 非静默授权，第一次有弹框
       console.log("进入授权")
-      _this.code = "";
+      localStorage.setItem("code", "")
+      // _this.code = "";
       console.log("111")
       console.log(_this.code)
       let local = window.location.href; // 获取页面url
