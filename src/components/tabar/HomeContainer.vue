@@ -426,7 +426,7 @@
       },
       ///获取经纬度
       getLocation(_this) {
-        console.log("getLocation")
+        console.log("12getLocation")
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
           if (this.getStatus() === BMAP_STATUS_SUCCESS) {
