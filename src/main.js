@@ -40,29 +40,32 @@ if (global_msg.myNetType === 0) {
         // location.href = store.state.homeHtml;
         //刷新token接口
         let promise = new Promise(function (resolve, reject) {
-          if (window.localStorage.getItem('expires_in') < 3600) {
-            // 判断如果expires_in小于3600秒，则刷新token
-            //怎么获取expires_in,expires_in在登录接口和刷新接口
-            console.log("进来刷新token页面")
-            console.log("expires_in:" + expires_in)
-            Vue.http
-              //定义为全局使用global_msg.server_url
-              //post网络请求（后端提供url）
-              .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
-                {}, {emulateJSON: true})
-              .then(res => {
-                if (res.body.err_code === 0) {
-                  localStorage.setItem('token_type', res.body.data.token_type);
-                  localStorage.setItem('token', res.body.data.access_token);
-                  localStorage.setItem("isTokenExpire", "false");
-                  console.log("重新请求")
-                  resolve();
-                } else {
-                  alert("刷新Token失败:" + res.body.message);
-                  reject("");
-                }
-              });
-          }
+          //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
+          // let currentTime = Date.parse(new Date()) / 1000;
+          // let expiresTime = window.localStorage.getItem('expires_in');
+          // if (expiresTime - currentTime < 600) {
+          // 判断如果expires_in小于3600秒，则刷新token,每次expires_in的值都为86400？
+          //怎么获取expires_in,expires_in在登录接口和刷新接口
+          console.log("进来刷新token页面")
+
+          console.log("expires_in:" + expires_in)
+          Vue.http
+            //定义为全局使用global_msg.server_url
+            //post网络请求（后端提供url）
+            .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
+              {}, {emulateJSON: true})
+            .then(res => {
+              if (res.body.err_code === 0) {
+                localStorage.setItem('token_type', res.body.data.token_type);
+                localStorage.setItem('token', res.body.data.access_token);
+                localStorage.setItem("isTokenExpire", "false");
+                console.log("重新请求")
+                resolve();
+              } else {
+                alert("刷新Token失败:" + res.body.message);
+                reject("");
+              }
+            });
         });
         return promise.then(function () {
 

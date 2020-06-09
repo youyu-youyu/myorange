@@ -171,21 +171,24 @@
       };
     },
     created: function () {
+      this.getCode();
       // if (localStorage.getItem("isFirstEnter11") === null
       //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
       //   alert("模拟了")
       //   localStorage.setItem("token", "111");
       //   localStorage.setItem("isFirstEnter11", "false")
       // }
+      //返回主页面
       this.parseUrlBrand();
       //如果是公众号
       if (this.type === 1) {
         if (global_msg.company !== -1) {
           //如果第一次进来如果token为空，或者token未过期时(indexOf的检查字符串中有没有指定的子字符串,当不包含的时.返回-1.)
           if (localStorage.getItem("isFirstEnter") === null) {
-
+            //第一次进来时走授权
             this.getCode();
           } else {
+            // 不是第一次进来直接获取上次店铺
             this.getLastSelectedShop();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
@@ -405,7 +408,6 @@
           localStorage.setItem("isTokenExpire", "false");
           localStorage.setItem("isFirstEnter", "false");
           localStorage.setItem("expires_in", body.data.expires_in);
-          console.log(window.localStorage.getItem('expires_in'))
           if (localStorage.getItem("shopId") !== "undefined" &&
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
