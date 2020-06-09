@@ -148,9 +148,9 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
-      console.log("publicAccountLogin:" + _this.code)
+      console.log("publicAccountLogin:" + code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
-        "code": _this.code, "brand_id": `${this.getBrandId()}`,
+        "code": code, "brand_id": `${this.getBrandId()}`,
         "type": 1
         // 固定值type：1:公众号，2:小程序
       }, function (body) {
