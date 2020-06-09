@@ -32,9 +32,39 @@ if (global_msg.myNetType === 0) {
 
       if (status_code === 460) {//返回状态为460，直接登录
         localStorage.setItem("token", "")
-          // document.location = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
-          // alert(status_code)
-          `${global_msg.method.getCode(this)}`;
+        // document.location = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
+        // alert(status_code)
+        // `${global_msg.method.getCode(this)}`;
+
+
+        ////
+
+        // 非静默授权，第一次有弹框
+        this.code = "";
+        let local = window.location.href; // 获取页面url
+        this.code = this.getUrlCode().code// 截取url中的code
+
+        //授权//每次进来的时候code都是空的
+        if (this.code == null || this.code === "") {
+          // 如果没有code，则去请求
+          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
+            local
+          )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
+
+
+        } else {
+          //如果截取url中的code不等于保存的code，才登录
+          if (this.getUrlCode().code !== localStorage.getItem("code")) {
+            alert("111")
+            this.publicAccountLogin()
+          } else {
+            `${global_msg.method.getUserAccountInfo(this)}`;
+            `${global_msg.method.getUserBasicInfo(this)}`;
+          }
+
+        }
+
+
         return;
       }
       // alert(window.localStorage.getItem('token') == null)
