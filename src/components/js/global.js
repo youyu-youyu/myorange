@@ -171,8 +171,8 @@ export default {
 
         } else {
           console.log("11getLocation")
-          // `${this.getLocation(_this)}`;
-          _this.getLocation(_this);
+            `${this.getLocation(_this)}`;
+          // _this.getLocation(_this);
         }
 
 
