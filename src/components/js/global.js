@@ -113,7 +113,7 @@ export default {
       if (code == null || code === "") {
         console.log("_this.code == null ")
         // 如果没有code，则去请求
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
           local
         )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
 
