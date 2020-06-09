@@ -84,7 +84,7 @@ export default {
       }, function (body) {
         _this.$store.commit('setUserAccountData', body.data);
       }, function (message) {
-        window.alert("获取用户信息失败:" + message);
+        // window.alert("获取用户信息失败:" + message);
       })
     },
     //获取用户基本信息
@@ -94,7 +94,7 @@ export default {
       }, function (body) {
         _this.$store.commit('setUserInfoData', body.data);
       }, function (message) {
-        window.alert("获取账户信息失败：" + message);
+        // window.alert("获取账户信息失败：" + message);
       })
     },
     //微信授权
@@ -183,7 +183,7 @@ export default {
 
         localStorage.setItem("code", code);
       }, function (message) {
-        window.alert("登录失败：" + message);
+        // window.alert("登录失败：" + message);
       })
 
     },
@@ -194,7 +194,7 @@ export default {
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
           if (r.accuracy == null) {
-            window.alert("您已拒绝地理位置授权");
+            // window.alert("您已拒绝地理位置授权");
             //用户决绝地理位置授权
           } else {
             const myGeo = new BMap.Geocoder();
