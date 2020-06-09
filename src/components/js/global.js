@@ -107,7 +107,7 @@ export default {
       let local = window.location.href; // 获取页面url
       console.log("local")
       console.log(local)
-      code = this.getUrlCode().code// 截取url中的code
+      code = _this.getUrlCode().code// 截取url中的code
       console.log("_this.code")
       //授权//每次进来的时候code都是空的
       if (code == null || code === "") {
