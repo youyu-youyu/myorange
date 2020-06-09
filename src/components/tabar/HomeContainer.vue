@@ -427,13 +427,14 @@
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
       },
       ///获取经纬度
-      getLocation(_this) {
+      getLocation() {
+        let _this = this
         console.log("12getLocation")
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
           if (this.getStatus() === BMAP_STATUS_SUCCESS) {
             if (r.accuracy == null) {
-              alert("您已拒绝地理位置授权");
+              window.alert("您已拒绝地理位置授权");
               //用户决绝地理位置授权
             } else {
               const myGeo = new BMap.Geocoder();
@@ -646,7 +647,7 @@
 
           _this.getJSSDKInfo()
         }, function (message) {
-          alert("获取店铺失败:" + message)
+          window.alert("获取店铺失败:" + message)
         })
       },
 
