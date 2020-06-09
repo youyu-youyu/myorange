@@ -111,7 +111,7 @@ export default {
       console.log("_this.code")
       console.log(code)
       //授权//每次进来的时候code都是空的
-      if (code === undefined || code === "") {
+      if (code === undefined) {
         console.log("_this.code == null ")
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
@@ -121,9 +121,9 @@ export default {
 
       } else {
         //如果截取url中的code不等于保存的code，才登录
-        if (_this.getUrlCode().code !== localStorage.getItem("code")) {
+        if (code !== localStorage.getItem("code")) {
           console.log("publicAccountLogin")
-          _this.publicAccountLogin()
+          _this.publicAccountLogin(code)
         } else {
           `${this.getUserAccountInfo(_this)}`;
           `${this.getUserBasicInfo(_this)}`;
@@ -147,7 +147,7 @@ export default {
       return theRequest;
     },
     //公众号登录
-    publicAccountLogin(_this) {
+    publicAccountLogin(_this, code) {
       console.log("publicAccountLogin:" + _this.code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
         "code": _this.code, "brand_id": `${this.getBrandId()}`,
@@ -169,7 +169,7 @@ export default {
         } else
           _this.getLocation();
 
-        localStorage.setItem("code", _this.getUrlCode().code);
+        localStorage.setItem("code", code);
       }, function (message) {
         alert("登录失败：" + message);
       })
