@@ -170,12 +170,12 @@ export default {
           `${this.getLastSelectedShop()}`
 
         } else
-          `${_this.getLocation(_this)}`
+          `${this.getLocation(_this)}`
         // _this.getLocation();
 
         localStorage.setItem("code", code);
       }, function (message) {
-        // alert("登录失败：" + message);
+        alert("登录失败：" + message);
       })
 
     },
