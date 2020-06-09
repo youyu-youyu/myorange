@@ -83,7 +83,7 @@ export default {
       }, function (body) {
         _this.$store.commit('setUserAccountData', body.data);
       }, function (message) {
-        alert("获取用户信息失败:" + message);
+        window.alert("获取用户信息失败:" + message);
       })
     },
     //获取用户基本信息
@@ -93,7 +93,7 @@ export default {
       }, function (body) {
         _this.$store.commit('setUserInfoData', body.data);
       }, function (message) {
-        alert("获取账户信息失败：" + message);
+        window.alert("获取账户信息失败：" + message);
       })
     },
     //微信授权
