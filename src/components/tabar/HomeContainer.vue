@@ -425,9 +425,8 @@
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
       },
       ///获取经纬度
-      getLocation() {
+      getLocation(_this) {
         console.log("getLocation")
-        let _this = this;
         let geolocation = new BMap.Geolocation();
         geolocation.getCurrentPosition(function (r) {
           if (this.getStatus() === BMAP_STATUS_SUCCESS) {
