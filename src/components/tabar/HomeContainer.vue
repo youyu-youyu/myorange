@@ -260,7 +260,7 @@
 
     },
     mounted() {
-
+      window.showGetLastSelectedShop = this.getLastSelectedShop
       // console.log(this.getUrlCode().code)
     },
 
