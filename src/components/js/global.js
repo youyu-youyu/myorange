@@ -171,7 +171,7 @@ export default {
 
         } else {
           console.log("getLocation")
-            `${this.getLocation(_this)}`;
+            `${this.getLocation()}`;
           localStorage.setItem("code", code);
           // _this.getLocation(_this);
         }
@@ -183,7 +183,8 @@ export default {
       })
 
     },
-    getLocation(_this) {
+    getLocation() {
+      let _this = this
       console.log("222getLocation")
       let geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {
