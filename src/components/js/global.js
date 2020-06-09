@@ -170,7 +170,7 @@ export default {
           `${this.getLastSelectedShop()}`
 
         } else
-          `${this.getLocation(_this)}`
+          `${_this.getLocation(_this)}`
         // _this.getLocation();
 
         localStorage.setItem("code", code);
