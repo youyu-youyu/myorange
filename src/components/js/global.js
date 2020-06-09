@@ -171,8 +171,8 @@ export default {
 
         } else {
           console.log("11getLocation")
-            `${this.getLocation(_this)}`;
-          // _this.getLocation(_this);
+            `${_this.getLocation(_this)}`;//Cannot read property 'getLocation' of undefined
+          // _this.getLocation(_this);//Cannot read property 'getLocation' of null
         }
 
 
