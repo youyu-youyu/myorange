@@ -169,9 +169,12 @@ export default {
           // _this.getLastSelectedShop();
           `${this.getLastSelectedShop()}`
 
-        } else
-          `${this.getLocation(_this)}`
-        // _this.getLocation();
+        } else{
+          console.log("11getLocation")
+            `${this.getLocation(_this)}`
+          // _this.getLocation();
+        }
+
 
         localStorage.setItem("code", code);
       }, function (message) {
