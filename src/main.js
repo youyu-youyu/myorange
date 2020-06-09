@@ -31,8 +31,9 @@ if (global_msg.myNetType === 0) {
         return response
 
       if (status_code === 460) {//返回状态为460，直接登录
+        console.log("460" + window.location.href)
         localStorage.setItem("token", "")
-        // document.location = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
+        window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
         // `${global_msg.method.getCode(this)}`;
 
@@ -41,7 +42,7 @@ if (global_msg.myNetType === 0) {
 
         // 非静默授权，第一次有弹框
         // 如果没有code，则去请求
-        window.location.href = "https://www.baidu.com"
+        // window.location.href = "https://www.baidu.com"
 
 
         return;

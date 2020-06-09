@@ -524,6 +524,7 @@
         // 非静默授权，第一次有弹框
         this.code = "";
         let local = window.location.href; // 获取页面url
+        console.log(local)
         this.code = this.getUrlCode().code// 截取url中的code
 
         //授权//每次进来的时候code都是空的
