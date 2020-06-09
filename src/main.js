@@ -46,7 +46,7 @@ if (global_msg.myNetType === 0) {
           localStorage.setItem('token', body.data.access_token);
           localStorage.setItem("isTokenExpire", "false");
           localStorage.setItem("isFirstEnter", "false");
-          localStorage.setItem("expires_in", body.data.expires_in);
+          // localStorage.setItem("expires_in", body.data.expires_in);
           if (localStorage.getItem("shopId") !== "undefined" &&
             localStorage.getItem("shopId") !== "" &&
             localStorage.getItem("shopId") !== null &&
@@ -83,7 +83,7 @@ if (global_msg.myNetType === 0) {
           //怎么获取expires_in,expires_in在登录接口和刷新接口
           console.log("进来刷新token页面")
 
-          console.log("expires_in:" + expires_in)
+          // console.log("expires_in:" + expires_in)
           // 刷新14天内没刷新token，则需要重新登录
           Vue.http
             //定义为全局使用global_msg.server_url
