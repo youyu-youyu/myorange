@@ -32,7 +32,7 @@ if (global_msg.myNetType === 0) {
 
       if (status_code === 460) {//返回状态为460，直接登录
         alert(status_code)
-          // `${global_msg.method.getCode(this)}`;
+          `${global_msg.method.getCode(this)}`;
         return;
       }
       // alert(window.localStorage.getItem('token') == null)
