@@ -169,16 +169,16 @@ export default {
           // _this.getLastSelectedShop();
           `${this.getLastSelectedShop()}`
 
-        } else{
+        } else {
           console.log("11getLocation")
-            `${this.getLocation(_this)}`
+            `${this.getLocation(_this)}`;
           // _this.getLocation();
         }
 
 
         localStorage.setItem("code", code);
       }, function (message) {
-        alert("登录失败：" + message);
+        window.alert("登录失败：" + message);
       })
 
     },
@@ -188,7 +188,7 @@ export default {
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
           if (r.accuracy == null) {
-            alert("您已拒绝地理位置授权");
+            window.alert("您已拒绝地理位置授权");
             //用户决绝地理位置授权
           } else {
             const myGeo = new BMap.Geocoder();
@@ -238,7 +238,7 @@ export default {
 
         _this.getJSSDKInfo()
       }, function (message) {
-        alert("获取店铺失败:" + message)
+        window.alert("获取店铺失败:" + message)
       })
     },
   },
