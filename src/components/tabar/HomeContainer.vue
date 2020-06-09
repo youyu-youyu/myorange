@@ -171,7 +171,6 @@
       };
     },
     created: function () {
-      this.getCode();
       // if (localStorage.getItem("isFirstEnter11") === null
       //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
       //   alert("模拟了")
@@ -188,8 +187,9 @@
             //第一次进来时走授权
             this.getCode();
           } else {
+            this.getCode();
             // 不是第一次进来直接获取上次店铺
-            this.getLastSelectedShop();
+            // this.getLastSelectedShop();
           }
           //每次进首页，先到首页，然后到跳转微信授权，再从微信授权完之后重定向回首页
           //现在要做的就是：如果第一次进来或者token'过期才授权，其他时候进来，不用跳到授权页面直接登录
