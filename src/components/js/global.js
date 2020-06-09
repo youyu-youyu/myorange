@@ -101,6 +101,14 @@ export default {
       // 非静默授权，第一次有弹框
       console.log("进入授权")
       localStorage.setItem("code", "")
+
+
+      if (localStorage.getItem("code") != null) {
+        //自定义代码
+        alert('key 存在')
+      } else {
+        alert('key 不存在')
+      }
       // _this.code = "";
       console.log("111")
       let local = window.location.href; // 获取页面url
