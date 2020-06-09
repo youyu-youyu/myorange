@@ -135,7 +135,6 @@ export default {
     getUrlCode(_this) {
       // 截取url中的code方法
       let url = location.search;
-      _this.winUrl = url;
       let theRequest = new Object();
       if (url.indexOf("?") !== -1) {
         let str = url.substr(1);
