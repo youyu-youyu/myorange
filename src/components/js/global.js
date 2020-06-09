@@ -171,8 +171,8 @@ export default {
 
         } else {
           console.log("11getLocation")
-            `${this.getLocation(_this)}`;
-          // _this.getLocation();
+          // `${this.getLocation(_this)}`;
+          _this.getLocation(_this);
         }
 
 
@@ -183,7 +183,7 @@ export default {
 
     },
     getLocation(_this) {
-      console.log("getLocation")
+      console.log("222getLocation")
       let geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {
         if (this.getStatus() === BMAP_STATUS_SUCCESS) {
