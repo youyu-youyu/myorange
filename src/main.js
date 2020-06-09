@@ -31,8 +31,10 @@ if (global_msg.myNetType === 0) {
         return response
 
       if (status_code === 460) {//返回状态为460，直接登录
+
+        document.location = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
-        `${global_msg.method.getCode(this)}`;
+        // `${global_msg.method.getCode(this)}`;
         return;
       }
       // alert(window.localStorage.getItem('token') == null)
