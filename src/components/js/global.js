@@ -149,7 +149,7 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
-      // let that = this
+      let that = this
       console.log("publicAccountLogin:")
       console.log(code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
@@ -170,7 +170,7 @@ export default {
           localStorage.getItem("shopId") !== undefined) {
           // _this.getLastSelectedShop();
           console.log("getLastSelectedShop")
-          this.method.getLastSelectedShop()
+          that.method.getLastSelectedShop()
           // `${this.getLastSelectedShop()}`
 
         } else {
