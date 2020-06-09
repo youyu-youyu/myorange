@@ -187,8 +187,17 @@
         //接收个人账户信息
         let accountInfoData = this.$store.state.userAccountData;
         this.userTotalLottery = accountInfoData.userTotalLottery;
+        if (this.userTotalLottery < 0) {
+          this.userTotalLottery = 0
+        }
         this.userTotalMoney = accountInfoData.userMoney;
+        if (this.userTotalMoney < 0) {
+          this.userTotalMoney = 0
+        }
         this.userTotalCoin = accountInfoData.userCoin;
+        if (this.userTotalCoin < 0) {
+          this.userTotalCoin = 0
+        }
         this.coupons = accountInfoData.coupons;
       },
       //幸运大转盘游戏
