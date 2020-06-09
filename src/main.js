@@ -33,6 +33,11 @@ if (global_msg.myNetType === 0) {
       if (status_code === 460) {//返回状态为460，直接登录
         console.log("460" + window.location.href)
         localStorage.setItem("token", "")
+
+        // 3.清除所有缓存
+        // localStorage.clear();
+        // 4 清楚指定缓存
+        // localStorage.removeItem('userinfo');
         localStorage.removeItem('isFirstEnter');
         window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
@@ -61,6 +66,7 @@ if (global_msg.myNetType === 0) {
         let promise = new Promise(function (resolve, reject) {
           //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
           //如果过期超过一天，需要重新登录
+          //获取token当前时间+过期时间-请求当前时间
           // let currentTime = Date.parse(new Date()) / 1000;
           // let expiresTime = window.localStorage.getItem('expires_in');
           // if (expiresTime - currentTime < 600) {

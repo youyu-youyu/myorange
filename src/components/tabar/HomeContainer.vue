@@ -668,8 +668,17 @@
         let _this = this
         console.log("个人数据发生变化");
         this.userMoney = _this.$store.state.userAccountData.userMoney;
+        if (this.userMoney < 0) {
+          this.userMoney = 0
+        }
         this.userCoin = _this.$store.state.userAccountData.userCoin;
+        if (this.userCoin < 0) {
+          this.userCoin = 0
+        }
         this.userLottery = _this.$store.state.userAccountData.userLottery;
+        if (this.userLottery < 0) {
+          this.userLottery = 0
+        }
         this.coupons = _this.$store.state.userAccountData.coupons;
       }
     },
