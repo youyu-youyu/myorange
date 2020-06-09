@@ -123,7 +123,8 @@ export default {
         //如果截取url中的code不等于保存的code，才登录
         if (code !== localStorage.getItem("code")) {
           console.log("publicAccountLogin")
-          _this.publicAccountLogin(code)
+            `${this.publicAccountLogin(_this, code)}`;
+
         } else {
           `${this.getUserAccountInfo(_this)}`;
           `${this.getUserBasicInfo(_this)}`;
