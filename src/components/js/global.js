@@ -122,8 +122,7 @@ export default {
       } else {
         //如果截取url中的code不等于保存的code，才登录
         if (code !== localStorage.getItem("code")) {
-          console.log("publicAccountLogin")
-            `${this.publicAccountLogin(_this, code)}`;
+          `${this.publicAccountLogin(_this, code)}`;
 
         } else {
           `${this.getUserAccountInfo(_this)}`;
@@ -149,7 +148,8 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
-      console.log("publicAccountLogin:" + code)
+      console.log("publicAccountLogin:")
+      console.log(code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
         "code": code, "brand_id": `${this.getBrandId()}`,
         "type": 1
