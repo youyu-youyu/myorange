@@ -171,9 +171,10 @@ export default {
 
         } else {
           console.log("111getLocation")
-          // `${this.getLocation(_this)}`;
-          // this.getLocation(_this)
-          _this.getLocation(_this)
+          // `${this.getLocation(_this)}`;//undefined
+          this.method.getLocation()
+          // this.getLocation(_this) //undefined
+          // _this.getLocation(_this)//null
         }
 
 
