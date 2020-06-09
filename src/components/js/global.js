@@ -169,7 +169,9 @@ export default {
           localStorage.getItem("shopId") !== null &&
           localStorage.getItem("shopId") !== undefined) {
           // _this.getLastSelectedShop();
-          `${this.getLastSelectedShop()}`
+          console.log("getLastSelectedShop")
+          _this.getLastSelectedShop()
+          // `${this.getLastSelectedShop()}`
 
         } else {
           console.log("111getLocation")

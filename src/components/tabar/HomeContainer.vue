@@ -626,6 +626,7 @@
       //获取店铺所需要的的三个参数在选择店铺页面选中的时候要保存在localStorage里
 
       getLastSelectedShop() {
+        console.log("进来getLastSelectedShop")
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
           "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
