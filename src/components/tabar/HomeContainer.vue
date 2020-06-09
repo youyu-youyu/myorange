@@ -260,7 +260,9 @@
 
     },
     mounted() {
-      window.showGetLastSelectedShop = this.getLastSelectedShop
+      // 这样就可以在global.js文件中通过调用 getLastSelectedShop() 来调用 vue 的methods 中的 this.getLastSelectedShop()
+      window.getLastSelectedShop = this.getLastSelectedShop
+      window.getLocation = this.getLocation
       // console.log(this.getUrlCode().code)
     },
 
