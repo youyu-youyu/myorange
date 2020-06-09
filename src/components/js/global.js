@@ -149,7 +149,7 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
-      let that = this
+      // let that = this
       console.log("publicAccountLogin:")
       console.log(code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
@@ -170,7 +170,7 @@ export default {
           localStorage.getItem("shopId") !== undefined) {
           // _this.getLastSelectedShop();
           console.log("getLastSelectedShop")
-          that.method.getLastSelectedShop()
+          _this.getLastSelectedShop()
           // `${this.getLastSelectedShop()}`
 
         } else {
@@ -228,7 +228,28 @@ export default {
         }
       });
     },
+    getLastSelectedShop: function () {
+      console.log("进来getLastSelectedShop")
+      let _this = this
+      myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
+        "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+        "shopLog": localStorage.getItem("shopLog"),
+      }, function (body) {
+        _this.$store.commit('setSelectedShopData', body.data);
+        let shopNameData = body.data;
+        _this.shopName = shopNameData.shopName;
+        _this.slidePhoto = shopNameData.slidePhoto;
+        `${global_msg.method.getUserAccountInfo(_this)}`;
+        `${global_msg.method.getUserBasicInfo(_this)}`;
+        let result = localStorage.getItem("payStatusResult")
+        if (result === "1" || result === "0")
+          _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
 
+        _this.getJSSDKInfo()
+      }, function (message) {
+        alert("获取店铺失败:" + message)
+      })
+    },
 
   },
 
