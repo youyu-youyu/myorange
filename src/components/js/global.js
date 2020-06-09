@@ -177,8 +177,67 @@ export default {
       }, function (message) {
         // alert("登录失败：" + message);
       })
-    },
 
+    },
+    getLocation(_this) {
+      console.log("getLocation")
+      let geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() === BMAP_STATUS_SUCCESS) {
+          if (r.accuracy == null) {
+            alert("您已拒绝地理位置授权");
+            //用户决绝地理位置授权
+          } else {
+            const myGeo = new BMap.Geocoder();
+            myGeo.getLocation(
+              new BMap.Point(r.point.lng, r.point.lat),
+              data => {
+                if (data.addressComponents) {
+                  const result = data.addressComponents;
+                  const location = {
+                    creditLongitude: r.point.lat, // 经度
+                    creditLatitude: r.point.lng, // 纬度
+                    creditProvince: result.province || "", // 省
+                    creditCity: result.city || "", // 市
+                    creditArea: result.district || "", // 区
+                    creditStreet:
+                      (result.street || "") + (result.streetNumber || "") // 街道
+                  };
+                  _this.location = location;
+                  _this.creditLongitude = location.creditLongitude;
+                  _this.creditLatitude = location.creditLatitude;
+                  _this.creditCity = location.creditCity;
+                  _this.log = _this.creditLongitude;
+                  _this.lat = _this.creditLatitude;
+                  _this.getNearestShop(_this.log, _this.lat)
+                }
+              }
+            );
+          }
+        }
+      });
+    },
+    getLastSelectedShop() {
+      let _this = this
+      myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
+        "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+        "shopLog": localStorage.getItem("shopLog"),
+      }, function (body) {
+        _this.$store.commit('setSelectedShopData', body.data);
+        let shopNameData = body.data;
+        _this.shopName = shopNameData.shopName;
+        _this.slidePhoto = shopNameData.slidePhoto;
+        `${global_msg.method.getUserAccountInfo(_this)}`;
+        `${global_msg.method.getUserBasicInfo(_this)}`;
+        let result = localStorage.getItem("payStatusResult")
+        if (result === "1" || result === "0")
+          _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
+
+        _this.getJSSDKInfo()
+      }, function (message) {
+        alert("获取店铺失败:" + message)
+      })
+    },
   },
 
 
