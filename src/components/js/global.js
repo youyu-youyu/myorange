@@ -111,7 +111,7 @@ export default {
       console.log("_this.code")
       console.log(code)
       //授权//每次进来的时候code都是空的
-      if (code === "") {
+      if (code === undefined || code === "") {
         console.log("_this.code == null ")
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
