@@ -149,6 +149,7 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
+      // let that = this
       console.log("publicAccountLogin:")
       console.log(code)
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
@@ -174,7 +175,7 @@ export default {
           console.log("111getLocation")
           // `${this.getLocation(_this)}`;//undefined
           getLocation(_this)
-          // _this.method.getLocation(_this)
+          // that.method.getLocation()//charAt
           // this.getLocation(_this) //undefined
           // _this.getLocation(_this)//null
         }
