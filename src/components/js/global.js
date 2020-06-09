@@ -103,7 +103,6 @@ export default {
       localStorage.setItem("code", "")
       // _this.code = "";
       console.log("111")
-      console.log(_this.code)
       let local = window.location.href; // 获取页面url
       console.log("local")
       console.log(local)
