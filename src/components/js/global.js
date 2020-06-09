@@ -100,25 +100,17 @@ export default {
     getCode(_this) {
       // 非静默授权，第一次有弹框
       console.log("进入授权")
-      localStorage.setItem("code", "")
-
-
-      if (localStorage.getItem("code") != null) {
-        //自定义代码
-        alert('key 存在')
-      } else {
-        alert('key 不存在')
-      }
+      let code = ""
+      // localStorage.setItem("code", "")
       // _this.code = "";
       console.log("111")
       let local = window.location.href; // 获取页面url
       console.log("local")
       console.log(local)
-      _this.code = this.getUrlCode().code// 截取url中的code
+      code = this.getUrlCode().code// 截取url中的code
       console.log("_this.code")
-      console.log(_this.code)
       //授权//每次进来的时候code都是空的
-      if (_this.code == null) {
+      if (code == null || code === "") {
         console.log("_this.code == null ")
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
