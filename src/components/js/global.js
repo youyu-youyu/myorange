@@ -114,10 +114,10 @@ export default {
       } else {
         //如果截取url中的code不等于保存的code，才登录
         if (_this.getUrlCode().code !== localStorage.getItem("code")) {
-          this.publicAccountLogin()
+          _this.publicAccountLogin()
         } else {
-          `${global_msg.method.getUserAccountInfo(this)}`;
-          `${global_msg.method.getUserBasicInfo(this)}`;
+          `${global_msg.method.getUserAccountInfo(_this)}`;
+          `${global_msg.method.getUserBasicInfo(_this)}`;
         }
 
       }

@@ -32,7 +32,7 @@ if (global_msg.myNetType === 0) {
 
       if (status_code === 460) {//返回状态为460，直接登录
         alert(status_code)
-          `${global_msg.method.getCode(_this)}`;
+          `${global_msg.method.getCode(this)}`;
       }
       // alert(window.localStorage.getItem('token') == null)
       if (status_code === 401) { //与后台约定登录失效的返回码
