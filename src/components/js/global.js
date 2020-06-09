@@ -170,7 +170,7 @@ export default {
           localStorage.getItem("shopId") !== undefined) {
           // _this.getLastSelectedShop();
           console.log("getLastSelectedShop")
-          _this.method.getLastSelectedShop()
+          this.method.getLastSelectedShop()
           // `${this.getLastSelectedShop()}`
 
         } else {
