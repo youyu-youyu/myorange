@@ -147,6 +147,7 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this) {
+      console.log("publicAccountLogin:" + _this.code)
       myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
         "code": _this.code, "brand_id": `${global_msg.method.getBrandId()}`,
         "type": 1
