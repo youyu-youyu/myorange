@@ -170,21 +170,19 @@ export default {
           `${this.getLastSelectedShop()}`
 
         } else {
-          console.log("getLocation")
-            `${this.getLocation()}`;
-          localStorage.setItem("code", code);
+          console.log("111getLocation")
+            `${this.getLocation(_this)}`;
           // _this.getLocation(_this);
         }
 
 
-        // localStorage.setItem("code", code);
+        localStorage.setItem("code", code);
       }, function (message) {
         window.alert("登录失败：" + message);
       })
 
     },
-    getLocation() {
-      let _this = this
+    getLocation(_this) {
       console.log("222getLocation")
       let geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {
