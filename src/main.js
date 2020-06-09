@@ -10,6 +10,7 @@ import app from './App.vue'
 import waterfall from 'vue-waterfall2'
 import global_msg from "./components/js/global";
 import less from 'less'
+import myNetUtils from "./components/js/MyNetUtils";
 
 Vue.use(less)
 Vue.use(loading)
@@ -28,6 +29,39 @@ if (global_msg.myNetType === 0) {
       let status_code = response.body.status_code;
       if (status_code === 200)
         return response
+
+      if (status_code === 460) {//返回状态为460，直接登录
+        alert(status_code)
+
+        //登录
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
+          "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+          "type": 1
+          // 固定值type：1:公众号，2:小程序
+        }, function (body) {
+
+          console.log("代理模式请求成功")
+          localStorage.setItem('token_type', body.data.token_type);
+          localStorage.setItem('token', body.data.access_token);
+          localStorage.setItem("isTokenExpire", "false");
+          localStorage.setItem("isFirstEnter", "false");
+          localStorage.setItem("expires_in", body.data.expires_in);
+          if (localStorage.getItem("shopId") !== "undefined" &&
+            localStorage.getItem("shopId") !== "" &&
+            localStorage.getItem("shopId") !== null &&
+            localStorage.getItem("shopId") !== undefined) {
+            _this.getLastSelectedShop();
+          } else
+            _this.getLocation();
+
+          localStorage.setItem("code", _this.getUrlCode().code);
+        }, function (message) {
+          alert("登录失败：" + message);
+        })
+
+
+      }
       // alert(window.localStorage.getItem('token') == null)
       if (status_code === 401) { //与后台约定登录失效的返回码
         //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
@@ -41,6 +75,7 @@ if (global_msg.myNetType === 0) {
         //刷新token接口
         let promise = new Promise(function (resolve, reject) {
           //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
+          //如果过期超过一天，需要重新登录
           // let currentTime = Date.parse(new Date()) / 1000;
           // let expiresTime = window.localStorage.getItem('expires_in');
           // if (expiresTime - currentTime < 600) {
@@ -49,6 +84,7 @@ if (global_msg.myNetType === 0) {
           console.log("进来刷新token页面")
 
           console.log("expires_in:" + expires_in)
+          // 刷新14天内没刷新token，则需要重新登录
           Vue.http
             //定义为全局使用global_msg.server_url
             //post网络请求（后端提供url）
