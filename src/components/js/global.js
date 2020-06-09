@@ -184,7 +184,8 @@ export default {
       })
 
     },
-    getLocation(_this) {
+    //获取定位
+    getLocation: function (_this) {
       console.log("222getLocation")
       let geolocation = new BMap.Geolocation();
       geolocation.getCurrentPosition(function (r) {
@@ -222,27 +223,8 @@ export default {
         }
       });
     },
-    // getLastSelectedShop() {
-    //   let _this = this
-    //   myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
-    //     "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
-    //     "shopLog": localStorage.getItem("shopLog"),
-    //   }, function (body) {
-    //     _this.$store.commit('setSelectedShopData', body.data);
-    //     let shopNameData = body.data;
-    //     _this.shopName = shopNameData.shopName;
-    //     _this.slidePhoto = shopNameData.slidePhoto;
-    //     `${global_msg.method.getUserAccountInfo(_this)}`;
-    //     `${global_msg.method.getUserBasicInfo(_this)}`;
-    //     let result = localStorage.getItem("payStatusResult")
-    //     if (result === "1" || result === "0")
-    //       _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
-    //
-    //     _this.getJSSDKInfo()
-    //   }, function (message) {
-    //     window.alert("获取店铺失败:" + message)
-    //   })
-    // },
+
+
   },
 
 
