@@ -39,9 +39,9 @@ if (global_msg.myNetType === 0) {
         // 4 清楚指定缓存
         // localStorage.removeItem('userinfo');
         localStorage.removeItem('isFirstEnter');
-        // window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
+        window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
-        `${global_msg.method.getCode(this)}`;
+        // `${global_msg.method.getCode(this)}`;
 
         ////
 

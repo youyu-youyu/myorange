@@ -185,8 +185,8 @@
           //如果第一次进来如果token为空，或者token未过期时(indexOf的检查字符串中有没有指定的子字符串,当不包含的时.返回-1.)
           if (localStorage.getItem("isFirstEnter") === null) {
             //第一次进来时走授权
-            `${global_msg.method.getCode(this)}`;
-            // this.getCode();
+            // `${global_msg.method.getCode(this)}`;
+            this.getCode();
           } else {
             // this.getCode();
             // 不是第一次进来直接获取上次店铺
