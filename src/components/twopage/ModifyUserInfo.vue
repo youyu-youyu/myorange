@@ -185,7 +185,8 @@
       width: 100px;
       height: 100px;
       margin: 20px 10px;
-      background-size: cover;
+      background-size: fill !important;
+      object-fit: fill;
     }
 
     .userPhoto {
