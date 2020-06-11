@@ -118,6 +118,8 @@
           function (body) {
             let userData = body.data
             _this.userPhoto = userData.userPhoto;
+            console.log("服务器图片")
+            console.log(_this.userPhoto)
             _this.$refs.userNameInput.value = userData.userName;
             _this.$refs.userMobilPhoneInput.value = userData.userPhone;
             _this.time1 = userData.brithday;
@@ -154,7 +156,6 @@
           return false;
         }
         let _this = this
-        // this.disabled = true;
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`, {
           "headimg": "",
           "username": this.$refs.userNameInput.value,
