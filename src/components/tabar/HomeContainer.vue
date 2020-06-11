@@ -188,7 +188,6 @@
             `${global_msg.method.getCode(this)}`;
             // this.getCode();
           } else {
-            // this.getCode();
             // 不是第一次进来直接获取上次店铺
             this.getLastSelectedShop();
           }
