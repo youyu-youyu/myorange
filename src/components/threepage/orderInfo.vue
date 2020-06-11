@@ -6,7 +6,7 @@
       <li class="mui-table-view-cell">
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img class="mui-media-object mui-pull-left"  src="../../assets/user/address.png">
+            <img class="mui-media-object mui-pull-left" src="../../assets/user/address.png">
             <h5 class="mui-ellipsis">{{orderInfoObject.fullname}} &nbsp;&nbsp;{{orderInfoObject.mobile}}</h5>
             <h5>{{orderInfoObject.address}}</h5>
           </div>
@@ -32,7 +32,7 @@
       <li class="mui-table-view-cell" v-for="(item,index) in orderInfoObject.goods">
         <div class="mui-table">
           <div class="mui-table-cell mui-col-xs-10">
-            <img :src="item.product_img" alt="加载错误" class="mui-media-object mui-pull-left myorder_img" >
+            <img :src="item.product_img" alt="加载错误" class="mui-media-object mui-pull-left myorder_img">
             <h4 class="mui-ellipsis">{{item.product_name}}</h4>
             <h5>实付 ￥{{item.product_price*item.num}}</h5>
             <!--            <p class="mui-h6 mui-ellipsis">Hi，李明明，申请交行信息卡，100元等你拿，李明明，申请交行信息卡，100元等你拿，</p>-->
@@ -50,11 +50,12 @@
 <script>
   import backbar from "../public/backBar.vue";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils";
 
   export default {
     data() {
       return {
-        orderInfoObject:''
+        orderInfoObject: ''
       };
     },
     mounted() {
@@ -64,22 +65,16 @@
     methods: {
       //订单详情接口
       orderInfomation() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/mall/orderdata`,
-            {
-              "brand_id": `${global_msg.method.getBrandId()}`, "orderid": this.orderId
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.orderInfoObject = res.body.data;
-              console.log(this.orderInfoList)
-            } else {
-              alert("获取订单详情失败：" + res.body.message);
-            }
+        let _this = this
 
-          })
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/orderdata`, {
+          "brand_id": `${global_msg.method.getBrandId()}`, "orderid": this.orderId
+        }, function (body) {
+          _this.orderInfoObject = body.data;
+          console.log(_this.orderInfoList)
+        }, function (message) {
+          alert("获取订单详情失败：" + message);
+        })
       },
 
     },
@@ -89,9 +84,10 @@
   };
 </script>
 <style lang="less" scoped>
-  .orderinfo{
+  .orderinfo {
     margin-top: 60px;
   }
+
   .myorder_img {
     width: 80px;
     height: 80px !important;
@@ -100,10 +96,12 @@
   .mui-media-object {
     max-width: 80px !important;
   }
-  .orderinfor_content{
+
+  .orderinfor_content {
     margin-top: 10px;
   }
-  .orderifo{
+
+  .orderifo {
     font-size: 14px;
     font-weight: 800;
     border-left: 3px solid purple;
@@ -111,7 +109,6 @@
     margin-bottom: 10px;
   }
 </style>
-
 
 
 // WEBPACK FOOTER //
