@@ -179,6 +179,9 @@
       // }
 
 
+    },
+    mounted() {
+
       //返回主页面
       this.parseUrlBrand();
       //如果是公众号
@@ -264,14 +267,6 @@
       /**
        * 处理扫码结束
        */
-
-
-    },
-    mounted() {
-      // 这样就可以在global.js文件中通过调用 getLastSelectedShop()
-      // 来调用 vue 的methods 中的 this.getLastSelectedShop()
-      window.showGetLastSelectedShop = this.getLastSelectedShop
-      window.showgGetLocation = this.getLocation
 
     },
 
@@ -517,48 +512,6 @@
         });
 
       },
-      //微信授权
-      // getCode() {
-      //   // 非静默授权，第一次有弹框
-      //   this.code = "";
-      //   let local = window.location.href; // 获取页面url
-      //   console.log(local)
-      //   this.code = this.getUrlCode().code// 截取url中的code
-      //
-      //   //授权//每次进来的时候code都是空的
-      //   if (this.code == null || this.code === "") {
-      //     // 如果没有code，则去请求
-      //     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
-      //       local
-      //     )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
-      //
-      //
-      //   } else {
-      //     //如果截取url中的code不等于保存的code，才登录
-      //     if (this.getUrlCode().code !== localStorage.getItem("code")) {
-      //       this.publicAccountLogin()
-      //     } else {
-      //       `${global_msg.method.getUserAccountInfo(this)}`;
-      //       `${global_msg.method.getUserBasicInfo(this)}`;
-      //     }
-      //
-      //   }
-      // },
-      ///解析微信code
-      // getUrlCode() {
-      //   // 截取url中的code方法
-      //   let url = location.search;
-      //   this.winUrl = url;
-      //   let theRequest = new Object();
-      //   if (url.indexOf("?") !== -1) {
-      //     let str = url.substr(1);
-      //     let strs = str.split("&");
-      //     for (let i = 0; i < strs.length; i++) {
-      //       theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
-      //     }
-      //   }
-      //   return theRequest;
-      // },
 
       ///该方法的作用是从页面url里面处理回调过来的二维码信息
       getUrlParam(name) {
