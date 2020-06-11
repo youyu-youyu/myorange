@@ -16,6 +16,12 @@ Vue.use(less)
 Vue.use(loading)
 Vue.config.productionTip = false
 Vue.use(waterfall)
+
+// import axios from 'axios'
+// 将axios挂载到prototype上，在组件中可以直接使用this.axios访问
+Vue.prototype.axios = axios;
+// Vue.use(axios)
+
 //vue+vue-resource设置请求头(带上token)后端提供头部Accept:application/x.orange.mini+json
 Vue.http.headers.common['Accept'] = 'application/x.orange.mini.v2+json';
 if (global_msg.myNetType === 0) {
@@ -27,7 +33,7 @@ if (global_msg.myNetType === 0) {
     let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
     if (second >= (localStorage.getItem('expires_in') - 1000)) {
 
-
+      `${global_msg.method.getCode(this)}`;
     }
 
     if (global_msg.company !== -1)
@@ -82,54 +88,69 @@ if (global_msg.myNetType === 0) {
     })
   });
 } else {
-  // 添加请求拦截器
-  Vue.axios.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
-    if (global_msg.company !== -1)
-      config.headers.common.Authorization = window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token')  //请求头加上token
-    else
-      config.headers.common.Authorization = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU'
-    return config;
-  }, function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error);
-  });
+  // http request 拦截器
+  axios.interceptors.request.use(config => {
+      // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
+      if (localStorage.getItem('saveTokenTime') !== null) {
+        let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
+        if (second >= (localStorage.getItem('expires_in') - 1000)) {
+          `${global_msg.method.getCode(this)}`;
+        }
+      }
 
-  // 添加响应拦截器
-  Vue.axios.interceptors.response.use(function (response) {
-    // 对响应数据做点什么
-    if (status_code === 460) {//返回状态为460，直接登录
-      localStorage.setItem("token", "")
-      localStorage.removeItem('isFirstEnter');
-      //跳回主页
-      location.href = store.state.homeHtml;
-      // alert(status_code)
-      // `${global_msg.method.getCode(this)}`;
-      return;
-    }
-    if (status_code === 401) { //与后台约定登录失效的返回码
-      let promise = new Promise(function (resolve, reject) {
-        //刷新token接口
-        global_msg.method.refreshToken();
-      });
-      return promise.then(function () {
+      config.headers['Accept'] = 'application/x.orange.mini.v2+json';
 
-        return Vue.http(request).then(res => {
-          return res
-        })
-      })
-    } else if (status_code === 405) {
-      alert("HTTP状态码405")
-    } else if (status_code === 500) {
-      alert("HTTP状态码500")
-    }
-  }, function (error) {
-    // 对响应错误做点什么
-    if (error.response) {
+      // 在发送请求之前做些什么
+      if (global_msg.company !== -1)
+        config.headers.Authorization = window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token')  //请求头加上token
+      else
+        config.headers.Authorization = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU'
+      return config;
+    }, err => {
+      return Promise.reject(err)
+    },
+  )
 
-    }
-    return Promise.reject(error);
-  });
+// http response 拦截器
+  axios.interceptors.response.use(
+    response => {
+      return response
+    },
+    error => {
+      if (error.response) {
+        switch (error.status_code) {
+          case 460:
+            localStorage.setItem("token", "")
+            localStorage.removeItem('isFirstEnter');
+            //跳回主页
+            location.href = store.state.homeHtml;
+            // alert(status_code)
+            // `${global_msg.method.getCode(this)}`;
+            break;
+          case 401:
+            // 401 清除token信息并跳转到登录页面
+            let promise = new Promise(function (resolve, reject) {
+              //刷新token接口
+              global_msg.method.refreshToken(resolve, reject);
+            });
+            return promise.then(function () {
+
+              return Vue.http(request).then(res => {
+                return res
+              })
+            })
+            break;
+          case 405:
+            alert("HTTP状态码405")
+            break;
+          case 500:
+            alert("HTTP状态码500")
+        }
+      }
+      // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
+      return Promise.reject(error.response.data)
+    },
+  )
 
 }
 //state相当于对外的只读状态,使用store.commit方法通过触发mutations改变state
@@ -181,6 +202,7 @@ var vm = new Vue({
   el: '#app',
   store,
   // 子组件
+  axios,
   components: {app},
   render: c => c(app),
   router,//路由挂载对象

@@ -20,11 +20,25 @@ export default {
           });
       } else {
         // axios网络请求框架
-        Vue.axios.post(url,
-          params, {emulateJSON: true})
+        axios.post(url,
+          params)
           .then(res => {
-            successCallback(res)
+            console.log(res.data)
+            if (res.data.err_code === 0) {
+              successCallback(res.data)
+            } else {
+              failedCallback(res.data.message)
+            }
           });
+        // .then(function (response) {
+        //   if (response.body.err_code === 0) {
+        //     successCallback(response.body)
+        //   }
+        // })
+        // .catch(function (error) {
+        //   failedCallback(error.body.message)
+        // });
+
       }
     },
     get: function (url, params, successCallback, failedCallback) {
@@ -46,10 +60,17 @@ export default {
           });
       } else {
         // axios网络请求框架
-        Vue.axios.get(url,
-          params, {emulateJSON: true})
+        axios.get(url,
+          {
+            params:
+            params
+          }, {emulateJSON: true})
           .then(res => {
-            successCallback(res)
+            if (res.data.err_code === 0) {
+              successCallback(res.data)
+            } else {
+              failedCallback(res.data.message)
+            }
           });
       }
     }
