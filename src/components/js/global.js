@@ -30,7 +30,7 @@ export default {
   qrCode, //扫描到的二维码
   isProcessQrCode, //是否处理了二维码
   company: company,
-  myNetType: 1,
+  myNetType: 0,
   setCompany(index) {
     this.company = index;
     company = index;

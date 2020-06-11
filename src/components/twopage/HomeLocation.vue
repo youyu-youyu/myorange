@@ -94,7 +94,7 @@
       getShopList() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/shop/list`, {
-          "count": 100, "page": 1, path: this.pathId,
+          "count": 100, "page": 1, path: _this.pathId,
         }, function (body) {
           _this.shopList = body.data
         }, function (message) {

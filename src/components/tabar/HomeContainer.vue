@@ -2,21 +2,21 @@
   <div class="HomeComtainer">
     <div class="home_top">
       <!--      <h4>科技让生活越来越方便</h4>-->
-      <router-link to="/homelocation">
-        <div class="home_location">
-          <img src="../../assets/home/home_location.png" class="home_left" style="width: 30px;margin-top: 3px">
-          <div class="home_right">
-            {{getShopName}}
-            <span class="mui-icon mui-icon-arrowdown "></span>
-          </div>
-          <div class="home_right1" cbd.jpg>
-            <router-link to="/discount">
-              <div class="home_right1_1">优惠券 &nbsp;&nbsp;{{coupons}}张</div>
-              <!--              <div class="item_item">6张</div>-->
-            </router-link>
-          </div>
+      <!--      <router-link to="/homelocation">-->
+      <div class="home_location" @click="toHomeLocation()">
+        <img src="../../assets/home/home_location.png" class="home_left" style="width: 30px;margin-top: 3px">
+        <div class="home_right">
+          {{getShopName}}
+          <span class="mui-icon mui-icon-arrowdown "></span>
         </div>
-      </router-link>
+        <div class="home_right1" cbd.jpg>
+          <router-link to="/discount">
+            <div class="home_right1_1">优惠券 &nbsp;&nbsp;{{coupons}}张</div>
+            <!--              <div class="item_item">6张</div>-->
+          </router-link>
+        </div>
+      </div>
+      <!--      </router-link>-->
       <div class="home_top_middle">
         <div class="item">
           <ul class="home_item_ul">
@@ -271,6 +271,11 @@
     },
 
     methods: {
+      //跳转选店页面
+      toHomeLocation() {
+        this.$router.push({path: '/homelocation', query: {payStatus: localStorage.getItem("payStatusResult")}})
+
+      },
       //跳转小程序主页面
       goMini() {
         window.wx.miniProgram.navigateTo({
@@ -389,34 +394,6 @@
           alert("小程序登录失败：" + message);
         })
       },
-      //公众号登录
-      // publicAccountLogin() {
-      //   let _this = this
-      //   myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
-      //     "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
-      //     "type": 1
-      //     // 固定值type：1:公众号，2:小程序
-      //   }, function (body) {
-      //
-      //     console.log("代理模式请求成功")
-      //     localStorage.setItem('token_type', body.data.token_type);
-      //     localStorage.setItem('token', body.data.access_token);
-      //     localStorage.setItem("isTokenExpire", "false");
-      //     localStorage.setItem("isFirstEnter", "false");
-      //     // localStorage.setItem("expires_in", body.data.expires_in);
-      //     if (localStorage.getItem("shopId") !== "undefined" &&
-      //       localStorage.getItem("shopId") !== "" &&
-      //       localStorage.getItem("shopId") !== null &&
-      //       localStorage.getItem("shopId") !== undefined) {
-      //       _this.getLastSelectedShop();
-      //     } else
-      //       _this.getLocation();
-      //
-      //     localStorage.setItem("code", _this.getUrlCode().code);
-      //   }, function (message) {
-      //     alert("登录失败：" + message);
-      //   })
-      // },
       getUrlKey: function (name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
       },

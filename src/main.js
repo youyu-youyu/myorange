@@ -30,10 +30,11 @@ if (global_msg.myNetType === 0) {
     //伪代码
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
-    let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
-    if (second >= (localStorage.getItem('expires_in') - 1000)) {
-
-      `${global_msg.method.getCode(this)}`;
+    if (localStorage.getItem('saveTokenTime') !== null) {
+      let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
+      if (second >= (localStorage.getItem('expires_in') - 1000)) {
+        `${global_msg.method.getCode(this)}`;
+      }
     }
 
     if (global_msg.company !== -1)
