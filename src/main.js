@@ -34,9 +34,9 @@ if (global_msg.myNetType === 0) {
         localStorage.setItem("token", "")
 
         localStorage.removeItem('isFirstEnter');
-        window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
+        // window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
-        // `${global_msg.method.getCode(this)}`;
+        `${global_msg.method.getCode(this)}`;
         return;
       }
       if (status_code === 401) { //与后台约定登录失效的返回码
