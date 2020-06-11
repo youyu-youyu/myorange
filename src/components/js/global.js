@@ -106,8 +106,6 @@ export default {
       let local = window.location.href; // 获取页面url
       code = this.getUrlCode().code// 截取url中的code
       //授权//每次进来的时候code都是空的
-      console.log("授权前2code")
-      console.log(code)
       if (code === undefined || code === null || code === "") {
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
