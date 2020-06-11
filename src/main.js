@@ -31,28 +31,14 @@ if (global_msg.myNetType === 0) {
         return response
 
       if (status_code === 460) {//返回状态为460，直接登录
-        console.log("460" + window.location.href)
         localStorage.setItem("token", "")
 
-        // 3.清除所有缓存
-        // localStorage.clear();
-        // 4 清楚指定缓存
-        // localStorage.removeItem('userinfo');
         localStorage.removeItem('isFirstEnter');
         window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
         // alert(status_code)
         // `${global_msg.method.getCode(this)}`;
-
-        ////
-
-        // 非静默授权，第一次有弹框
-        // 如果没有code，则去请求
-        // window.location.href = "https://www.baidu.com"
-
-
         return;
       }
-      // alert(window.localStorage.getItem('token') == null)
       if (status_code === 401) { //与后台约定登录失效的返回码
         //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
         // if (window.localStorage.getItem('token') != null) {
@@ -73,8 +59,6 @@ if (global_msg.myNetType === 0) {
           // 判断如果expires_in小于3600秒，则刷新token,每次expires_in的值都为86400？
           //怎么获取expires_in,expires_in在登录接口和刷新接口
           console.log("进来刷新token页面")
-
-          // console.log("expires_in:" + expires_in)
           // 刷新14天内没刷新token，则需要重新登录
           Vue.http
             //定义为全局使用global_msg.server_url

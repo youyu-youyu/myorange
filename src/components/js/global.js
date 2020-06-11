@@ -106,7 +106,10 @@ export default {
       let local = window.location.href; // 获取页面url
       code = this.getUrlCode().code// 截取url中的code
       //授权//每次进来的时候code都是空的
-      if (code === undefined) {
+      console.log("授权前2code")
+      console.log(code)
+      // if (code === undefined || code === null || code === "") {
+      if (code === null || code === "") {
         // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${this.getAppId()}&redirect_uri=${encodeURIComponent(
           local
@@ -153,16 +156,17 @@ export default {
         localStorage.setItem('token', body.data.access_token);
         localStorage.setItem("isTokenExpire", "false");
         localStorage.setItem("isFirstEnter", "false");
-        // localStorage.setItem("expires_in", body.data.expires_in);
+        localStorage.setItem("expires_in", body.data.expires_in);
+
         if (localStorage.getItem("shopId") !== "undefined" &&
           localStorage.getItem("shopId") !== "" &&
           localStorage.getItem("shopId") !== null &&
           localStorage.getItem("shopId") !== undefined) {
 
-          getLastSelectedShop()
+          showGetLastSelectedShop()
 
         } else {
-          getLocation()
+          showgGetLocation()
         }
 
 
