@@ -185,7 +185,7 @@
       width: 100px;
       height: 100px;
       margin: 20px 10px;
-      background-size: fill !important;
+      /*background-size: fill !important;*/
       object-fit: fill;
     }
 
