@@ -188,14 +188,15 @@
       overflow: hidden;
       margin: 20px 10px;
       float: left;
+      border-radius: 50%;
       /*border-radius: 50%;*/
 
     }
 
     .modify_img {
-      border-radius: 50%;
+
       width: 100%;
-      height: auto;
+      height: 100%;
       /*background-size: fill !important;*/
       background-size: cover;
     }
