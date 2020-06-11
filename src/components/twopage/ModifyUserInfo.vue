@@ -3,7 +3,7 @@
     <loading v-if="loading"></loading>
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
-      <img class="mui-pull-left modify-img" id="userPhoto_img" v-bind:src=userPhoto>
+      <img class="mui-pull-left modify_img" id="userPhoto_img" v-bind:src=userPhoto>
       <!--      <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">-->
       <!--        更换头像-->
       <!--      </div>-->
@@ -180,11 +180,12 @@
     margin-top: 30px;
     padding: 10px 20px;
 
-    .modify-img {
+    .modify_img {
       border-radius: 50%;
       width: 100px;
       height: 100px;
       margin: 20px 10px;
+      background-size: cover;
     }
 
     .userPhoto {
