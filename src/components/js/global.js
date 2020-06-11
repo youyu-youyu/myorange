@@ -142,7 +142,7 @@ export default {
     },
     //公众号登录
     publicAccountLogin(_this, code) {
-      let that = this
+      // let that = this
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/login`, {
         "code": code, "brand_id": `${this.getBrandId()}`,
         "type": 1
@@ -161,10 +161,10 @@ export default {
           localStorage.getItem("shopId") !== null &&
           localStorage.getItem("shopId") !== undefined) {
 
-          that.getLastSelectedShop()
+          _this.getLastSelectedShop()
 
         } else {
-          showgGetLocation()
+          _this.getLocation()
         }
 
 
