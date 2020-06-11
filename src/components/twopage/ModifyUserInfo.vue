@@ -3,7 +3,9 @@
     <loading v-if="loading"></loading>
     <back-bar title="修改用户信息"></back-bar>
     <div class="modify">
-      <img class="mui-pull-left modify_img" id="userPhoto_img" v-bind:src=userPhoto>
+      <div class="photo">
+        <img class="mui-pull-left modify_img" id="userPhoto_img" v-bind:src=userPhoto @click="uploadHeadImg">
+      </div>
       <!--      <div class="mui-media-body  mui-media userPhoto" @click="modifyUserPhoto()">-->
       <!--        更换头像-->
       <!--      </div>-->
@@ -180,13 +182,22 @@
     margin-top: 30px;
     padding: 10px 20px;
 
-    .modify_img {
-      border-radius: 50%;
+    .photo {
       width: 100px;
       height: 100px;
+      overflow: hidden;
       margin: 20px 10px;
+      float: left;
+      /*border-radius: 50%;*/
+
+    }
+
+    .modify_img {
+      border-radius: 50%;
+      width: 100%;
+      height: auto;
       /*background-size: fill !important;*/
-      object-fit: fill;
+      background-size: cover;
     }
 
     .userPhoto {

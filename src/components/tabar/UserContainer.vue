@@ -8,10 +8,15 @@
           <router-link to="/modifyuserinfo">
             <img class="modify-img mui-pull-left" v-bind:src=userPhoto>
           </router-link>
+
           <div class="mui-media-body user_top_body">
-            {{userName}}
-            <div>
+            <router-link to="/modifyuserinfo">
+              <div class="user-name">
+                {{userName}}
+              </div>
               <div class="mui-ellipsis user_left">ID：{{userId}}</div>
+            </router-link>
+            <div>
               <router-link to="/physicalcard">
                 <button class="">实体卡</button>
               </router-link>
