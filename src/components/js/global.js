@@ -153,6 +153,7 @@ export default {
         localStorage.setItem('token', body.data.access_token);
         localStorage.setItem("isTokenExpire", "false");
         localStorage.setItem("isFirstEnter", "false");
+        localStorage.setItem('saveTokenTime', new Date().getTime())
         localStorage.setItem("expires_in", body.data.expires_in);
 
         if (localStorage.getItem("shopId") !== "undefined" &&
@@ -172,6 +173,19 @@ export default {
         alert("登录失败：" + message);
       })
 
+    },
+    refreshToken(resolve, reject) {
+      myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/refresh`, {},
+        function (body) {
+          localStorage.setItem('token_type', body.data.token_type);
+          localStorage.setItem('token', body.data.access_token);
+          localStorage.setItem("isTokenExpire", "false");
+          console.log("重新请求")
+          resolve();
+        }, function (message) {
+          alert("刷新Token失败:" + message);
+          reject("");
+        })
     },
 
   },

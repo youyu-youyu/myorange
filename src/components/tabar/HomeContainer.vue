@@ -177,6 +177,8 @@
       //   localStorage.setItem("token", "111");
       //   localStorage.setItem("isFirstEnter11", "false")
       // }
+
+
       //返回主页面
       this.parseUrlBrand();
       //如果是公众号
@@ -188,6 +190,14 @@
             `${global_msg.method.getCode(this)}`;
             // this.getCode();
           } else {
+            //判断距离上一次保存token的时候是否超过了一天，如果超过一天，则不能刷新token，只能重新登录
+            let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
+            if (second > (localStorage.getItem('expires_in'))) {
+              `${global_msg.method.getCode(this)}`;
+            }
+            setTimeout(function () {
+              console.log("时差:" + second)
+            }, 3000);
             // 不是第一次进来直接获取上次店铺
             this.getLastSelectedShop();
           }
@@ -264,6 +274,7 @@
       // 来调用 vue 的methods 中的 this.getLastSelectedShop()
       window.showGetLastSelectedShop = this.getLastSelectedShop
       window.showgGetLocation = this.getLocation
+
     },
 
     methods: {
@@ -304,28 +315,18 @@
         window.wx.ready(function () {
           // alert("配置jssdk ready")
         });
-
-
       },
       //获取微信jssdk配置
       getJSSDKInfo() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //get请求（后端提供url）
-          .get(`${global_msg.method.getBaseUrl()}/api/auth/base`,
-            {
-              params: {
-                "brand_id": `${global_msg.method.getBrandId()}`,
-                "url": window.location.href
-              }
-            }, {emulateJSON: true})
-
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.configJSSDK(res.body.data)
-            } else
-              alert("获取微信jssdk配置失败:" + res.body.message)
-          })
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/auth/base`, {
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "url": window.location.href
+        }, function (body) {
+          _this.configJSSDK(body.data)
+        }, function (message) {
+          alert("获取微信jssdk配置失败:" + message)
+        })
       },
 
       //确定
@@ -396,33 +397,33 @@
         })
       },
       //公众号登录
-      publicAccountLogin() {
-        let _this = this
-        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
-          "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
-          "type": 1
-          // 固定值type：1:公众号，2:小程序
-        }, function (body) {
-
-          console.log("代理模式请求成功")
-          localStorage.setItem('token_type', body.data.token_type);
-          localStorage.setItem('token', body.data.access_token);
-          localStorage.setItem("isTokenExpire", "false");
-          localStorage.setItem("isFirstEnter", "false");
-          // localStorage.setItem("expires_in", body.data.expires_in);
-          if (localStorage.getItem("shopId") !== "undefined" &&
-            localStorage.getItem("shopId") !== "" &&
-            localStorage.getItem("shopId") !== null &&
-            localStorage.getItem("shopId") !== undefined) {
-            _this.getLastSelectedShop();
-          } else
-            _this.getLocation();
-
-          localStorage.setItem("code", _this.getUrlCode().code);
-        }, function (message) {
-          alert("登录失败：" + message);
-        })
-      },
+      // publicAccountLogin() {
+      //   let _this = this
+      //   myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/auth/login`, {
+      //     "code": this.code, "brand_id": `${global_msg.method.getBrandId()}`,
+      //     "type": 1
+      //     // 固定值type：1:公众号，2:小程序
+      //   }, function (body) {
+      //
+      //     console.log("代理模式请求成功")
+      //     localStorage.setItem('token_type', body.data.token_type);
+      //     localStorage.setItem('token', body.data.access_token);
+      //     localStorage.setItem("isTokenExpire", "false");
+      //     localStorage.setItem("isFirstEnter", "false");
+      //     // localStorage.setItem("expires_in", body.data.expires_in);
+      //     if (localStorage.getItem("shopId") !== "undefined" &&
+      //       localStorage.getItem("shopId") !== "" &&
+      //       localStorage.getItem("shopId") !== null &&
+      //       localStorage.getItem("shopId") !== undefined) {
+      //       _this.getLastSelectedShop();
+      //     } else
+      //       _this.getLocation();
+      //
+      //     localStorage.setItem("code", _this.getUrlCode().code);
+      //   }, function (message) {
+      //     alert("登录失败：" + message);
+      //   })
+      // },
       getUrlKey: function (name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
       },
@@ -519,47 +520,47 @@
 
       },
       //微信授权
-      getCode() {
-        // 非静默授权，第一次有弹框
-        this.code = "";
-        let local = window.location.href; // 获取页面url
-        console.log(local)
-        this.code = this.getUrlCode().code// 截取url中的code
-
-        //授权//每次进来的时候code都是空的
-        if (this.code == null || this.code === "") {
-          // 如果没有code，则去请求
-          window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
-            local
-          )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
-
-
-        } else {
-          //如果截取url中的code不等于保存的code，才登录
-          if (this.getUrlCode().code !== localStorage.getItem("code")) {
-            this.publicAccountLogin()
-          } else {
-            `${global_msg.method.getUserAccountInfo(this)}`;
-            `${global_msg.method.getUserBasicInfo(this)}`;
-          }
-
-        }
-      },
+      // getCode() {
+      //   // 非静默授权，第一次有弹框
+      //   this.code = "";
+      //   let local = window.location.href; // 获取页面url
+      //   console.log(local)
+      //   this.code = this.getUrlCode().code// 截取url中的code
+      //
+      //   //授权//每次进来的时候code都是空的
+      //   if (this.code == null || this.code === "") {
+      //     // 如果没有code，则去请求
+      //     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${global_msg.method.getAppId()}&redirect_uri=${encodeURIComponent(
+      //       local
+      //     )}&response_type=code&scope=snsapi_userinfo&state=123&connect_redirect=1#wechat_redirect`;
+      //
+      //
+      //   } else {
+      //     //如果截取url中的code不等于保存的code，才登录
+      //     if (this.getUrlCode().code !== localStorage.getItem("code")) {
+      //       this.publicAccountLogin()
+      //     } else {
+      //       `${global_msg.method.getUserAccountInfo(this)}`;
+      //       `${global_msg.method.getUserBasicInfo(this)}`;
+      //     }
+      //
+      //   }
+      // },
       ///解析微信code
-      getUrlCode() {
-        // 截取url中的code方法
-        let url = location.search;
-        this.winUrl = url;
-        let theRequest = new Object();
-        if (url.indexOf("?") !== -1) {
-          let str = url.substr(1);
-          let strs = str.split("&");
-          for (let i = 0; i < strs.length; i++) {
-            theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
-          }
-        }
-        return theRequest;
-      },
+      // getUrlCode() {
+      //   // 截取url中的code方法
+      //   let url = location.search;
+      //   this.winUrl = url;
+      //   let theRequest = new Object();
+      //   if (url.indexOf("?") !== -1) {
+      //     let str = url.substr(1);
+      //     let strs = str.split("&");
+      //     for (let i = 0; i < strs.length; i++) {
+      //       theRequest[strs[i].split("=")[0]] = strs[i].split("=")[1];
+      //     }
+      //   }
+      //   return theRequest;
+      // },
 
       ///该方法的作用是从页面url里面处理回调过来的二维码信息
       getUrlParam(name) {

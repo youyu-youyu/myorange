@@ -20,11 +20,25 @@ Vue.use(waterfall)
 Vue.http.headers.common['Accept'] = 'application/x.orange.mini.v2+json';
 if (global_msg.myNetType === 0) {
   Vue.http.interceptors.push((request, next) => {
+
+    //伪代码
+    // 两个时间戳相减 除1000 后取整即可
+    // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
+    let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
+    if (second >= (localStorage.getItem('expires_in') - 1000)) {
+
+
+    }
+
     if (global_msg.company !== -1)
       request.headers.set('Authorization', window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token'));
     else
       request.headers.set('Authorization', 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU');
     // console.log("456")
+
+    /**
+     * 服务器给反应了
+     */
     next(function (response, next) {
       let status_code = response.body.status_code;
       if (status_code === 200)
@@ -32,11 +46,12 @@ if (global_msg.myNetType === 0) {
 
       if (status_code === 460) {//返回状态为460，直接登录
         localStorage.setItem("token", "")
-
+// 刷新14天内没刷新token，则需要重新登录
         localStorage.removeItem('isFirstEnter');
-        // window.location.href = "https://plmokn28.020orange.com/mini/index.html?brand=orange"
+        //跳回主页
+        location.href = store.state.homeHtml;
         // alert(status_code)
-        `${global_msg.method.getCode(this)}`;
+        // `${global_msg.method.getCode(this)}`;
         return;
       }
       if (status_code === 401) { //与后台约定登录失效的返回码
@@ -50,33 +65,8 @@ if (global_msg.myNetType === 0) {
         // location.href = store.state.homeHtml;
         //刷新token接口
         let promise = new Promise(function (resolve, reject) {
-          //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
-          //如果过期超过一天，需要重新登录
-          //获取token当前时间+过期时间-请求当前时间
-          // let currentTime = Date.parse(new Date()) / 1000;
-          // let expiresTime = window.localStorage.getItem('expires_in');
-          // if (expiresTime - currentTime < 600) {
-          // 判断如果expires_in小于3600秒，则刷新token,每次expires_in的值都为86400？
-          //怎么获取expires_in,expires_in在登录接口和刷新接口
           console.log("进来刷新token页面")
-          // 刷新14天内没刷新token，则需要重新登录
-          Vue.http
-            //定义为全局使用global_msg.server_url
-            //post网络请求（后端提供url）
-            .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
-              {}, {emulateJSON: true})
-            .then(res => {
-              if (res.body.err_code === 0) {
-                localStorage.setItem('token_type', res.body.data.token_type);
-                localStorage.setItem('token', res.body.data.access_token);
-                localStorage.setItem("isTokenExpire", "false");
-                console.log("重新请求")
-                resolve();
-              } else {
-                alert("刷新Token失败:" + res.body.message);
-                reject("");
-              }
-            });
+          global_msg.method.refreshToken(resolve, reject);
         });
         return promise.then(function () {
 
@@ -108,44 +98,19 @@ if (global_msg.myNetType === 0) {
   // 添加响应拦截器
   Vue.axios.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    return response;
-  }, function (error) {
-    // 对响应错误做点什么
-    if (error.response) {
-      if (error.response.status === 401) {
-
-      }
+    if (status_code === 460) {//返回状态为460，直接登录
+      localStorage.setItem("token", "")
+      localStorage.removeItem('isFirstEnter');
+      //跳回主页
+      location.href = store.state.homeHtml;
+      // alert(status_code)
+      // `${global_msg.method.getCode(this)}`;
+      return;
     }
-
     if (status_code === 401) { //与后台约定登录失效的返回码
-      // //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
-      // if (window.localStorage.getItem('token') != null) {
-      //   alert('token 已过期,即将刷新');
-      // }
-      // localStorage.setItem("isTokenExpire", "true");
-      // localStorage.setItem("code", "");
-      // //状态码为401的时候，调回主页
-      // location.href = store.state.homeHtml;
-      //刷新token接口
       let promise = new Promise(function (resolve, reject) {
-        Vue.http
-          //定义为全局使用global_msg.server_url
-          //post网络请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/auth/refresh`,
-            {}, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              localStorage.setItem('token_type', res.body.data.token_type);
-              localStorage.setItem('token', res.body.data.access_token);
-              localStorage.setItem("isTokenExpire", "false");
-              console.log("重新请求")
-              resolve();
-            } else {
-              alert("刷新Token失败:" + res.body.message);
-              reject("");
-            }
-          });
-
+        //刷新token接口
+        global_msg.method.refreshToken();
       });
       return promise.then(function () {
 
@@ -153,12 +118,15 @@ if (global_msg.myNetType === 0) {
           return res
         })
       })
-
-
     } else if (status_code === 405) {
       alert("HTTP状态码405")
     } else if (status_code === 500) {
       alert("HTTP状态码500")
+    }
+  }, function (error) {
+    // 对响应错误做点什么
+    if (error.response) {
+
     }
     return Promise.reject(error);
   });
