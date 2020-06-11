@@ -47,14 +47,13 @@
 
   export default {
     name: "ModifyUserInfo",
-    props: {
-      disabled: ''
-    },
+    props: {},
     data() {
       return {
         time1: null,
         loading: false,
         userPhoto: "",
+        disabled: false
       }
     },
     mounted() {
@@ -120,7 +119,8 @@
             _this.$refs.userNameInput.value = userData.userName;
             _this.$refs.userMobilPhoneInput.value = userData.userPhone;
             _this.time1 = userData.brithday;
-            if (_this.time1 !== "" && _this.time1 !== null) {
+            console.log(_this.time1)
+            if (_this.time1 !== null && _this.time1 !== "") {
               //判断生日是否为空，不为空设置为不可编辑
               _this.disabled = true
             }
@@ -159,7 +159,7 @@
           "phone": phone,
           "birthday": this.$refs.userBirthdayInput.value,
         }, function (body) {
-          alert('更新个人信息成功')
+          Toast('更新个人信息成功')
           _this.$router.go(-1);
         }, function (message) {
           alert('更新个人信息失败:' + message)
