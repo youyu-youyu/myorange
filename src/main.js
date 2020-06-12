@@ -53,7 +53,7 @@ if (global_msg.myNetType === 0) {
 
       if (status_code === 460) {//返回状态为460，直接登录
         localStorage.setItem("token", "")
-// 刷新14天内没刷新token，则需要重新登录
+        // 刷新14天内没刷新token，则需要重新登录
         localStorage.removeItem('isFirstEnter');
         //跳回主页
         location.href = store.state.homeHtml;

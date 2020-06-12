@@ -21,6 +21,7 @@
   import BackBar from "../public/backBar";
   import loading from "../public/loading/loading";
   import global_msg from "../js/global";
+  import myNetUtils from "../js/MyNetUtils.js";
 
   export default {
     name: "ChangePassword",
@@ -44,39 +45,30 @@
 
       //修改实体卡密码
       editPassword(currentPassword, newPassword, confirmPassword) {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/lottery/log`,
-            {
-              "shopId": this.$store.state.selectedShopData.shopId,
-              "cardNo": this.cardNo,
-              "oldpwd": currentPassword,
-              "newpwd": newPassword,
-              "confirmpwd": confirmPassword,
-            }, {emulateJSON: true})
-          .then(res => {
-            console.log("111" + currentPassword)
-            if (res.body.err_code === 0) {
-              let numRegex = /\D/g
-              this.$refs.newPassword.value = this.$refs.newPassword.value.replace(numRegex, '')
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/editpwd`, {
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "cardNo": this.cardNo,
+          "oldpwd": currentPassword,
+          "newpwd": newPassword,
+          "confirmpwd": confirmPassword,
+        }, function (body) {
+          let numRegex = /\D/g
+          this.$refs.newPassword.value = this.$refs.newPassword.value.replace(numRegex, '')
 
-              if (currentPassword === "" || newPassword === "" || confirmPassword === "") {
-                alert("修改密码不可为空！")
-              } else if (!this.$refs.newPassword.value) {
-                alert("请输入数字")
-                //密码只能为数字
-              } else {
-                alert("修改密码成功！")
-                this.$router.go(-1);
-              }
+          if (currentPassword === "" || newPassword === "" || confirmPassword === "") {
+            alert("修改密码不可为空！")
+          } else if (!this.$refs.newPassword.value) {
+            alert("请输入数字")
+            //密码只能为数字
+          } else {
+            alert("修改密码成功！")
+            this.$router.go(-1);
+          }
 
-              // console.log(res.body.data)
-            } else {
-              alert("修改实体卡密码失败:" + res.body.message);
-            }
-          })
-      },
+        }, function (message) {
+          alert("修改实体卡密码失败:" + message);
+        })
+      }
     },
     components: {
       BackBar,
