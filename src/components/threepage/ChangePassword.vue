@@ -46,6 +46,7 @@
 
       //修改实体卡密码
       editPassword(currentPassword, newPassword, confirmPassword) {
+        let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/editpwd`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "cardNo": this.cardNo.cardNo,
@@ -54,16 +55,16 @@
           "confirmpwd": confirmPassword,
         }, function (body) {
           let numRegex = /\D/g
-          this.$refs.newPassword.value = this.$refs.newPassword.value.replace(numRegex, '')
+          _this.$refs.newPassword.value = _this.$refs.newPassword.value.replace(numRegex, '')
 
           if (currentPassword === "" || newPassword === "" || confirmPassword === "") {
             alert("修改密码不可为空！")
-          } else if (!this.$refs.newPassword.value) {
+          } else if (!_this.$refs.newPassword.value) {
             alert("请输入数字")
             //密码只能为数字
           } else {
             alert("修改密码成功！")
-            this.$router.go(-1);
+            _this.$router.go(-1);
           }
 
         }, function (message) {

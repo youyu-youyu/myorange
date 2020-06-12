@@ -33,6 +33,8 @@
       addEntityCards() {
         let cardNumber = this.$refs.cardNumber.value;
         let cardPassword = this.$refs.cardPassword.value;
+        console.log(cardNumber)
+        console.log(cardPassword)
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/bind`, {
           "shopId": this.$store.state.selectedShopData.shopId,
