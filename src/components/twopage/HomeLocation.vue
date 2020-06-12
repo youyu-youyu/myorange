@@ -80,7 +80,7 @@
       return {
         shopList: [],
         selectedIndex: -1,
-        pathId: ""
+        // pathId: ""
       }
     },
     destroyed() {
@@ -88,8 +88,8 @@
     },
     mounted() {
       this.getShopList();
-      this.pathId = localStorage.getItem("payStatusResult")
-      console.log(this.pathId)
+      // this.pathId = localStorage.getItem("payStatusResult")
+      // console.log(this.pathId)
     },
     methods: {
       //接口图片错误显示默认图片

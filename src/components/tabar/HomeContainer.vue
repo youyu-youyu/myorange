@@ -203,8 +203,8 @@
               console.log("时差:" + second)
             }, 3000);
             // 不是第一次进来直接获取上次店铺
-            // this.getLastSelectedShop();
-            `${global_msg.method.getCode(this)}`;
+            this.getLastSelectedShop();
+
           }
         } else {
           this.getLastSelectedShop();
@@ -275,7 +275,7 @@
     methods: {
       //跳转选店页面
       toHomeLocation() {
-        this.$router.push({path: '/homelocation', query: {areaIdPath: this.areaIdPath}})
+        this.$router.push({path: '/homelocation'})
 
       },
       //跳转小程序主页面
