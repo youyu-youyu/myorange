@@ -67,6 +67,7 @@
       update(index) {
         this.entityCardIndex = index;
         this.$router.push({path: '/changepassword', query: {cardNo: this.entityCardsList[this.entityCardIndex].cardNo}})
+        console.log(this.entityCardsList[this.entityCardIndex].cardNo)
         //传当前所点击的卡号
       },
       //获取实体卡号

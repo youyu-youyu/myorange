@@ -34,6 +34,7 @@
     },
     mounted() {
       this.cardNo = this.$route.query;
+      console.log(this.cardNo.cardNo)
     },
     methods: {
       savePassword() {
@@ -47,7 +48,7 @@
       editPassword(currentPassword, newPassword, confirmPassword) {
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/entitycards/editpwd`, {
           "shopId": this.$store.state.selectedShopData.shopId,
-          "cardNo": this.cardNo,
+          "cardNo": this.cardNo.cardNo,
           "oldpwd": currentPassword,
           "newpwd": newPassword,
           "confirmpwd": confirmPassword,
