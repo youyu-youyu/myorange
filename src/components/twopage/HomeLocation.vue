@@ -79,7 +79,8 @@
     data() {
       return {
         shopList: [],
-        selectedIndex: -1
+        selectedIndex: -1,
+        pathId: ""
       }
     },
     destroyed() {
@@ -87,6 +88,8 @@
     },
     mounted() {
       this.getShopList();
+      this.pathId = localStorage.getItem("payStatusResult")
+      console.log(this.pathId)
     },
     methods: {
       //接口图片错误显示默认图片
@@ -97,6 +100,7 @@
           "count": 100, "page": 1, path: _this.pathId,
         }, function (body) {
           _this.shopList = body.data
+
         }, function (message) {
           alert("获取门店列表失败：" + message);
         })

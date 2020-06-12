@@ -49,7 +49,8 @@
         </div>
       </div>
       <div class="user_top_bottom">
-        <router-link to="/bitvc" class="item">
+        <!--        <router-link to="/bitvc" class="item">-->
+        <router-link to="" class="item">
           <div class="item_item"><img src="../../assets/user/yubi.png" style="width: 30px"></div>
           <div class="item_item user_item_txt ">余币宝</div>
           <div class="item_item user_item_txt user_item_num">0</div>

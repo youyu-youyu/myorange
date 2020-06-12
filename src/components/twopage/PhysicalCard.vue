@@ -19,9 +19,8 @@
       </div>
       <br>
       <br>
-      <br>
       <div class="physicalCard_img_1">
-        <img src="../../assets/project/xiangmu_card1.png" class="physicalCard_img"/>
+        <img src="../../assets/card/card.png" class="physicalCard_img"/>
         <router-link to="/addcard">
           <button class="physicalCard_btn">添加实体卡</button>
           <!--        <button class="physicalCard_btn" @click="addEntityCards()">添加实体卡</button>-->
@@ -96,7 +95,7 @@
   }
 
   .physicalCard_img_1 {
-    padding: 10px 20px;
+    padding: 0px 20px;
     /*display: flex;*/
     /*justify-content: space-around;*/
   }
@@ -110,6 +109,8 @@
   .physicalCard_btn {
     float: right;
     vertical-align: middle;
+    width: 100px;
+    height: 50px;
   }
 
   .physicalCard_info {

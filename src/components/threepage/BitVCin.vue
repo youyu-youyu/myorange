@@ -2,7 +2,7 @@
   <div class="bitvcin">
     <backbar title="转入余币宝"></backbar>
     <div class="bitvcin_top">
-      <img src="../../assets/bitvc/bitvcout.jpg" class="mui-pull-left bitvcin_left" />
+<!--      <img src="../../assets/bitvc/bitvcout.jpg" class="mui-pull-left bitvcin_left" />-->
       <div class="mui-media-body bitvc_body">
         余币宝
         <p class="mui-ellipsis">3200</p>

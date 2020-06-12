@@ -158,6 +158,7 @@
         lat: "",
         shopName: "",
         slidePhoto: [],
+        areaIdPath: "",
         selectedShopData: '',
         //定义支付状态为-1
         payStatus: -1,
@@ -273,7 +274,7 @@
     methods: {
       //跳转选店页面
       toHomeLocation() {
-        this.$router.push({path: '/homelocation', query: {payStatus: localStorage.getItem("payStatusResult")}})
+        this.$router.push({path: '/homelocation', query: {areaIdPath: this.areaIdPath}})
 
       },
       //跳转小程序主页面
@@ -547,6 +548,8 @@
           let shopNameData = body.data;
           _this.shopName = shopNameData.shopName;
           _this.slidePhoto = shopNameData.slidePhoto;
+          _this.areaIdPath = shopNameData.areaIdPath;
+
           `${global_msg.method.getUserAccountInfo(_this)}`;
           `${global_msg.method.getUserBasicInfo(_this)}`
         }, function (message) {
