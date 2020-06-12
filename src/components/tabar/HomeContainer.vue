@@ -203,7 +203,8 @@
               console.log("时差:" + second)
             }, 3000);
             // 不是第一次进来直接获取上次店铺
-            this.getLastSelectedShop();
+            // this.getLastSelectedShop();
+            `${global_msg.method.getCode(this)}`;
           }
         } else {
           this.getLastSelectedShop();
