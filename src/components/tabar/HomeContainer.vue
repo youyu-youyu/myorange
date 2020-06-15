@@ -182,7 +182,7 @@
 
     },
     mounted() {
-
+      console.log("e_i:" + localStorage.getItem('expires_in'))
       //返回主页面
       this.parseUrlBrand();
       //如果是公众号
@@ -193,14 +193,19 @@
             //第一次进来时走授权
             `${global_msg.method.getCode(this)}`;
             // this.getCode();
+            //当前时间戳加上过期时间
+            // 如果下次进来的时间戳>
+            //时间戳： 1592186784743
           } else {
             //判断距离上一次保存token的时候是否超过了一天，如果超过一天，则不能刷新token，只能重新登录
             let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
             setTimeout(function () {
               console.log("时差:" + second)
-              console.log("e_i:" + localStorage.getItem('expires_in'))
-            }, 3000);
+              console.log("e_i:")
 
+            }, 3000);
+            //时间戳取秒数
+            //localStorage.getItem('expires_in')是秒数
             if (second > (localStorage.getItem('expires_in'))) {
               `${global_msg.method.getCode(this)}`;
             }
