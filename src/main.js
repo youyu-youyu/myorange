@@ -31,15 +31,18 @@ if (global_msg.myNetType === 0) {
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
     let currentTime = Math.floor(new Date().getTime() / 1000);
-    console.log((localStorage.getItem('expires_in')) === true)
+    console.log((!localStorage.getItem('expires_in')))
     console.log("currentTime:" + currentTime)
     console.log((localStorage.getItem('expires_in')) - currentTime)
-    // if ((localStorage.getItem('expires_in')) || (localStorage.getItem('expires_in')) - currentTime <= 60) {
-    //   //刷新接口
-    //   let promise = new Promise(function (resolve, reject) {
-    //     global_msg.method.refreshToken(resolve, reject);
-    //   });
-    // }
+    if ((localStorage.getItem('expires_in')) && (localStorage.getItem('expires_in')) - currentTime > 0
+      && (localStorage.getItem('expires_in')) - currentTime <= 60) {
+      //刷新接口
+      // alert("过期时间")
+      localStorage.setItem('expires_in', 0)
+      let promise = new Promise(function (resolve, reject) {
+        global_msg.method.refreshToken(resolve, reject);
+      });
+    }
     // if (localStorage.getItem('saveTokenTime') !== null) {
     //   let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
     //   if (second >= (localStorage.getItem('expires_in') - 1000)) {
@@ -83,12 +86,6 @@ if (global_msg.myNetType === 0) {
         //刷新token接口
         //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
         //如果过期超过一天，需要重新登录
-        //获取token当前时间+过期时间-请求当前时间
-        // let currentTime = Date.parse(new Date()) / 1000;
-        // let expiresTime = window.localStorage.getItem('expires_in');
-        // if (expiresTime - currentTime < 600) {
-        // 判断如果expires_in小于3600秒，则刷新token,每次expires_in的值都为86400？
-        //怎么获取expires_in,expires_in在登录接口和刷新接口
         let promise = new Promise(function (resolve, reject) {
           console.log("进来刷新token页面")
           global_msg.method.refreshToken(resolve, reject);
@@ -110,11 +107,18 @@ if (global_msg.myNetType === 0) {
   // http request 拦截器
   axios.interceptors.request.use(config => {
       // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
-      if (localStorage.getItem('saveTokenTime') !== null) {
-        let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
-        if (second >= (localStorage.getItem('expires_in') - 1000)) {
-          `${global_msg.method.getCode(this)}`;
-        }
+      let currentTime = Math.floor(new Date().getTime() / 1000);
+      console.log((!localStorage.getItem('expires_in')))
+      console.log("currentTime:" + currentTime)
+      console.log((localStorage.getItem('expires_in')) - currentTime)
+      if ((localStorage.getItem('expires_in')) && (localStorage.getItem('expires_in')) - currentTime > 0
+        && (localStorage.getItem('expires_in')) - currentTime <= 60) {
+        //刷新接口
+        alert("过期时间")
+        localStorage.setItem('expires_in', 0)
+        let promise = new Promise(function (resolve, reject) {
+          global_msg.method.refreshToken(resolve, reject);
+        });
       }
 
       config.headers['Accept'] = 'application/x.orange.mini.v2+json';

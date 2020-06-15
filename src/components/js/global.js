@@ -30,7 +30,7 @@ export default {
   qrCode, //扫描到的二维码
   isProcessQrCode, //是否处理了二维码
   company: company,
-  myNetType: 0,
+  myNetType: 1,
   setCompany(index) {
     this.company = index;
     company = index;
@@ -180,6 +180,7 @@ export default {
         function (body) {
           localStorage.setItem('token_type', body.data.token_type);
           localStorage.setItem('token', body.data.access_token);
+          localStorage.setItem('expires_in', body.data.expires_in)
           localStorage.setItem("isTokenExpire", "false");
           console.log("重新请求")
           resolve();
