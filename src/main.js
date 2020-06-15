@@ -26,7 +26,7 @@ Vue.prototype.axios = axios;
 Vue.http.headers.common['Accept'] = 'application/x.orange.mini.v2+json';
 if (global_msg.myNetType === 0) {
   Vue.http.interceptors.push((request, next) => {
-    location.href = store.state.homeHtml;
+
     //伪代码
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
@@ -56,7 +56,7 @@ if (global_msg.myNetType === 0) {
         // 刷新14天内没刷新token，则需要重新登录
         localStorage.removeItem('isFirstEnter');
         //跳回主页
-
+        location.href = store.state.homeHtml;
         // alert(status_code)
         // `${global_msg.method.getCode(this)}`;
         return;
