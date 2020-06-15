@@ -198,8 +198,9 @@
             let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
             setTimeout(function () {
               console.log("时差:" + second)
+              console.log("e_i:" + localStorage.getItem('expires_in'))
             }, 3000);
-            console.log(localStorage.getItem('expires_in'))
+
             if (second > (localStorage.getItem('expires_in'))) {
               `${global_msg.method.getCode(this)}`;
             }
