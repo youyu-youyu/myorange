@@ -30,11 +30,11 @@ if (global_msg.myNetType === 0) {
     //伪代码
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
-    if ((localStorage.getItem('expires_in')) - new Date().getTime() <= 60) {
+    let currentTime = Math.floor(new Date().getTime() / 1000);
+
+    if ((localStorage.getItem('expires_in')) - currentTime <= 60) {
       //刷新接口
       let promise = new Promise(function (resolve, reject) {
-
-
         global_msg.method.refreshToken(resolve, reject);
       });
     }

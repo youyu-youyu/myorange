@@ -182,7 +182,6 @@
 
     },
     mounted() {
-      console.log("e_i:" + localStorage.getItem('expires_in'))
       //返回主页面
       this.parseUrlBrand();
       //如果是公众号
