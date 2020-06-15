@@ -175,6 +175,7 @@ export default {
 
     },
     refreshToken(resolve, reject) {
+      console.log("刷新token接口")
       myNetUtils.method.post(`${this.getBaseUrl()}/api/auth/refresh`, {},
         function (body) {
           localStorage.setItem('token_type', body.data.token_type);

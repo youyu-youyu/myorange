@@ -30,12 +30,20 @@ if (global_msg.myNetType === 0) {
     //伪代码
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
-    if (localStorage.getItem('saveTokenTime') !== null) {
-      let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
-      if (second >= (localStorage.getItem('expires_in') - 1000)) {
-        `${global_msg.method.getCode(this)}`;
-      }
+    if ((localStorage.getItem('expires_in')) - new Date().getTime() <= 60) {
+      //刷新接口
+      let promise = new Promise(function (resolve, reject) {
+
+
+        global_msg.method.refreshToken(resolve, reject);
+      });
     }
+    // if (localStorage.getItem('saveTokenTime') !== null) {
+    //   let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
+    //   if (second >= (localStorage.getItem('expires_in') - 1000)) {
+    //     `${global_msg.method.getCode(this)}`;
+    //   }
+    // }
 
     if (global_msg.company !== -1)
       request.headers.set('Authorization', window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token'));
