@@ -30,7 +30,7 @@ export default {
   qrCode, //扫描到的二维码
   isProcessQrCode, //是否处理了二维码
   company: company,
-  myNetType: 1,
+  myNetType: 0,
   setCompany(index) {
     this.company = index;
     company = index;
@@ -153,7 +153,6 @@ export default {
         localStorage.setItem('token', body.data.access_token);
         localStorage.setItem("isTokenExpire", "false");
         localStorage.setItem("isFirstEnter", "false");
-        localStorage.setItem('saveTokenTime', new Date().getTime())
         localStorage.setItem("expires_in", body.data.expires_in);
 
         if (localStorage.getItem("shopId") !== "undefined" &&
@@ -166,8 +165,6 @@ export default {
         } else {
           _this.getLocation()
         }
-
-
         localStorage.setItem("code", code);
       }, function (message) {
         alert("登录失败：" + message);

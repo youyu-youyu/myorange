@@ -43,12 +43,6 @@ if (global_msg.myNetType === 0) {
         global_msg.method.refreshToken(resolve, reject);
       });
     }
-    // if (localStorage.getItem('saveTokenTime') !== null) {
-    //   let second = (parseInt(new Date().getTime()) - parseInt(localStorage.getItem('saveTokenTime'))) / 1000;
-    //   if (second >= (localStorage.getItem('expires_in') - 1000)) {
-    //     `${global_msg.method.getCode(this)}`;
-    //   }
-    // }
 
     if (global_msg.company !== -1)
       request.headers.set('Authorization', window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token'));
@@ -106,11 +100,7 @@ if (global_msg.myNetType === 0) {
 } else {
   // http request 拦截器
   axios.interceptors.request.use(config => {
-      // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
-
-
       config.headers['Accept'] = 'application/x.orange.mini.v2+json';
-
       // 在发送请求之前做些什么
       if (global_msg.company !== -1)
         config.headers.Authorization = window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token')  //请求头加上token
