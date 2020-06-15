@@ -3,13 +3,15 @@
     <div class="home_top">
       <!--      <h4>科技让生活越来越方便</h4>-->
       <!--      <router-link to="/homelocation">-->
-      <div class="home_location" @click="toHomeLocation()">
-        <img src="../../assets/home/home_location.png" class="home_left" style="width: 30px;margin-top: 3px">
-        <div class="home_right">
-          {{getShopName}}
-          <span class="mui-icon mui-icon-arrowdown "></span>
+      <div class="home_location">
+        <div @click="toHomeLocation()">
+          <img src="../../assets/home/home_location.png" class="home_left" style="width: 30px;margin-top: 3px">
+          <div class="home_right">
+            {{getShopName}}
+            <span class="mui-icon mui-icon-arrowdown "></span>
+          </div>
         </div>
-        <div class="home_right1" cbd.jpg>
+        <div class="home_right1">
           <router-link to="/discount">
             <div class="home_right1_1">优惠券 &nbsp;&nbsp;{{coupons}}张</div>
             <!--              <div class="item_item">6张</div>-->
