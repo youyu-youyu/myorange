@@ -26,7 +26,7 @@ Vue.prototype.axios = axios;
 Vue.http.headers.common['Accept'] = 'application/x.orange.mini.v2+json';
 if (global_msg.myNetType === 0) {
   Vue.http.interceptors.push((request, next) => {
-
+    location.href = store.state.homeHtml;
     //伪代码
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
@@ -56,7 +56,7 @@ if (global_msg.myNetType === 0) {
         // 刷新14天内没刷新token，则需要重新登录
         localStorage.removeItem('isFirstEnter');
         //跳回主页
-        location.href = store.state.homeHtml;
+
         // alert(status_code)
         // `${global_msg.method.getCode(this)}`;
         return;
@@ -71,6 +71,14 @@ if (global_msg.myNetType === 0) {
         // //状态码为401的时候，调回主页
         // location.href = store.state.homeHtml;
         //刷新token接口
+        //登录页面时，获取时间，倒计时如果超过时间，在超过时间之前调用刷新接口
+        //如果过期超过一天，需要重新登录
+        //获取token当前时间+过期时间-请求当前时间
+        // let currentTime = Date.parse(new Date()) / 1000;
+        // let expiresTime = window.localStorage.getItem('expires_in');
+        // if (expiresTime - currentTime < 600) {
+        // 判断如果expires_in小于3600秒，则刷新token,每次expires_in的值都为86400？
+        //怎么获取expires_in,expires_in在登录接口和刷新接口
         let promise = new Promise(function (resolve, reject) {
           console.log("进来刷新token页面")
           global_msg.method.refreshToken(resolve, reject);

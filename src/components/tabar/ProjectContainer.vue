@@ -48,6 +48,7 @@
       }
     },
     created() {
+      // location.href = this.$store.state.homeHtml;
       this.getProject();
       this.getTicket();
     },

@@ -198,6 +198,7 @@
             //时间戳： 1592186784743
           } else {
             //判断距离上一次保存token的时候是否超过了一天，如果超过一天，则不能刷新token，只能重新登录
+            // 当前时间-获取token时间，会越来越大，当second>当前获取token时间+过期时间
             let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
             setTimeout(function () {
               console.log("时差:" + second)
@@ -205,6 +206,7 @@
 
             }, 3000);
             //时间戳取秒数
+            // 获取token时间+过期时间-当前时间
             //localStorage.getItem('expires_in')是秒数
             if (second > (localStorage.getItem('expires_in'))) {
               `${global_msg.method.getCode(this)}`;
