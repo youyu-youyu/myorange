@@ -107,6 +107,18 @@ if (global_msg.myNetType === 0) {
   // http request 拦截器
   axios.interceptors.request.use(config => {
       // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
+
+
+      config.headers['Accept'] = 'application/x.orange.mini.v2+json';
+
+      // 在发送请求之前做些什么
+      if (global_msg.company !== -1)
+        config.headers.Authorization = window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token')  //请求头加上token
+      else
+        config.headers.Authorization = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU'
+      return config;
+
+
       let currentTime = Math.floor(new Date().getTime() / 1000);
       console.log((!localStorage.getItem('expires_in')))
       console.log("currentTime:" + currentTime)
@@ -120,15 +132,6 @@ if (global_msg.myNetType === 0) {
           global_msg.method.refreshToken(resolve, reject);
         });
       }
-
-      config.headers['Accept'] = 'application/x.orange.mini.v2+json';
-
-      // 在发送请求之前做些什么
-      if (global_msg.company !== -1)
-        config.headers.Authorization = window.localStorage.getItem('token_type') + ' ' + window.localStorage.getItem('token')  //请求头加上token
-      else
-        config.headers.Authorization = 'bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGxtb2tuMjguMDIwb3JhbmdlLmNvbSIsImlhdCI6MTU4Njc1ODg4MywiZXhwIjoxNjE4Mjk0ODgzLCJuYmYiOjE1ODY3NTg4ODMsImp0aSI6IkhFdjVRN1RjWGZ1NE1MZFUiLCJzdWIiOjE2OTgxMTMxMjg3MDgyMTg4OCwicHJ2IjoiYzgzZTZhZTllYTM2OGIxMTVmMjMxMzQyN2Y1ZDVjMGY5ZDEzYzc2MyJ9.dIVtz_IPI8o3zS_MvVdXpdAvF8kyz_21PU3qPwfAaoU'
-      return config;
     }, err => {
       return Promise.reject(err)
     },
