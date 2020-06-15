@@ -174,6 +174,8 @@
       };
     },
     created: function () {
+      console.log("优惠券id")
+      console.log(this.$store.state.setCoupon)
       // if (localStorage.getItem("isFirstEnter11") === null
       //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
       //   alert("模拟了")

@@ -264,7 +264,8 @@
           "sumcoin": this.showData.sumcoin,
           "cardType": this.cardType,
           "payType": this.$refs.cellChild.payType,
-          "notifyUrl": this.$store.state.homeHtml
+          "notifyUrl": this.$store.state.homeHtml,
+          "couponId": this.$store.state.couponId,
         }, function (body) {
           _this.loading = false;
           _this.order = body.data.orderNo;

@@ -7,14 +7,14 @@
         <!--        <span class="discount-inner-item" @click="discountEvent(0)">可使用({{availableDiscountList.length}})</span>-->
         <span class="discount-inner-item" @click="discountEvent(0)">可使用</span>
         <!--        <span class="discount-inner-item" @click="discountEvent(1)">已过期({{expiredDiscountList.length}})</span>-->
-        <span class="discount-inner-item" @click="discountEvent(1)">已过期</span>
+        <span class="discount-inner-item " @click="discountEvent(1)">已过期</span>
         <!--        <span class="discount-inner-item" @click="discountEvent(2)">已使用({{usedDiscountList.length}})</span>-->
         <span class="discount-inner-item" @click="discountEvent(2)">已使用</span>
       </div>
 
       <div id="item1mobile" class="mui-slider-item mui-control-content mui-active item1">
         <!--                <ul class="mui-table-view mui-table-view-chevron discount_ul" v-for="(item,index) in discountShowList">-->
-        <ul class="mui-table-view-chevron discount_ul" v-for="(item,index) in discountShowList">
+        <ul id="setNone" class="mui-table-view-chevron discount-ul" v-for="(item,index) in discountShowList">
           <li class="mui-table-view-cell mui-media">
             <!--            <img class="mui-pull-left discount__img" src="../../assets/discount/discount.png"/>-->
             <div class="mui-media-body discount_body" style="padding-left: 10px">
@@ -23,7 +23,7 @@
                 {{item.deductMoney}}
               </div>
             </div>
-            <div class="discount_right">
+            <div class="discount_right" @click="clickDiscountEvent(index)">
               <div class="" style="padding: 5px">礼品券</div>
               <div class="">立即兑换</div>
             </div>
@@ -49,6 +49,7 @@
   import backbar from "../public/backBar.vue";
   import global_msg from "../js/global";
   import myNetUtils from "../js/MyNetUtils.js";
+  import {Toast} from "mint-ui"
 
   export default {
     data() {
@@ -57,15 +58,25 @@
         usedDiscountList: "",
         expiredDiscountList: "",
         discountShowList: "",
+        discountIndex: 0
       };
     },
     mounted() {
       this.availableDiscount();
       this.expiredDiscount();
       this.usedDiscount();
-
     },
     methods: {
+      clickDiscountEvent(index, type) {
+        //如果是可使用
+        // if (this.availableDiscountList.length === 0) {
+        // }
+        //如果点击已过期，禁止，已使用，禁止
+        this.discountIndex = index
+        this.$store.commit('setCouponId', this.availableDiscountList[this.discountIndex].couponId);
+        Toast("兑换成功！")
+        this.$router.go(-1)
+      },
       //可使用优惠券
       availableDiscount: function () {
         let _this = this
@@ -74,6 +85,13 @@
           shopId: _this.$store.state.selectedShopData.shopId
         }, function (body) {
           _this.availableDiscountList = body.data
+
+          console.log("可使用优惠券")
+          console.log(_this.availableDiscountList.length)
+          //如果长度为0
+
+          // console.log(body.data[0].couponId)
+          //当点击立即兑换的时候，获取点击的couponId
           _this.discountEvent(0);
         }, function (message) {
           alert("获取优惠券信息错误：" + message)
@@ -81,6 +99,19 @@
       },
       //已过期优惠券
       expiredDiscount: function () {
+        let _this = this
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/duecoupons`, {
+          "_timestamp:": (new Date).getTime(),
+          shopId: _this.$store.state.selectedShopData.shopId
+        }, function (body) {
+          _this.expiredDiscountList = body.data
+
+        }, function (message) {
+          alert("获取优惠券信息错误：" + message)
+        })
+      },
+      //已使用优惠券
+      usedDiscount: function () {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/usedcoupons`, {
           _timestamp: (new Date).getTime(),
@@ -91,24 +122,13 @@
           alert("获取优惠券信息错误：" + message)
         })
       },
-      //已使用优惠券
-      usedDiscount: function () {
-        let _this = this
-        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/duecoupons`, {
-          "_timestamp:": (new Date).getTime(),
-          shopId: _this.$store.state.selectedShopData.shopId
-        }, function (body) {
-          _this.expiredDiscountList = body.data
-        }, function (message) {
-          alert("获取优惠券信息错误：" + message)
-        })
-      },
       discountEvent(type) {
         this.discountShowList = [];
         if (type === 0) {
           this.discountShowList = this.discountShowList.concat(this.availableDiscountList)
         } else if (type === 1) {
           this.discountShowList = this.discountShowList.concat(this.expiredDiscountList)
+          // document.getElementById("setNone").setAttribute("style", "pointer-events:none;")
         } else {
           this.discountShowList = this.discountShowList.concat(this.usedDiscountList)
         }
@@ -215,6 +235,7 @@
       width: 95%;
       margin: 10px auto;
       /*height: 160px !important;*/
+
       padding-left: 0px;
       border-radius: 15px;
       border: 1px solid transparent !important;
@@ -222,6 +243,11 @@
     }
   }
 
+
+  /*.discount_xin {*/
+  /*  !*  设置为不可点击*!*/
+  /*  */
+  /*}*/
 </style>
 
 

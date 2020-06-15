@@ -31,9 +31,6 @@ if (global_msg.myNetType === 0) {
     // 两个时间戳相减 除1000 后取整即可
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
     let currentTime = Math.floor(new Date().getTime() / 1000);
-    console.log((!localStorage.getItem('expires_in')))
-    console.log("currentTime:" + currentTime)
-    console.log((localStorage.getItem('expires_in')) - currentTime)
     if ((localStorage.getItem('expires_in')) && (localStorage.getItem('expires_in')) - currentTime > 0
       && (localStorage.getItem('expires_in')) - currentTime <= 60) {
       //刷新接口
@@ -187,6 +184,7 @@ const store = new Vuex.Store({
     userAccountData: "",
     shopCarList: [],
     brand: "",
+    couponId: ""
   },
   getter: {},
   //store中包含组件的共享状态state和改变状态的方法（暂且称作方法）mutations
@@ -196,6 +194,9 @@ const store = new Vuex.Store({
     },
     setIsFirstEnter(state, param) {
       state.isFirstEnter = param;
+    },
+    setCouponId(state, param) {
+      state.couponId = param;
     },
     setHomeHtml(state, param) {
       state.homeHtml = param;
