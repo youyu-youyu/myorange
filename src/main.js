@@ -32,6 +32,7 @@ if (global_msg.myNetType === 0) {
     // let second = parseInt(调接口的时间戳 - 获取token的时间) / 1000);
     let currentTime = Math.floor(new Date().getTime() / 1000);
     console.log((localStorage.getItem('expires_in')) === true)
+    console.log("currentTime:" + currentTime)
     console.log((localStorage.getItem('expires_in')) - currentTime)
     // if ((localStorage.getItem('expires_in')) || (localStorage.getItem('expires_in')) - currentTime <= 60) {
     //   //刷新接口
