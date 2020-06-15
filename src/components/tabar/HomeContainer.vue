@@ -196,12 +196,14 @@
           } else {
             //判断距离上一次保存token的时候是否超过了一天，如果超过一天，则不能刷新token，只能重新登录
             let second = parseInt((new Date().getTime() - localStorage.getItem('saveTokenTime')) / 1000);
-            if (second > (localStorage.getItem('expires_in'))) {
-              `${global_msg.method.getCode(this)}`;
-            }
             setTimeout(function () {
               console.log("时差:" + second)
             }, 3000);
+            console.log(localStorage.getItem('expires_in'))
+            if (second > (localStorage.getItem('expires_in'))) {
+              `${global_msg.method.getCode(this)}`;
+            }
+
             // 不是第一次进来直接获取上次店铺
             this.getLastSelectedShop();
 
