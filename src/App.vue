@@ -211,7 +211,7 @@
   }
 
   .tabar_middle_inner {
-    z-index: 9999999;
+    z-index: 99999999 !important;
     min-height: 400px !important;
     background-color: #fff;
     text-align: center;
