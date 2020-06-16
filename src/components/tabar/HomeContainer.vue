@@ -134,14 +134,14 @@
       <div class="home_middle_inner">
         <div class="home_middle_text">每日惊喜</div>
         <div class="home_middle_img">
-          <router-link to="/homesurprise">
-            <!--          <router-link to="/scanorder">-->
+          <!--          <router-link to="/homesurprise">-->
+          <router-link to="/scanorder">
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>
       </div>
     </div>
-<!--    11-->
+    <!--    11-->
     <!--    <button @click="goMini()">跳转小程序</button>-->
     <!--    <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>-->
   </div>
@@ -311,7 +311,7 @@
         });
         window.wx.error(function (res) {
           // alert(res)
-          alert("配置jssdk error")
+          // alert("配置jssdk error")
         });
         window.wx.ready(function () {
           // alert("配置jssdk ready")

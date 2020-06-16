@@ -52,7 +52,7 @@
       </div>
       <div class="at-col border-col">
         今日签到
-        <div class="data">+1</div>
+        <div class="data">+{{userCoin}}币</div>
       </div>
     </div>
     <div class="at-row-bottom">
@@ -82,12 +82,14 @@
         valueList: [],
         selectedSignIndex: -1,
         loading: false,
-        userScore: ""
+        userScore: "",
+        userCoin: ""
       };
     },
     mounted() {
+      // userCoin
       this.userScore = this.$store.state.userInfoData.userTotalScore;
-      console.log(this.$store.state.userInfoData.userTotalScore)
+      this.userCoin = this.$store.state.userAccountData.giveCoin
       mui('.mui-scroll-wrapper').scroll({
         deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
       });
@@ -134,7 +136,7 @@
           }
           _this.keyList = _this.keyList.concat(tempKeyList);
           _this.valueList = _this.valueList.concat(tempValueList);
-          console.log(_this.valueList)
+          console.log(_this.keyList)
 
           for (let i = 0; i < _this.keyList.length; i++) {
             _this.keyList[i] = _this.keyList[i].split("-")[1] + "." + _this.keyList[i].split("-")[2];
