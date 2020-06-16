@@ -164,6 +164,11 @@ export default new Router({
       path: '/recharge',
       name: 'ReCharge',
       component: resolve => require(['@/components/twopage/ReCharge.vue'], resolve),//懒加载
+    },
+    {
+      path: '/scanorder',
+      name: 'ScanOrder',
+      component: resolve => require(['@/components/twopage/ScanOrder.vue'], resolve),//懒加载
     }
   ],
   linkActiveClass: 'mui-active'//覆盖默路由高亮的类，默认的类叫router-link-active

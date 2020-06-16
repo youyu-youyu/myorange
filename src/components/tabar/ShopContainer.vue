@@ -340,5 +340,5 @@
 </script>
 
 
-// WEBPACK FOOTER //
-// src/components/tabar/ShopContainer.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/tabar/ShopContainer.vue-->
