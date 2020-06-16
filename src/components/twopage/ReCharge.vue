@@ -73,6 +73,12 @@
                 <span style="color: green">{{showData.giveLottery}}</span>
               </mt-cell>
             </div>
+            <div class="recharge_tabar0" @click="toDiscount">
+              <mt-cell title="优惠券">
+                <!--                  <span style="color: green">可用:</span>-->
+                <span class="mui-icon mui-icon-forward"></span>
+              </mt-cell>
+            </div>
             <div class="recharge_tabar0">
               <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"
                     :parent-click-method-name="changeMoneyWithPayType"></cell>
@@ -166,6 +172,7 @@
 
       this.getCoinRechargePackages();
       this.getPrePayPackages();
+      console.log(this.$store.state.coupon)
       //拿到携带的充值成功或失败的状态
       let result = localStorage.getItem("payStatusResult")
       if (result === "1") {//状态1支付失败
@@ -177,9 +184,26 @@
         this.successPay = true
       }
       localStorage.setItem("payStatusResult", "-1")
+      // this.availableDiscount()
     },
     methods: {
+      //
+      //可使用优惠券
+      // availableDiscount: function () {
+      //   let _this = this
+      //   myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/coupons`, {
+      //     _timestamp: (new Date).getTime(),
+      //     shopId: _this.$store.state.selectedShopData.shopId
+      //   }, function (body) {
+      //     _this.availableDiscountList = body.data
+      //   }, function (message) {
+      //     alert("获取优惠券信息错误：" + message)
+      //   })
+      // },
       //方法传参
+      toDiscount() {
+        this.$router.push({path: '/discount', query: {price: this.price}})
+      },
       totalEvent(type) {
         //自定义如果参数=0
         //返回上一页
@@ -230,7 +254,7 @@
         this.showBox = 0;
         this.selectedIndex = index;
         if (isPackage) {
-          //true：充币
+          //true：充币套餐
           this.$refs.cellChild.clickable1 = true;
 
           this.isClickTop = false;
@@ -243,13 +267,16 @@
 
 
         } else {
+          //预存款套餐
           this.$refs.cellChild.clickable1 = false;
           this.$refs.cellChild.payTypeText = "微信付款";
           this.$refs.cellChild.payType = 1;
           // this.showClick = true;
           this.showData = this.PrePayPackageList[this.selectedIndex];
           this.cardId = this.PrePayPackageList[this.selectedIndex].cardId;
+
           this.price = this.showData.amount;
+          // console.log(this.showData.amount - this.$store.state.coupon.deductMoney)
           this.cardType = 0;
         }
 
@@ -265,7 +292,7 @@
           "cardType": this.cardType,
           "payType": this.$refs.cellChild.payType,
           "notifyUrl": this.$store.state.homeHtml,
-          "couponId": this.$store.state.couponId,
+          "couponId": this.$store.state.coupon.couponId,
         }, function (body) {
           _this.loading = false;
           _this.order = body.data.orderNo;
@@ -325,22 +352,6 @@
         })
       },
       mini() {
-        // 通过config接口注入权限验证配置 【必需】
-        // wx.config({
-        //   debug: true,// 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        //   appId: this.miniInfo.appId,//公众号的唯一标识
-        //   timestamp: this.miniInfo.timeStamp,//生成签名的时间戳
-        //   nonceStr: this.miniInfo.nonceStr,//生成签名的随机串
-        //   signature: this.miniInfo.paySign,//签名
-        //   jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
-        //   // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-        // });
-        // wx.ready(() => {
-        //   console.log('wx ready')
-        // });
-        // wx.error(function (res) {
-        //   console.log('err', res)
-        // });
       },
       orderPaymentMini() {
         let _this = this
@@ -355,8 +366,21 @@
       },
       //1.子点击时传参数过来
       changeMoneyWithPayType(payType) {
+        //使用优惠券之后的显示价格
+        console.log(this.$store.state.coupon)
+        if (this.$store.state.coupon !== undefined) {
+          if (this.$store.state.coupon.deductMoney > 0) {
+            // 如果点击了兑换
+            //则显示的价格扣除优惠券的
+            payType === 1 ? this.price = this.coinRechargePackageList[this.selectedIndex].actual_price - this.$store.state.coupon.deductMoney
+              : this.price = this.coinRechargePackageList[this.selectedIndex].balance_price - this.$store.state.coupon.deductMoney
+            console.log(this.coinRechargePackageList[this.selectedIndex])
+            return;
+          }
+        }
+        //没用优惠券之前的显示价格
         payType === 1 ? this.price = this.coinRechargePackageList[this.selectedIndex].actual_price : this.price = this.coinRechargePackageList[this.selectedIndex].balance_price
-        console.log(this.coinRechargePackageList[this.selectedIndex].actual_price)
+        console.log(this.coinRechargePackageList[this.selectedIndex])
       }
     },
     components: {

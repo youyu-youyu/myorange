@@ -117,7 +117,7 @@
               "cardType": 3,
               "payType": this.$refs.cellChild.payType,
               "notifyUrl": this.$store.state.homeHtml,
-              "couponId": this.$store.state.couponId,
+              "couponId": this.$store.state.coupon.couponId,
             }, {emulateJSON: true})
           .then(res => {
             if (res.body.err_code === 0) {

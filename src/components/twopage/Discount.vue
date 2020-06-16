@@ -58,7 +58,9 @@
         usedDiscountList: "",
         expiredDiscountList: "",
         discountShowList: "",
-        discountIndex: 0
+        discountIndex: 0,
+        //从rechange传过来的金额
+        price: 0
       };
     },
     mounted() {
@@ -73,9 +75,20 @@
         // }
         //如果点击已过期，禁止，已使用，禁止
         this.discountIndex = index
-        this.$store.commit('setCouponId', this.availableDiscountList[this.discountIndex].couponId);
-        Toast("兑换成功！")
-        this.$router.go(-1)
+
+        // 点击立即兑换之后
+        //如果购买的钱数>=需要满足的条件，允许点击
+        // 问题：只能点击可使用，其他不可点击
+        this.price = this.$route.query.price
+        if (this.price !== undefined) {
+          this.$store.commit('setCoupon', this.availableDiscountList[this.discountIndex]);
+          if (this.price >= this.$store.state.coupon.buyMoney) {
+            Toast("兑换成功！")
+            this.$router.go(-1)
+          } else {
+            alert("兑换失败！您未满足条件！")
+          }
+        }
       },
       //可使用优惠券
       availableDiscount: function () {
@@ -87,7 +100,7 @@
           _this.availableDiscountList = body.data
 
           console.log("可使用优惠券")
-          console.log(_this.availableDiscountList.length)
+          console.log(_this.availableDiscountList)
           //如果长度为0
 
           // console.log(body.data[0].couponId)

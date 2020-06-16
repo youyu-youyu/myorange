@@ -195,8 +195,8 @@ const store = new Vuex.Store({
     setIsFirstEnter(state, param) {
       state.isFirstEnter = param;
     },
-    setCouponId(state, param) {
-      state.couponId = param;
+    setCoupon(state, param) {
+      state.coupon = param;
     },
     setHomeHtml(state, param) {
       state.homeHtml = param;
