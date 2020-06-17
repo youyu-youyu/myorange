@@ -80,6 +80,7 @@
         //如果购买的钱数>=需要满足的条件，允许点击
         // 问题：只能点击可使用，其他不可点击
         this.price = this.$route.query.price
+        console.log(this.price)
         if (this.price !== undefined) {
           this.$store.commit('setCoupon', this.availableDiscountList[this.discountIndex]);
           if (this.price >= this.$store.state.coupon.buyMoney) {
