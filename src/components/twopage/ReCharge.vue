@@ -162,7 +162,8 @@
         isClickTop: false,
         price: "",
         showData: "",
-        miniInfo: ""
+        miniInfo: "",
+        couponId: ""
       }
     },
     //1.点击充值时付款 √
@@ -286,6 +287,11 @@
       },
       //提交订单
       commitOrder() {
+        if (this.$store.state.coupon) {
+          this.couponId = this.$store.state.coupon.couponId
+        } else {
+          this.couponId = ""
+        }
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
           "cardId": this.cardId,
@@ -295,7 +301,7 @@
           "cardType": this.cardType,
           "payType": this.$refs.cellChild.payType,
           "notifyUrl": this.$store.state.homeHtml,
-          "couponId": this.$store.state.coupon.couponId,
+          "couponId": this.couponId,
         }, function (body) {
           _this.loading = false;
           _this.order = body.data.orderNo;

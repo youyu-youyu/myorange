@@ -122,6 +122,7 @@
         shopName: "",
         price: "",
         showBox: false,
+        couponId: ""
       }
     },
     mounted() {
@@ -183,6 +184,12 @@
         }
         let _this = this
         console.log(this.price)
+        if (this.$store.state.coupon) {
+          this.couponId = this.$store.state.coupon.couponId
+        } else {
+          this.couponId = ""
+        }
+
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
           "cardId": this.data.cardId,
           "shopId": this.$store.state.selectedShopData.shopId,
@@ -191,10 +198,10 @@
           "cardType": 2,
           "payType": this.$refs.cellChild.payType,
           "notifyUrl": this.$store.state.homeHtml,
-          "couponId": this.$store.state.coupon.couponId,
+          "couponId": this.couponId,
         }, function (body) {
           _this.orderNumber = body.data.orderNo;
-          // _this.judgePay();
+          _this.judgePay();
         }, function (message) {
           alert("提交订单失败：" + message);
         })
