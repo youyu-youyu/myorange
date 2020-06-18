@@ -144,6 +144,9 @@
       projectBagCancel() {
         document.getElementById("cover").setAttribute("style", "display:none;")
         this.showBox = false
+        this.price = this.$store.state.reChangeShowData.actual_price
+        console.log(this.price)
+        this.$store.commit('setCoupon', undefined);
       },
       //点击付款
       paymentClick() {
@@ -170,6 +173,8 @@
           if (this.price <= 0) {
             alert("该订单不可支付")
             this.showBox = false
+            document.getElementById("cover").setAttribute("style", "display:none;")
+            return;
           }
         } else if (this.$refs.cellChild.payType === 3) {
           this.price = this.projectDetailInfoObject.balance_price;
@@ -253,9 +258,11 @@
           "cardId": this.data.cardId
         }, function (body) {
           _this.projectDetailInfoObject = body.data;
+          console.log(_this.projectDetailInfoObject)
           _this.price = _this.projectDetailInfoObject.actual_price
+          _this.$store.commit('setReChangeShowData', _this.projectDetailInfoObject);
           //使用优惠券
-          if (_this.$store.state.coupon !== undefined) {
+          if (_this.$store.state.coupon !== undefined && _this.$store.state.coupon !== '') {
             document.getElementById("cover").setAttribute("style", "display:block;"),
               _this.showBox = true
             _this.price = _this.projectDetailInfoObject.actual_price - _this.$store.state.coupon.deductMoney

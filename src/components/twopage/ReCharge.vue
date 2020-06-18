@@ -189,8 +189,9 @@
       if (this.$store.state.coupon !== undefined && this.$store.state.coupon !== '') {
         this.loading = true
         this.showData = this.$store.state.reChangeShowData
-        this.price = this.$store.state.reChangeShowData.actual_price - this.$store.state.coupon.deductMoney
-        console.log(this.$store.state.reChangeShowData)
+        this.price = (this.$store.state.reChangeShowData.actual_price - this.$store.state.coupon.deductMoney).toFixed(2)
+        console.log(this.$store.state.reChangeShowData.actual_price)
+        console.log(this.price)
         this.showBox = 0
         this.loading = false
         // this.clickEvent(index, isPackage)
@@ -318,7 +319,7 @@
           _this.order = body.data.orderNo;
           _this.showBox = 0;
           // console.log(this.order);
-          _this.judgePay();
+          // _this.judgePay();
         }, function (message) {
           alert("提交订单失败:" + message)
         })

@@ -32,7 +32,7 @@
         <div class="projectbag_buy_txt mui-pull-right projectbag_buy_right">{{price}}
         </div>
       </div>
-      <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">支付</button>
+      <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">去结算</button>
       <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type1="预存款付款" select-pay-type2="代币付款"
             :parent-click-method-name="this.commitOrder" :is-display="false"></cell>
     </div>
@@ -43,7 +43,28 @@
       <div class="jifen_txt">2.这里可以写一些门票的规则</div>
       <div class="jifen_txt">3.这里可以写一些门票的规则</div>
     </div>
+    <div id="cover"></div>
+    <div class="small_car" :class="{'active':showBox===false}">
+      <div class="cancel">
+        <button class="cancel_inner" @click="ticketBagCancel">X</button>
+      </div>
 
+      <div class="small_b mui-row">
+        <img :src="ticketDetailInfoObject.photo_url" class="small_img mui-col-[sm|xs]-4">
+        <div class="priceName  mui-col-[sm|xs]-6">
+          <div class="small_name">{{ticketDetailInfoObject.cardName}}</div>
+          <div class="small_price">{{price}}元</div>
+        </div>
+        <button class="suan mui-col-[sm|xs]-2" @click="this.commitOrder">支付</button>
+      </div>
+      <div @click="quDiscount">
+        <mt-cell title="使用优惠券">
+          <!--                  <span style="color: green">可用:</span>-->
+          <span class="mui-icon mui-icon-forward"></span>
+        </mt-cell>
+      </div>
+      <cell ref="cellChild"></cell>
+    </div>
   </div>
 </template>
 
@@ -65,7 +86,9 @@
         orderNumber: "",
         ticketDetailInfoObject: "",
         loading: false,
-        price: ""
+        price: "",
+        showBox: false,
+        couponId: ""
       }
     },
     mounted() {
@@ -74,12 +97,27 @@
       setTimeout(this.gettickectInformation, 500);
     },
     methods: {
+      // 取消点击
+      ticketBagCancel() {
+        document.getElementById("cover").setAttribute("style", "display:none;")
+        this.showBox = false
+        this.price = this.$store.state.reChangeShowData.actual_price
+        console.log(this.price)
+        this.$store.commit('setCoupon', undefined);
+      },
+      //方法传参
+      quDiscount() {
+        this.$router.push({path: '/discount', query: {price: this.ticketDetailInfoObject.actual_price}})
+      },
       //点击付款
       paymentClick() {
-        document.getElementById("select_id").setAttribute("style", "display:block;"),
+        this.loading = true
+        document.getElementById("cover").setAttribute("style", "display:block;"),
           //父组件通过$ref获取到子组件的实例对象并调用子组件的selectPay方法
           //传一个方法，点击支付弹出三个支付方式，点击三个支付方式，直接付款
-          this.$refs.cellChild.selectPay()
+          // this.$refs.cellChild.selectPay()
+          this.showBox = true
+        this.loading = false
       },
       //判断支付
       judgePay() {
@@ -91,8 +129,16 @@
       },
       //提交订单
       commitOrder() {
+
         if (this.$refs.cellChild.payType === 1) {
-          this.price = this.ticketDetailInfoObject.actual_price.replace(",", "");
+          // this.price = this.projectDetailInfoObject.actual_price.replace(",", "");
+          // this.price = this.projectDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney
+          if (this.price <= 0) {
+            alert("该订单不可支付")
+            this.showBox = false
+            document.getElementById("cover").setAttribute("style", "display:none;")
+            return;
+          }
         } else if (this.$refs.cellChild.payType === 3) {
           this.price = this.ticketDetailInfoObject.balance_price;
           if (this.price <= 0) {
@@ -101,32 +147,31 @@
         } else if (this.$refs.cellChild.payType === 4) {
           this.price = this.ticketDetailInfoObject.coin_money;
           if (this.price <= 0) {
-            alert("您的币数支付余额不足")
+            alert("您的币支付余额不足")
           }
         }
+        if (this.$store.state.coupon) {
+          this.couponId = this.$store.state.coupon.couponId
+        } else {
+          this.couponId = ""
+        }
         console.log(this.price)
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/order/store`,
-            {
-              "cardId": this.data.cardId,
-              "shopId": this.$store.state.selectedShopData.shopId,
-              "actualPrice": this.price,
-              "sumcoin": this.ticketDetailInfoObject.sumcoin,
-              "cardType": 3,
-              "payType": this.$refs.cellChild.payType,
-              "notifyUrl": this.$store.state.homeHtml,
-              "couponId": this.$store.state.coupon.couponId,
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
-              this.orderNumber = res.body.data.orderNo;
-              this.judgePay();
-            } else {
-              alert("提交订单失败" + res.body.message)
-            }
-          })
+        let _this = this
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
+          "cardId": this.data.cardId,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "actualPrice": this.price,
+          "sumcoin": this.ticketDetailInfoObject.sumcoin,
+          "cardType": 3,
+          "payType": this.$refs.cellChild.payType,
+          "notifyUrl": this.$store.state.homeHtml,
+          "couponId": this.couponId,
+        }, function (body) {
+          _this.orderNumber = body.data.orderNo;
+          _this.judgePay();
+        }, function (message) {
+          alert("提交订单失败:" + message)
+        })
       },
 
       orderPaymentH5() {
@@ -159,19 +204,13 @@
       },
 
       orderPaymentMini() {
-        this.$http
-          //定义为全局使用global_msg.server_url
-          //post请求（后端提供url）
-          .post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`,
-            {
-              "orderNo": this.orderNumber
-            }, {emulateJSON: true})
-          .then(res => {
-            if (res.body.err_code === 0) {
+        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/payment/shouqianbaformini`, {
+          "orderNo": this.orderNumber
+        }, function (body) {
 
-            } else
-              alert('获取小程序支付参数时错误：' + res.body.message)
-          })
+        }, function (message) {
+          alert('获取小程序支付参数时错误：' + message)
+        })
       },
       gettickectInformation() {
         let _this = this
@@ -182,9 +221,18 @@
         }, function (body) {
           _this.loading = false;
           _this.ticketDetailInfoObject = body.data;
+          _this.$store.commit('setReChangeShowData', _this.ticketDetailInfoObject);
           _this.price = _this.ticketDetailInfoObject.actual_price
           _this.ticketDetailInfoObject.photo_url = _this.ticketDetailInfoObject.photo_url === "" ?
             require("../../assets/project/xiangmu_card5.png") : _this.ticketDetailInfoObject.photo_url;
+          //从优惠券中返回
+          if (_this.$store.state.coupon !== undefined && _this.$store.state.coupon !== '') {
+            document.getElementById("cover").setAttribute("style", "display:block;"),
+              _this.showBox = true
+            _this.price = _this.ticketDetailInfoObject.actual_price - _this.$store.state.coupon.deductMoney
+
+          }
+
         }, function (message) {
           alert("获取门票信息失败" + message);
           _this.$router.go(-1);
@@ -199,7 +247,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .projectbag_border {
     border-radius: 20px;
     width: 90%;
@@ -305,9 +353,73 @@
     font-size: 14px;
   }
 
+  .small_car {
+    background: #ffffff;
+    height: 220px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 999999;
+    border-radius: 10px 10px 0 0;
+
+    .small_b {
+      padding: 20px 20px;
+      margin: 0 auto;
+      text-align: center;
+
+      .small_img {
+        width: 100px;
+        height: 50px;
+
+      }
+
+      .suan {
+        margin-top: 5px;
+        background: #00ab5f;
+      }
+
+      .priceName {
+        width: 50%;
+      }
+
+    }
+  }
+
+  .active {
+    display: none;
+  }
+
+
+  /*遮盖层*/
+  #cover {
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    display: none;
+    z-index: 99999;
+    height: -webkit-fill-available
+  }
+
+  .cancel {
+    background: #D3B986;
+    border-radius: 10px 10px 0 0;
+
+    .cancel_inner {
+      border: transparent;
+      background: #D3B986;
+      color: #8b8888;
+      border-radius: 10px 10px 0 0;
+    }
+
+  }
+
 
 </style>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/ProjectTicketBag.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/twopage/ProjectTicketBag.vue-->
