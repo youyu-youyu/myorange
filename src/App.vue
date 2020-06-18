@@ -77,7 +77,7 @@
       }
     },
     created() {
-      let loading = document.getElementById('loading')
+      let loading = document.getElementById('Loading')
       if (loading !== null) {
         document.body.removeChild(loading)
       }
