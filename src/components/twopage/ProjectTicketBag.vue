@@ -34,7 +34,7 @@
       </div>
       <button class="mui-pull-right projectbag_btn" @click="paymentClick()" id="select_id">去结算</button>
       <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type1="预存款付款" select-pay-type2="代币付款"
-            :parent-click-method-name="this.commitOrder" :is-display="false"></cell>
+            :parent-click-method-name="showPayType" :is-display="false"></cell>
     </div>
     <div class="at-row-bottom">
       <div class="jifen_title">看看我的门票可以做什么？</div>
@@ -241,6 +241,24 @@
           _this.$router.go(-1);
         })
       },
+      showPayType(payType) {
+        if (payType === 1) {
+          this.$refs.cellChild.payTypeText = "微信付款"
+          console.log(this.$store.state.coupon)
+          if (this.$store.state.coupon !== undefined) {
+            this.price = this.ticketDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney
+          }
+          this.price = this.ticketDetailInfoObject.actual_price
+        } else if (payType === 3) {
+          this.$refs.cellChild.payTypeText = "预存款付款"
+          this.price = this.ticketDetailInfoObject.balance_price;
+        } else {
+          this.$refs.cellChild.payTypeText = "代币付款"
+          this.price = this.ticketDetailInfoObject.coin_money;
+        }
+        console.log(payType)
+        console.log(this.$refs.cellChild.payTypeText)
+      }
     },
     components: {
       backBar,
