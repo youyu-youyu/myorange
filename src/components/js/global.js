@@ -82,6 +82,8 @@ export default {
       myNetUtils.method.get(`${this.getBaseUrl()}/api/me`, {
         "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
       }, function (body) {
+        console.log("body.data")
+        console.log(body.data)
         _this.$store.commit('setUserAccountData', body.data);
       }, function (message) {
         alert("获取用户信息失败:" + message);

@@ -95,6 +95,7 @@
       </div>
       <div @click="goDiscount">
         <mt-cell title="使用优惠券">
+          {{this.$store.state.userAccountData.coupons}} 张
           <!--                  <span style="color: green">可用:</span>-->
           <span class="mui-icon mui-icon-forward"></span>
         </mt-cell>

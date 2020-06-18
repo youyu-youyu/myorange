@@ -75,6 +75,7 @@
             </div>
             <div class="recharge_tabar0" @click="toDiscount">
               <mt-cell title="优惠券">
+                {{this.$store.state.userAccountData.coupons}} 张
                 <!--                  <span style="color: green">可用:</span>-->
                 <span class="mui-icon mui-icon-forward"></span>
               </mt-cell>
@@ -82,8 +83,6 @@
             <div class="recharge_tabar0">
               <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"
                     :parent-click-method-name="changeMoneyWithPayType"></cell>
-              <!--                    :parent-click-method-name="changeMoneyWithPayType"></cell>-->
-              <!--              changeMoneyWithPayTypeInShop-->
             </div>
           </div>
         </div>
@@ -602,5 +601,5 @@
 </style>
 
 
-WEBPACK FOOTER //
-src/components/twopage/ReCharge.vue
+<!--WEBPACK FOOTER //-->
+<!--src/components/twopage/ReCharge.vue-->

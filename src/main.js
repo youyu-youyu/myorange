@@ -186,7 +186,6 @@ const store = new Vuex.Store({
     brand: "",
     coupon: "",
     reChangeShowData: "",
-    card: ""
 
   },
   getter: {},
@@ -197,9 +196,6 @@ const store = new Vuex.Store({
     },
     setReChangeShowData(state, param) {
       state.reChangeShowData = param;
-    },
-    setCard(state, param) {
-      state.card = param;
     },
     setIsFirstEnter(state, param) {
       state.isFirstEnter = param;
