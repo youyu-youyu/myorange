@@ -158,7 +158,7 @@
         baseBox: false,
         orderStore: "",
         PrePayPackageList: [],
-        cardType: -1,
+        cardType: 1,
         isClickTop: false,
         price: "",
         showData: "",
@@ -171,7 +171,6 @@
     //3.预存款只有微信支付-----点击预存款时，禁止点击事件
     mounted() {
       // localStorage.setItem("token","")
-
       this.getCoinRechargePackages();
       this.getPrePayPackages();
       // console.log(this.$store.state.coupon)
@@ -186,10 +185,12 @@
         this.successPay = true
       }
       localStorage.setItem("payStatusResult", "-1")
-      if (this.$store.state.coupon !== undefined) {
+      console.log(this.$store.state.coupon)
+      if (this.$store.state.coupon !== undefined && this.$store.state.coupon !== '') {
         this.loading = true
         this.showData = this.$store.state.reChangeShowData
         this.price = this.$store.state.reChangeShowData.actual_price - this.$store.state.coupon.deductMoney
+        console.log(this.$store.state.reChangeShowData)
         this.showBox = 0
         this.loading = false
         // this.clickEvent(index, isPackage)
@@ -215,6 +216,9 @@
           this.baseBox = false
         }
       },
+      //问题，点击取消优惠券的时候，再充值提示提交订单失败，无此套餐
+
+
       Back() {
         this.$router.go(-1); //返回上一层
       },
@@ -222,6 +226,8 @@
       cancelEvent() {
         this.showBox = 1;
         this.loading = false;
+        this.price = this.$store.state.reChangeShowData.actual_price
+        this.$store.commit('setCoupon', undefined);
       },
       paymentClick() {
         MessageBox({
@@ -236,6 +242,8 @@
           } else {
             this.showBox = 1;
             this.loading = false;
+            this.price = this.$store.state.reChangeShowData.actual_price
+            this.$store.commit('setCoupon', undefined);
           }
         });
 
@@ -289,10 +297,13 @@
       commitOrder() {
         if (this.$store.state.coupon) {
           this.couponId = this.$store.state.coupon.couponId
+          this.cardId = this.$store.state.reChangeShowData.cardId
         } else {
           this.couponId = ""
         }
         let _this = this
+        console.log(this.price)
+        console.log(this.$store.state.coupon)
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
           "cardId": this.cardId,
           "shopId": this.$store.state.selectedShopData.shopId,

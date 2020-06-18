@@ -184,8 +184,10 @@ const store = new Vuex.Store({
     userAccountData: "",
     shopCarList: [],
     brand: "",
-    couponId: "",
-    reChangeShowData: ""
+    coupon: "",
+    reChangeShowData: "",
+    card: ""
+
   },
   getter: {},
   //store中包含组件的共享状态state和改变状态的方法（暂且称作方法）mutations
@@ -195,6 +197,9 @@ const store = new Vuex.Store({
     },
     setReChangeShowData(state, param) {
       state.reChangeShowData = param;
+    },
+    setCard(state, param) {
+      state.card = param;
     },
     setIsFirstEnter(state, param) {
       state.isFirstEnter = param;
