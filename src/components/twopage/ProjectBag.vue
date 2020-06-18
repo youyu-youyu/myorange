@@ -268,7 +268,7 @@
           if (_this.$store.state.coupon !== undefined && _this.$store.state.coupon !== '') {
             document.getElementById("cover").setAttribute("style", "display:block;"),
               _this.showBox = true
-            _this.price = _this.projectDetailInfoObject.actual_price - _this.$store.state.coupon.deductMoney
+            _this.price = (_this.projectDetailInfoObject.actual_price - _this.$store.state.coupon.deductMoney).toFixed(2)
 
           }
           console.log("huxu" + _this.price)
@@ -284,8 +284,8 @@
         if (payType === 1) {
           this.$refs.cellChild.payTypeText = "微信付款"
           console.log(this.$store.state.coupon)
-          if (this.$store.state.coupon !== undefined) {
-            this.price = this.projectDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney
+          if (this.$store.state.coupon !== undefined && this.$store.state.coupon !== '') {
+            this.price = (this.projectDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney).toFixed(2)
           }
           this.price = this.projectDetailInfoObject.actual_price
         } else if (payType === 3) {
