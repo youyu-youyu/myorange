@@ -76,6 +76,12 @@
 
       }
     },
+    created() {
+      let loading = document.getElementById('loading')
+      if (loading !== null) {
+        document.body.removeChild(loading)
+      }
+    },
     mounted() {
 
     },
