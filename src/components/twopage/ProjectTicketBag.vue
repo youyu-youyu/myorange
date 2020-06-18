@@ -137,6 +137,9 @@
             alert("该订单不可支付")
             this.showBox = false
             document.getElementById("cover").setAttribute("style", "display:none;")
+            this.price = this.$store.state.reChangeShowData.actual_price
+            console.log(this.price)
+            this.$store.commit('setCoupon', undefined);
             return;
           }
         } else if (this.$refs.cellChild.payType === 3) {
