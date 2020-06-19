@@ -457,6 +457,7 @@
               result = JSON.parse(result)
             }
             alert(result)
+            alert(result.cmd)
             /**
              * 扫到存彩票的二维码
              */
@@ -500,6 +501,7 @@
 
             // 扫完码之后，跳到/scanorder页面实现点餐
             if (result.cmd === "catering_table") {
+              alert("jin")
               this.$router.push({path: '/scanorder'})
             }
 
