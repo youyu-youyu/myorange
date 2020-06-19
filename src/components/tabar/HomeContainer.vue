@@ -456,7 +456,9 @@
             if (result.indexOf("qrStorageTicket") !== -1 || result.indexOf("catering_table") !== -1) {
               result = JSON.parse(result)
             }
-
+            alert(result)
+            alert(result.cmd)
+            alert(result.cmd === "catering_table")
             /**
              * 扫到存彩票的二维码
              */
@@ -499,9 +501,7 @@
              */
 
             // 扫完码之后，跳到/scanorder页面实现点餐
-            alert(result)
-            alert(result.cmd)
-            alert(result.cmd === "catering_table")
+
             if (result.cmd === "catering_table") {
               alert("jin")
               _this.$router.push({path: '/scanorder'})
