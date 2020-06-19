@@ -456,6 +456,9 @@
             if (result.indexOf("qrStorageTicket") !== -1) {
               result = JSON.parse(result)
             }
+            if (result.indexOf("catering_table") !== -1) {
+              result = JSON.parse(result)
+            }
             alert(result)
             alert(result.cmd)
             /**
