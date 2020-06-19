@@ -260,7 +260,7 @@
 
         if (isProcessQrCode === null || isProcessQrCode === "false") {
           //如果未处理
-          // localStorage.setItem(global_msg.isProcessQrCode, "true"); // 设置为已处理
+          localStorage.setItem(global_msg.isProcessQrCode, "true"); // 设置为已处理
 
           localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));//设置扫到的东西为本地保存
           // 然后刷新页面，重新走mounted，自动获取上次定位，在定位中处理扫码内容
@@ -441,7 +441,7 @@
         });
       },
 
-      ///扫码
+      ///点击扫码
       startScan() {
 
         // let local = window.location.href;
@@ -459,6 +459,9 @@
             alert(result)
             alert(result.cmd)
             alert(result.cmd === "catering_table")
+            if(result.cmd === "catering_table"){
+              alert("你好")
+            }
             /**
              * 扫到存彩票的二维码
              */
