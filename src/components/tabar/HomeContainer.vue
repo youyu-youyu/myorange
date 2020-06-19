@@ -260,7 +260,7 @@
 
         if (isProcessQrCode === null || isProcessQrCode === "false") {
           //如果未处理
-          localStorage.setItem(global_msg.isProcessQrCode, "true"); // 设置为已处理
+          // localStorage.setItem(global_msg.isProcessQrCode, "true"); // 设置为已处理
 
           localStorage.setItem(global_msg.qrCode, this.getUrlQrCode("qrresult"));//设置扫到的东西为本地保存
           // 然后刷新页面，重新走mounted，自动获取上次定位，在定位中处理扫码内容
@@ -501,9 +501,10 @@
              */
 
             // 扫完码之后，跳到/scanorder页面实现点餐
-
+            alert("122131")
+            //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              alert("jin")
+              Toast("jin")
               _this.$router.push({path: '/scanorder'})
             }
 
