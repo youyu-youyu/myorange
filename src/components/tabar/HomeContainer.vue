@@ -369,10 +369,10 @@
               global_msg.setCompany(3);
               _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=production");
               break;
-            case "lofty":
+            case "Lofty":
               global_msg.setCompany(4);
               //正式服务器上的乐翻天
-              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=lofty");
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=Lofty");
               break;
             default:
               global_msg.setCompany(-1);
