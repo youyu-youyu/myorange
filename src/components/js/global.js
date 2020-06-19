@@ -7,6 +7,8 @@ const production_url = 'https://saas.orangecrt.com';//正式环境域名
 const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
+// Lofty
+const LoftyBrandId = '190047221213958144';//漳州乐翻天品牌id
 const orangeBrandId = '169766137633050624';
 const productionBrandId = '76702093133615104';
 
@@ -14,6 +16,7 @@ const testBrandId = '170843706449072128';
 const galaxyBrandId = '173825699113734144';
 
 
+const LoftyAppId = "wxd6cabf64f2886aac";//漳州乐翻天公众号appid
 const productionAppId = "wxfc2079e5d7f21d07";
 const orangeAppId = "wxfc2079e5d7f21d07";
 const xiaozhuAppId = "wx828d6d5d15e47ca3";
@@ -45,6 +48,8 @@ export default {
         return galaxyBrandId
       } else if (company === 3) {
         return productionBrandId;
+      } else if (company === 4) {
+        return LoftyBrandId;
       } else {
         return orangeBrandId;
       }
@@ -58,6 +63,8 @@ export default {
         return galaxyAppId
       } else if (company === 3) {
         return productionAppId
+      } else if (company === 4) {
+        return LoftyAppId
       } else {
         return orangeAppId;
       }
@@ -71,6 +78,8 @@ export default {
       } else if (company === 2) {
         return galaxy_url;
       } else if (company === 3) {
+        return production_url;
+      } else if (company === 4) {
         return production_url;
       } else {
         return local_url;

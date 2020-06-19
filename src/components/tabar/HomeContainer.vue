@@ -369,6 +369,11 @@
               global_msg.setCompany(3);
               _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=production");
               break;
+            case "lofty":
+              global_msg.setCompany(4);
+              //正式服务器上的乐翻天
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=lofty");
+              break;
             default:
               global_msg.setCompany(-1);
               break;
@@ -456,13 +461,21 @@
             if (result.indexOf("qrStorageTicket") !== -1 || result.indexOf("catering_table") !== -1) {
               result = JSON.parse(result)
             }
-            alert(result)
-            alert(result.cmd)
-            alert(result.cmd === "catering_table")
+
+            /**
+             * 扫码点餐开始
+             */
+
+            // 扫完码之后，跳到/scanorder页面实现点餐
+
+            //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              alert("你好")
               _this.$router.push({path: '/scanorder'})
             }
+
+            /**
+             * 扫码点餐结束
+             */
             /**
              * 扫到存彩票的二维码
              */
@@ -500,20 +513,6 @@
              */
 
 
-            /**
-             * 扫码点餐开始
-             */
-
-            // 扫完码之后，跳到/scanorder页面实现点餐
-            alert("122131")
-            //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
-            if (result.cmd === "catering_table") {
-
-            }
-
-            /**
-             * 扫码点餐结束
-             */
           }
         });
 
