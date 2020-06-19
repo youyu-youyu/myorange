@@ -4,6 +4,7 @@ import {getLocation} from "less/lib/less/utils";
 const orange_url = 'https://plmokn28.020orange.com';
 const xiaozhu_url = 'https://plmokn28.020orange.com';
 const production_url = 'https://saas.orangecrt.com';//正式环境域名
+const Lofty_url = 'https://plmokn28.020orange.com';//正式环境域名
 const galaxy_url = 'https://plmokn28.020orange.com';
 const local_url = 'api';
 // 分离出来，全局使用
@@ -80,7 +81,7 @@ export default {
       } else if (company === 3) {
         return production_url;
       } else if (company === 4) {
-        return production_url;
+        return Lofty_url;
       } else {
         return local_url;
       }
