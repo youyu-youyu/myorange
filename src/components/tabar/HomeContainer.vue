@@ -136,6 +136,7 @@
         <div class="home_middle_img">
           <router-link to="/homesurprise">
             <!--          <router-link to="/scanorder">-->
+            <!--            http://localhost:8080/#/scanorder-->
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>
@@ -256,7 +257,6 @@
         && this.getUrlQrCode("qrresult") !== "undefined") {
         let isProcessQrCode = localStorage.getItem(global_msg.isProcessQrCode);
         //扫码完成后把彩票存进
-
 
         if (isProcessQrCode === null || isProcessQrCode === "false") {
           //如果未处理
@@ -483,11 +483,28 @@
             }
 
             /**
-             * 实体卡扫码绑定
+             * 实体卡扫码绑定开始
              */
             //扫码完成
             //如果卡号的长度为八位数，跳出请输入密码，请确认密码
             //点击确认密码之后，调用服务器
+            /**
+             * 实体卡扫码绑定结束
+             */
+
+
+            /**
+             * 扫码点餐开始
+             */
+
+            // 扫完码之后，跳到/scanorder页面实现点餐
+            if (result.cmd === "catering_table") {
+              this.$router.push({path: '/scanorder'})
+            }
+
+            /**
+             * 扫码点餐结束
+             */
           }
         });
 
