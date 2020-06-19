@@ -16,7 +16,7 @@ const productionBrandId = '76702093133615104';
 const testBrandId = '170843706449072128';
 const galaxyBrandId = '173825699113734144';
 
-
+//
 const LoftyAppId = "wxd6cabf64f2886aac";//漳州乐翻天公众号appid
 const productionAppId = "wxfc2079e5d7f21d07";
 const orangeAppId = "wxfc2079e5d7f21d07";
