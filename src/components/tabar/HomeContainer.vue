@@ -459,8 +459,9 @@
             alert(result)
             alert(result.cmd)
             alert(result.cmd === "catering_table")
-            if(result.cmd === "catering_table"){
+            if (result.cmd === "catering_table") {
               alert("你好")
+              _this.$router.push({path: '/scanorder'})
             }
             /**
              * 扫到存彩票的二维码
@@ -507,8 +508,7 @@
             alert("122131")
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              Toast("jin")
-              _this.$router.push({path: '/scanorder'})
+
             }
 
             /**
