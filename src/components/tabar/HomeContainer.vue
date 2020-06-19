@@ -320,6 +320,7 @@
       //获取微信jssdk配置
       getJSSDKInfo() {
         let _this = this
+        console.log(global_msg.method.getBaseUrl())
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/auth/base`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "url": window.location.href
@@ -604,7 +605,7 @@
           let result = localStorage.getItem("payStatusResult")
           if (result === "1" || result === "0")
             _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
-
+          console.log("last:" + global_msg.method.getBaseUrl())
           _this.getJSSDKInfo()
         }, function (message) {
           window.alert("获取店铺失败:" + message)
