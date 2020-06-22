@@ -136,7 +136,6 @@
         <div class="home_middle_img">
           <router-link to="/homesurprise">
             <!--          <router-link to="/scanorder">-->
-            <!--            http://localhost:8080/#/scanorder-->
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>
@@ -471,7 +470,7 @@
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              _this.$router.push({path: '/scanorder'})
+              _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tableName: result.table_name}})
             }
 
             /**

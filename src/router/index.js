@@ -110,6 +110,11 @@ export default new Router({
       component: resolve => require(['@/components/threepage/ChangePassword.vue'], resolve),//懒加载
     },
     {
+      path: '/ordercomputed',
+      name: 'OrderComputed',
+      component: resolve => require(['@/components/threepage/OrderComputed.vue'], resolve),//懒加载
+    },
+    {
       path: '/ticketrecord',
       name: 'TicketRecord',
       component: resolve => require(['@/components/twopage/TicketRecord.vue'], resolve),//懒加载
