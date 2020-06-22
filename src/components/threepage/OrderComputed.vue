@@ -68,15 +68,17 @@
       //点餐
       restaurantOrder() {
         console.log(this.restaurantList.tableNumber)
+
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
-          "tableNumber": this.restaurantList.tableNumber,
-          // "tableNumber": "193684067332526080",
+          // "tableNumber": this.restaurantList.tableNumber,
+          "tableNumber": "193684067332526080",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {
+          console.log(_this.restaurantList.totalPrice)
           _this.order = body.data.orderNo
           _this.judgePay()
           console.log(body.data)
@@ -111,7 +113,7 @@
             window.location.href = body.data.pay_url;
           } else {
             Toast("支付成功!");
-            // _this.$router.go(-1);
+            _this.$router.go(-1);
           }
         }, function (message) {
           alert("获取支付url失败:" + message)
