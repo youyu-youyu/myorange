@@ -67,6 +67,7 @@
       },
       //点餐
       restaurantOrder() {
+        console.log(this.restaurantList.tableNumber)
         let _this = this
         // this.restaurantList.restaurantList = (this.restaurantList.restaurantList)
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
