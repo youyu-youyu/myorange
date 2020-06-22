@@ -53,6 +53,7 @@
     },
     mounted() {
       this.restaurantList = this.$route.query
+      alert(this.restaurantList.tableNumber)
       console.log(this.restaurantList)
     },
     methods: {

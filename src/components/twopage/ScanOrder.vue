@@ -71,6 +71,7 @@
     methods: {
       //页面传参
       toOrderComputed() {
+        alert(this.tableNumber)
         this.$router.push({
           path: '/ordercomputed',
           query: {restaurantList: this.clickColumnList, totalPrice: this.totalPrice, tableNumber: this.tableNumber}
