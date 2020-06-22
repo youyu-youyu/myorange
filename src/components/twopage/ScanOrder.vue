@@ -67,6 +67,8 @@
       this.getLeftColumn()
       this.tableNumber = this.$route.query.tableNumber
       this.tableName = this.$route.query.tableName
+      alert(this.tableNumber)
+      alert(this.tableName)
     },
     methods: {
       //页面传参
