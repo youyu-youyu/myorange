@@ -18,7 +18,7 @@
         <table>
           <tr v-for="(item,index) in restaurantList.restaurantList">
             <td>{{item.cateringName}}</td>
-            <td>{{item.count}}</td>
+            <td>{{item.num}}</td>
             <td>{{item.selling_price}}</td>
           </tr>
         </table>
@@ -53,7 +53,6 @@
     },
     mounted() {
       this.restaurantList = this.$route.query
-      alert(this.restaurantList.tableNumber)
       console.log(this.restaurantList)
     },
     methods: {
@@ -70,11 +69,11 @@
       restaurantOrder() {
         console.log(this.restaurantList.tableNumber)
         let _this = this
-        // this.restaurantList.restaurantList = (this.restaurantList.restaurantList)
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
           "tableNumber": this.restaurantList.tableNumber,
+          // "tableNumber": "193684067332526080",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {
@@ -115,7 +114,7 @@
             // _this.$router.go(-1);
           }
         }, function (message) {
-          alert("获取支付url失败" + message)
+          alert("获取支付url失败:" + message)
         })
       },
       //小程序付款

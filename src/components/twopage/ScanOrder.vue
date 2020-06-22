@@ -19,7 +19,7 @@
           <!--          <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.count>0" @click="minusClick(index)"></div>-->
           <div class="like-minus mui-icon mui-icon-minus-filled" @click="reduceClick(index)"></div>
           <!--          <div v-show="item.count>0">{{item.count}}</div>-->
-          <div> {{rightColumnList.length>0?item.count:0}}</div>
+          <div> {{rightColumnList.length>0?item.num:0}}</div>
           <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
         </div>
       </div>
@@ -57,7 +57,7 @@
         loading: false,
         totalPrice: 0,
         totalCount: 0,
-        count: "",
+        num: "",
         tableNumber: "",
         tableName: ""
       }
@@ -67,13 +67,10 @@
       this.getLeftColumn()
       this.tableNumber = this.$route.query.tableNumber
       this.tableName = this.$route.query.tableName
-      alert(this.tableNumber)
-      alert(this.tableName)
     },
     methods: {
       //页面传参
       toOrderComputed() {
-        alert(this.tableNumber)
         this.$router.push({
           path: '/ordercomputed',
           query: {restaurantList: this.clickColumnList, totalPrice: this.totalPrice, tableNumber: this.tableNumber}
@@ -82,7 +79,7 @@
       //-
       reduceClick(index) {
         this.currentSelectedRightColumnIndex = index;
-        this.rightColumnList[this.currentSelectedRightColumnIndex].count--;
+        this.rightColumnList[this.currentSelectedRightColumnIndex].num--;
         this.computeTotalPrice()
         this.$forceUpdate()
       },
@@ -90,8 +87,8 @@
       // 点击添加
       addClick(index) {
         this.currentSelectedRightColumnIndex = index;
-        this.rightColumnList[this.currentSelectedRightColumnIndex].count++;
-        console.log(this.rightColumnList[this.currentSelectedRightColumnIndex].count)
+        this.rightColumnList[this.currentSelectedRightColumnIndex].num++;
+        console.log(this.rightColumnList[this.currentSelectedRightColumnIndex].num)
         //如果是加号，进入if
         // 将点击的数据放进clickColumnList数组中
         this.clickColumnList = this.clickColumnList.concat(this.rightColumnList[this.currentSelectedRightColumnIndex])
@@ -103,7 +100,7 @@
         // 进计算方法第一件事就要清空总价格
         this.totalPrice = 0
         for (let data of this.rightColumnList) {
-          this.totalPrice += data.count * data.selling_price;
+          this.totalPrice += data.num * data.selling_price;
         }
       },
       //左边栏主餐类
@@ -137,9 +134,9 @@
           //先循环再判断
           let data = this.rightColumnList[i];
           //如果没有count属性
-          if (!data.hasOwnProperty("count"))
+          if (!data.hasOwnProperty("num"))
             //自行设置data中的count的值为0
-            data["count"] = 0;
+            data["num"] = 0;
         }
         this.loading = false
 

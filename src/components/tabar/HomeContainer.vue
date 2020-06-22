@@ -134,8 +134,8 @@
       <div class="home_middle_inner">
         <div class="home_middle_text">每日惊喜</div>
         <div class="home_middle_img">
-          <router-link to="/homesurprise">
-            <!--          <router-link to="/scanorder">-->
+          <!--          <router-link to="/homesurprise">-->
+          <router-link to="/scanorder">
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>
@@ -176,8 +176,6 @@
       };
     },
     created: function () {
-      console.log("优惠券id")
-      console.log(this.$store.state.setCoupon)
       // if (localStorage.getItem("isFirstEnter11") === null
       //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
       //   alert("模拟了")
@@ -470,7 +468,6 @@
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              alert(result.id)
               _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tableName: result.table_name}})
             }
 
