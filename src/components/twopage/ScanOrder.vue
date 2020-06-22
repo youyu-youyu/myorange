@@ -4,7 +4,7 @@
     <!-- 头-->
     <div class="header_container">
       <span class="header_sao">扫码点餐</span>
-      <span class="header_center">餐桌:{{tableName}}</span>
+      <span class="header_center">{{tableName}}</span>
     </div>
     <div class="left_container">
       <div class="left_inner_container" v-for="(item,index) in leftColumnList" @click="leftColumnClickEvent(index)">
