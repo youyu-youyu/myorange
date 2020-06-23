@@ -318,7 +318,7 @@
           _this.order = body.data.orderNo;
           _this.showBox = 0;
           // console.log(this.order);
-          // _this.judgePay();
+          _this.judgePay();
         }, function (message) {
           alert("提交订单失败:" + message)
         })
