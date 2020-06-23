@@ -16,10 +16,8 @@
         <div class="right_inner_container_name">{{item.cateringName}}</div>
         <div class="right_inner_container_money">￥{{item.selling_price}}</div>
         <div class="right_inner_container_like">
-          <!--          <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.count>0" @click="minusClick(index)"></div>-->
-          <div class="like-minus mui-icon mui-icon-minus-filled" @click="reduceClick(index)"></div>
-          <!--          <div v-show="item.count>0">{{item.count}}</div>-->
-          <div> {{rightColumnList.length>0?item.num:0}}</div>
+          <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.num>0" @click="reduceClick(index)"></div>
+          <div v-show="item.num>0"> {{rightColumnList.length>0?item.num:0}}</div>
           <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
         </div>
       </div>
@@ -80,6 +78,10 @@
       reduceClick(index) {
         this.currentSelectedRightColumnIndex = index;
         this.rightColumnList[this.currentSelectedRightColumnIndex].num--;
+        if (this.rightColumnList[this.currentSelectedRightColumnIndex].num <= 0) {
+          //如果数量为0时候，把点击的东西的数组赋空
+          this.clickColumnList = []
+        }
         this.computeTotalPrice()
         this.$forceUpdate()
       },
@@ -87,11 +89,23 @@
       // 点击添加
       addClick(index) {
         this.currentSelectedRightColumnIndex = index;
-        this.rightColumnList[this.currentSelectedRightColumnIndex].num++;
-        console.log(this.rightColumnList[this.currentSelectedRightColumnIndex].num)
-        //如果是加号，进入if
         // 将点击的数据放进clickColumnList数组中
-        this.clickColumnList = this.clickColumnList.concat(this.rightColumnList[this.currentSelectedRightColumnIndex])
+        let isContains = false
+        for (let i = 0; i < this.clickColumnList.length; i++) {
+          //如果所点击的和已经保存在clickColumnList的cateringId相同，直接把num覆盖改变就好，其他不变
+          //如果是同一个cateringId num++，不同就concat进去
+          if (this.clickColumnList[i].cateringId === this.rightColumnList[this.currentSelectedRightColumnIndex].cateringId) {
+            this.rightColumnList[this.currentSelectedRightColumnIndex].num++;
+            isContains = true
+            break;
+          }
+
+        }
+        if (!isContains) {
+          this.rightColumnList[this.currentSelectedRightColumnIndex].num++;
+          this.clickColumnList = this.clickColumnList.concat(this.rightColumnList[this.currentSelectedRightColumnIndex])
+        }
+
         this.computeTotalPrice()
         console.log(this.clickColumnList)
       },

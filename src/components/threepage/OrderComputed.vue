@@ -73,8 +73,8 @@
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
-          // "tableNumber": this.restauinrantList.tableNumber,
-          "tableNumber": "193684067332526080",
+          "tableNumber": this.restaurantList.tableNumber,
+          // "tableNumber": "193684067332526080",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {
