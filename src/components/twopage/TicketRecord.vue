@@ -38,12 +38,14 @@
   import global_msg from "../js/global";
   import loading from "../public/loading/loading";
   import myNetUtils from "../js/MyNetUtils.js";
+  import {Toast} from "mint-ui"
 
   export default {
     data() {
       return {
         loading: false,
         projectRecordList: [],
+        useFlag: ""
 
       };
     },
@@ -53,14 +55,23 @@
     },
     methods: {
       getTicketRecord() {
+        if (this.$store.state.userAccountData.coupons <= 0) {
+          this.useFlag = 0
+        } else {
+          this.useFlag = 1
+        }
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets/own`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "shopId": this.$store.state.selectedShopData.shopId,
-          "useFlag": 1
+          "useFlag": this.useFlag
         }, function (body) {
           _this.loading = false;
           _this.projectRecordList = body.data
+          console.log(_this.projectRecordList)
+          if (_this.projectRecordList.length <= 0) {
+            Toast("您目前没有门票")
+          }
         }, function (message) {
           _this.loading = false;
           alert("获取门票信息失败：" + message);
