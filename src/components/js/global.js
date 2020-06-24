@@ -10,8 +10,8 @@ const local_url = 'api';
 // 分离出来，全局使用
 // Lofty
 const LoftyBrandId = '190047221213958144';//漳州乐翻天品牌id
-const orangeBrandId = '169766137633050624';
-const productionBrandId = '76702093133615104';
+const orangeBrandId = '195832260681928704';//桔子
+const productionBrandId = '76702093133615104';//正式服务器
 
 const testBrandId = '170843706449072128';
 const galaxyBrandId = '173825699113734144';

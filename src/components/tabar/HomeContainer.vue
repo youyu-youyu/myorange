@@ -64,7 +64,7 @@
           <div class="item">
             <div class="home_top_inner_1">
               <img id="id_test" class="mui-media-object mui-pull-left home_img" src="../../assets/home/home_coin.png">
-              <div class="mui-media-body move" style="margin-top: 5px;text-align: center">
+              <div class="mui-media-body move" style="margin-top: 5px;text-align: center" v-cloak>
                 {{parseInt(userMoney)}}
                 <div class='mui-ellipsis home_block'>G币</div>
               </div>
