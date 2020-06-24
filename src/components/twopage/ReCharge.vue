@@ -281,6 +281,7 @@
           this.$refs.cellChild.payTypeText = "微信付款";
           this.$refs.cellChild.payType = 1;
           // this.showClick = true;
+          this.isClickTop = true
           this.showData = this.PrePayPackageList[this.selectedIndex];
           console.log("预存款")
 

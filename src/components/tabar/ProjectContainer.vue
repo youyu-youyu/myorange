@@ -12,7 +12,9 @@
         </div>
         <mt-swipe :auto="4000" class="project_middle_inner_mint_banner">
           <mt-swipe-item v-for="(item,index) in projectPhotoList" class="my-swipe-item">
-            <img :src="item.photo_url" alt="加载错误" @click="projectClickEvent(index)" class="ticket_img">
+            <img :src="item.photo_url" alt="加载错误" @click="projectClickEvent(index)"
+                 class="ticket_img">
+            <!--            <img src="../../assets/project/xiangmu_card5.png" alt="加载错误" class="ticket_img">-->
             <div class="project_middle_inner_mint_txt " style="padding: 20px 20px;">{{item.cardName}}</div>
           </mt-swipe-item>
         </mt-swipe>
@@ -30,6 +32,8 @@
 
         </div>
       </div>
+      <!--      <img src="../../assets/project/xiangmu_card5.png" alt="加载错误"-->
+      <!--           class="ticket_img">-->
     </div>
   </div>
 </template>
@@ -69,10 +73,18 @@
           "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
         }, function (body) {
           _this.projectPhotoList = body.data;
-          for (let i = 0; i < _this.projectPhotoList.length; i++) {
+          for (let i = 0; i <= _this.projectPhotoList.length; i++) {
+            //当长度为0时候
+            if (_this.projectPhotoList.length === 0) {
+              //设置图片为本地图片
+              _this.projectPhotoList[i].photo_url = require("../../assets/project/xiangmu_card1.png")
+            }
+            console.log('图片' + _this.projectPhotoList[i].photo_url === '')
+            //当数据库上的图片为空时，也设置为本地图片，否则就是数据库里面图片
             _this.projectPhotoList[i].photo_url = _this.projectPhotoList[i].photo_url === ""
               ? require("../../assets/project/xiangmu_card1.png")
               : _this.projectPhotoList[i].photo_url;
+
           }
         }, function (message) {
           alert("获取项目失败：" + message);
@@ -84,6 +96,7 @@
           "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
         }, function (body) {
           _this.ticketPhotoList = body.data;
+
           for (let i = 0; i < _this.ticketPhotoList.length; i++) {
             if (_this.ticketPhotoList[i].photo_url === "") {
               _this.ticketPhotoList[i].photo_url = require("../../assets/project/xiangmu_card5.png");
