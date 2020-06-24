@@ -92,7 +92,9 @@
           correctLevel: QRCode.CorrectLevel.H
         });
         qrCode1.clear();
-        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + new Date().getTime() + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
+        let expire = Math.floor(new Date().getTime() / 1000) + 30;
+        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
+          "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
       changeImg(type) {
         this.homeUrl = require('./assets/app/menu_home_1.png');
