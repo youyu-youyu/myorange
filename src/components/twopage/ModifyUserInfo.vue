@@ -155,9 +155,10 @@
           alert("手机号有误，请重填");
           return false;
         }
+        console.log(this.userPhoto)
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/extsave`, {
-          "headimg": "",
+          "headimg": _this.userPhoto,
           "username": this.$refs.userNameInput.value,
           "phone": phone,
           "birthday": this.$refs.userBirthdayInput.value,

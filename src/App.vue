@@ -97,6 +97,44 @@
         qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
           "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
+      //使用mqtt进行订阅
+      // mqttUse() {
+      //   let mqtt = require('mqtt');
+      //   let client = {};
+      //   //开启mqtt链接
+      //   // 协议 // 主机名 . 域名 : 端口 / 路径
+      //   // ws://192.168.0.0/mqtt
+      //   client = mqtt.connect('ws://192.168.0.0/mqtt', {
+      //     // keepalive：心跳时间，默认 60秒，设置 0 为禁用；
+      //     port: 8083,
+      //     // clientId:客户端 ID ，默认通过 'mqttjs_' + Math.random().toString(16).substr(2, 8) 随机生成；
+      //     clientId: 'xxx',
+      //     username: "xxx",//连接用户名（如果有）
+      //     password: "xxx",//连接密码（如果有）
+      //     //clean:设置为 false 以在离线时接收 QoS 1 和 2 消息
+      //     clean: false,
+      //   });
+      //   //订阅后端给你发的字段 在on里面接收
+      //   client.on('connect', function () {
+      //     console.log('成功连接服务器')
+      //     //订阅主题
+      //     client.subscribe('订阅的字段', function (err) {
+      //       if (!err) {
+      //         //DOSOMETHINGS
+      //       }
+      //     })
+      //   });
+      //   //接收消息
+      //   client.on('message', (topic, message) => {
+      //     console.log('in message');
+      //     if (topic === '订阅的字段') {
+      //       //DOSOMETHING
+      //     }
+      //   })
+      //   //连接断开
+      //   client.end()
+      // },
+
       changeImg(type) {
         this.homeUrl = require('./assets/app/menu_home_1.png');
         this.projectUrl = require('./assets/app/menu_xiangmu_1.png');
