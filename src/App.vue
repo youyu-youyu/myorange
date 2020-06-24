@@ -92,7 +92,7 @@
           correctLevel: QRCode.CorrectLevel.H
         });
         qrCode1.clear();
-        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":" + this.$store.state.userAccountData.userId + ",\"expire\":\"" + new Date().getTime() + "\"}");
+        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + new Date().getTime() + "\"}");
       },
       changeImg(type) {
         this.homeUrl = require('./assets/app/menu_home_1.png');
