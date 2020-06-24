@@ -54,7 +54,6 @@ if (global_msg.myNetType === 0) {
       let status_code = response.body.status_code;
       if (status_code === 200)
         return response
-
       if (status_code === 460) {//返回状态为460，直接登录
         localStorage.setItem("token", "")
         // 刷新14天内没刷新token，则需要重新登录
@@ -66,6 +65,9 @@ if (global_msg.myNetType === 0) {
         return;
       }
       if (status_code === 401) { //与后台约定登录失效的返回码
+        localStorage.setItem("token", "")
+        // 刷新14天内没刷新token，则需要重新登录
+        localStorage.removeItem('isFirstEnter');
         //判断当第一次进来页面时，token为空是默认不弹框这句话====》alert('token 已过期,即将刷新');
         // if (window.localStorage.getItem('token') != null) {
         //   alert('token 已过期,即将刷新');
