@@ -2,6 +2,7 @@ import myNetUtils from "../js/MyNetUtils.js";
 import {getLocation} from "less/lib/less/utils";
 
 const orange_url = 'https://plmokn28.020orange.com';
+const orangeTest_url = 'https://plmokn28.020orange.com';
 const xiaozhu_url = 'https://plmokn28.020orange.com';
 const production_url = 'https://saas.orangecrt.com';//正式环境域名
 const Lofty_url = 'https://saas.orangecrt.com';//正式环境域名
@@ -11,6 +12,7 @@ const local_url = 'api';
 // Lofty
 const LoftyBrandId = '190047221213958144';//漳州乐翻天品牌id
 const orangeBrandId = '195832260681928704';//桔子
+const orangeTestBrandId = '195832260681928704';//桔子测试品牌
 const productionBrandId = '76702093133615104';//正式服务器
 
 const testBrandId = '170843706449072128';
@@ -19,7 +21,8 @@ const galaxyBrandId = '173825699113734144';
 //
 const LoftyAppId = "wxd6cabf64f2886aac";//漳州乐翻天公众号appid
 const productionAppId = "wxfc2079e5d7f21d07";
-const orangeAppId = "wxfc2079e5d7f21d07";
+const orangeAppId = "wxfc2079e5d7f21d07";//桔子品牌
+const orangeTestAppId = "wxfc2079e5d7f21d07";//桔子测试品牌
 const xiaozhuAppId = "wx828d6d5d15e47ca3";
 const galaxyAppId = "wx03291eeea47291fc";
 
@@ -51,6 +54,8 @@ export default {
         return productionBrandId;
       } else if (company === 4) {
         return LoftyBrandId;
+      } else if (company === 5) {
+        return orangeTestBrandId;
       } else {
         return orangeBrandId;
       }
@@ -66,6 +71,8 @@ export default {
         return productionAppId
       } else if (company === 4) {
         return LoftyAppId
+      } else if (company === 5) {
+        return orangeTestAppId
       } else {
         return orangeAppId;
       }
@@ -82,6 +89,8 @@ export default {
         return production_url;
       } else if (company === 4) {
         return Lofty_url;
+      } else if (company === 5) {
+        return orangeTest_url;
       } else {
         return local_url;
       }

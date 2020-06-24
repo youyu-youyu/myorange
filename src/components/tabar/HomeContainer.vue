@@ -372,6 +372,11 @@
               //正式服务器上的乐翻天
               _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=Lofty");
               break;
+            case "orangeTest":
+              global_msg.setCompany(5);
+              //正式服务器上的乐翻天
+              _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html?brand=orangeTest");
+              break;
             default:
               global_msg.setCompany(-1);
               break;
