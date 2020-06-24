@@ -175,7 +175,7 @@
     line-height: 30px;
     font-size: 15px;
     width: 100%;
-    padding: 0 20px;
+    padding: 5px 20px;
     position: fixed;
 
     .header_sao {
@@ -194,13 +194,14 @@
     font-size: 17px;
     padding: 30px 0;
     float: left;
+    /*background: #e2e1e1;*/
     width: 30%;
 
     .left_inner_container {
       width: 100%;
       text-align: center;
       line-height: 40px;
-      background: #ffffff;
+      background: #e2e1e1;
       border-top: 1px solid #e0e0e0;
 
     }
