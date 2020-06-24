@@ -92,7 +92,8 @@
           correctLevel: QRCode.CorrectLevel.H
         });
         qrCode1.clear();
-        let expire = Math.floor(new Date().getTime() / 1000) + 30;
+
+        let expire = Math.floor((new Date().getTime()) / 1000) + 30;
         qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
           "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
