@@ -13,7 +13,7 @@
                   <div class="mui-pull-left">
                     项目名称:{{item.cardName}}
                   </div>
-                  <button class="mui-pull-right projectrecord_btn" @click="projectUseNow()">立即使用</button>
+                  <button class="mui-pull-right projectrecord_btn" @click="projectUseNow(index)">立即使用</button>
                 </div>
                 <div>
                   <div class="mui-ellipsis user_left ">项目ID:{{item.cardId}}</div>
@@ -39,15 +39,14 @@
 
         </div>
 
-        <div class="projectCancel" id="t_cancel_id" @click="projectCancelClick()">x</div>
 
       </div>
-      <div id="id-qr" class="qrcode_center" ref="qrCodeUrl"></div>
+
     </div>
     <div id="projectCover"></div>
     <!--   二维码       //-->
-
-
+    <div id="id-qr" class="qrcode_center" ref="qrCodeUrl"></div>
+    <div class="projectCancel" id="t_cancel_id" @click="projectCancelClick()">x</div>
   </div>
 </template>
 <script>
@@ -63,8 +62,7 @@
       return {
         loading: false,
         projectRecordList: [],
-        qrCode: "",
-
+        projectIndex: ""
       };
     },
     mounted() {
@@ -73,11 +71,11 @@
     },
     methods: {
       //立即使用
-      projectUseNow() {
+      projectUseNow(index) {
         document.getElementById("projectCover").setAttribute("style", "display:block;")
         document.getElementById("id-qr").setAttribute("style", "display:block;")
         document.getElementById("t_cancel_id").setAttribute("style", "display:block;")
-        this.creatProjectRecordCode()
+        this.creatProjectRecordCode(index)
       },
       //取消
       projectCancelClick() {
@@ -94,13 +92,15 @@
         }, function (body) {
           _this.loading = false;
           _this.projectRecordList = body.data
+          console.log(_this.projectRecordList)
         }, function (message) {
           _this.loading = false;
           alert("获取项目记录失败" + message)
         })
       },
       //创建二维码
-      creatProjectRecordCode() {
+      creatProjectRecordCode(index) {
+        this.projectIndex = index
         document.getElementById("id-qr").innerHTML = "";
         // this.$refs.qrCodeUrl.innerHTML = ''
         let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
@@ -111,7 +111,7 @@
           correctLevel: QRCode.CorrectLevel.H
         });
         qrCode1.clear();
-        qrCode1.makeCode("{\"cardId\":\"185791355119865856\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"ticketId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
+        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.projectIndex].cardId + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"projectId\":\"" + this.projectRecordList[this.projectIndex].id + "\"}");
         // \"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
     },
