@@ -134,8 +134,8 @@
       <div class="home_middle_inner">
         <div class="home_middle_text">每日惊喜</div>
         <div class="home_middle_img">
-          <router-link to="/homesurprise">
-            <!--          <router-link to="/scanorder">-->
+          <!--          <router-link to="/homesurprise">-->
+          <router-link to="/scanorder">
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>

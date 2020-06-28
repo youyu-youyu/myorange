@@ -42,6 +42,9 @@
           </li>
         </ul>
       </div>
+      <div id="id-qr" class="qrcode_center" ref="qrCodeUrl">
+        <!--        <div class="qe"></div>-->
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +53,7 @@
   import global_msg from "../js/global";
   import myNetUtils from "../js/MyNetUtils.js";
   import {Toast} from "mint-ui"
+  import QRCode from "qrcodejs2";
 
   export default {
     data() {
@@ -67,6 +71,7 @@
       this.availableDiscount();
       this.expiredDiscount();
       this.usedDiscount();
+      this.creatCode()
     },
     methods: {
       clickDiscountEvent(index, type) {
@@ -84,12 +89,29 @@
         if (this.price !== undefined) {
           this.$store.commit('setCoupon', this.availableDiscountList[this.discountIndex]);
           if (this.price >= this.$store.state.coupon.buyMoney) {
+
             Toast("兑换成功！")
-            this.$router.go(-1)
+            // this.$router.go(-1)
           } else {
             alert("兑换失败！您未满足条件！")
           }
         }
+      },
+      //创建二维码
+      creatCode() {
+        this.$refs.qrCodeUrl.innerHTML = ''
+        let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
+          width: 200,
+          height: 200,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        qrCode1.clear();
+
+        let expire = Math.floor((new Date().getTime()) / 1000) + 30;
+        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
+          "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
       //可使用优惠券
       availableDiscount: function () {
@@ -149,6 +171,12 @@
       }
 
     },
+    watch: {
+      '$store.state.userAccountData': function (newFlag, oldFlag) {
+        this.creatCode();
+        window.setInterval(this.creatCode, 30000);
+      }
+    },
     components: {
       backbar
     },
@@ -192,19 +220,6 @@
     height: 100%;
   }
 
-  /*button {*/
-  /*  width: 100px;*/
-  /*  height: 40px;*/
-  /*}*/
-
-  /*.discount_btn {*/
-  /*  border-radius: 20px;*/
-  /*  margin-top: -25px;*/
-  /*  margin-right: -55px;*/
-  /*  background-color: orange;*/
-
-  /*  // margin-left: 40px;*/
-  /*}*/
   .discount_right {
     float: right;
     margin-top: -25px;
@@ -257,11 +272,13 @@
     }
   }
 
-
-  /*.discount_xin {*/
-  /*  !*  设置为不可点击*!*/
-  /*  */
-  /*}*/
+  .qrcode_center {
+    /*width: 200px;*/
+    /*height: 200px;*/
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
 </style>
 
 
