@@ -218,7 +218,7 @@
       width: 100%;
       background: #ffffff;
       padding-right: 20px;
-      margin-top: 10px;
+      margin-top: 15px;
       padding-bottom: 35px;
 
       .right_inner_container_name {

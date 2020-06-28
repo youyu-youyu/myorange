@@ -74,7 +74,7 @@
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
           "tableNumber": this.restaurantList.tableNumber,
-          // "tableNumber": "",
+          // "tableNumber": "197298990822330368",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {

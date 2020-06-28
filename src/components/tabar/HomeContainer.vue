@@ -473,9 +473,9 @@
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-
+              alert(result)
               alert("cmd：" + result.cmd)
-              alert("桌号：" + result.id)//193684067332526080//197
+              alert("桌号：" + result.id)
               alert("店铺：" + result.shopId)
               alert("sn：" + result.table_sn)
               alert("name：" + result.table_name)
