@@ -254,7 +254,7 @@
     border-radius: 50px;
     position: fixed;
     background: #393939;
-    z-index: 10;
+    z-index: 99999;
     height: 50px;
     line-height: 50px;
 
