@@ -459,28 +459,22 @@
         wx.scanQRCode({
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-
           success: function (res) {
-            // let catering_table_result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             if (result.indexOf("qrStorageTicket") !== -1 || result.indexOf("catering_table") !== -1) {
               result = JSON.parse(result)
             }
-            Toast(result)
+            alert(result)
             /**
              * 扫码点餐开始
              */
-            // catering_table_result = JSON.parse(catering_table_result)
+
             // 扫完码之后，跳到/scanorder页面实现点餐
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
-              Toast("桌号：" + result.id_a)
-              Toast("店铺：" + result.shopId_b)
-              _this.$router.push({
-                path: '/scanorder',
-                query: {tableNumber: result.id, tableName: result.table_name}
-              })
+              alert(result.id)
+              _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tasbleName: result.table_name}})
             }
 
             /**
@@ -523,11 +517,8 @@
              */
 
 
-          }, error: function (err) {
-            Toast("cuowu")
           }
-        })
-        ;
+        });
 
       },
 
