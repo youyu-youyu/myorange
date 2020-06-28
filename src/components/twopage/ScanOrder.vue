@@ -254,7 +254,7 @@
     border-radius: 50px;
     position: fixed;
     background: #393939;
-    z-index: 99999;
+    z-index: 99999 !important;
     height: 50px;
     line-height: 50px;
 
@@ -262,6 +262,7 @@
       width: 60px;
       height: 60px;
       margin-top: -8px;
+      /*z-index: 99999 !important;*/
       margin-left: -1px;
       border-radius: 30px;
     }
