@@ -173,6 +173,13 @@
         userLottery: "",
         coupons: "",
         deviceCode: "",
+        data: {
+          "cmd": "catering_table",
+          "id_a": 197298990822330368,
+          "shopId": 195837063088705536,
+          "table_sn": "Q4V1041G",
+          "table_name": "\u901a\u7528"
+        }
       };
     },
     created: function () {
@@ -182,7 +189,9 @@
       //   localStorage.setItem("token", "111");
       //   localStorage.setItem("isFirstEnter11", "false")
       // }
-
+      console.log(this.data)
+      console.log(this.data.cmd)
+      console.log(this.data.id_a)
 
     },
     mounted() {
@@ -383,7 +392,6 @@
           }
         } else
           _this.$store.commit("setHomeHtml", global_msg.method.getBaseUrl() + "/mini/index.html");
-
       },
       //小程序登录
       miniLogin: function () {
@@ -466,6 +474,7 @@
               // scanResult = JSON.parse(scanResult)
             }
             alert(scanResult)
+            alert(scanResult.cmd)
             /**
              * 扫码点餐开始
              */
