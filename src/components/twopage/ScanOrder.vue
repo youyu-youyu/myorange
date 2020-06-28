@@ -248,19 +248,24 @@
   .bottom_container {
     width: 95%;
     margin: auto;
-    left: 0;
-    right: 0;
-    bottom: 10px;
-    border-radius: 50px;
-    /*position: fixed;*/
-    background: #393939;
-    z-index: 99999 !important;
-    height: 50px;
-    line-height: 50px;
+
+
     /*-webkit-transform: translateZ(1px);*/
     /*-moz-transform: translateZ(1px);*/
     /*-o-transform: translateZ(1px);*/
     /*transform: translateZ(1px);*/
+
+    .bottom_inner {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      border-radius: 50px;
+      height: 50px;
+      line-height: 50px;
+      background: #393939;
+      z-index: 99999 !important;
+    }
 
     .bottom_inner_img {
       width: 60px;
