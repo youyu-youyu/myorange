@@ -199,6 +199,7 @@
     font-size: 17px;
     padding: 30px 0;
     float: left;
+    margin-top: 10px;
     /*background: #e2e1e1;*/
     width: 30%;
 
@@ -297,6 +298,6 @@
     height: 100%;
     position: relative;
     z-index: 1;
-
+    min-height: 1110px;
   }
 </style>
