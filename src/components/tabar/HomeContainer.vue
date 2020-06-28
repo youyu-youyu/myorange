@@ -175,8 +175,8 @@
         deviceCode: "",
         data: {
           "cmd": "catering_table",
-          "id": 197298990822330368,
-          "shopId": 195837063088705536,
+          "id": "197298990822330368",
+          "shopId": "195837063088705536",
           "table_sn": "Q4V1041G",
           "table_name": "\u901a\u7528"
         }
@@ -477,10 +477,10 @@
             //   // scanResult = JSON.parse(JSON.stringify(scanResult))
             //   scanResult = JSON.parse(scanResult)
             // }
-            // scanResult = JSON.parse(scanResult)
+            scanResult = JSON.parse(scanResult)
             alert(scanResult)
             // alert(JSON.parse(scanResult))
-            alert(scanResult.cmd)
+            alert("sr.cmd" + scanResult.cmd)
             /**
              * 扫码点餐开始
              */
