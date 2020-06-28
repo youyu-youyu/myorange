@@ -460,11 +460,11 @@
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
-            let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            if (result.indexOf("qrStorageTicket") !== -1 || result.indexOf("catering_table") !== -1) {
-              result = JSON.parse(result)
+            let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
+              scanResult = JSON.parse(scanResult)
             }
-            alert(result)
+            alert(scanResult)
             /**
              * 扫码点餐开始
              */
@@ -472,9 +472,9 @@
             // 扫完码之后，跳到/scanorder页面实现点餐
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
-            if (result.cmd === "catering_table") {
-              alert(result.id_a)
-              _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tasbleName: result.table_name}})
+            if (scanResult.cmd === "catering_table") {
+              alert(scanResult.id_a)
+              _this.$router.push({path: '/scanorder', query: {tableNumber: scanResult.id, tasbleName: scanResult.table_name}})
             }
 
             /**
@@ -484,23 +484,23 @@
              * 扫到存彩票的二维码
              */
             //重定向回主页的时候，判断扫到的码是否存在 qrStorageTicket，如果存在，进if
-            if (result.cmd === "qrStorageTicket") {
-              _this.storageLottery(result);
+            if (scanResult.cmd === "qrStorageTicket") {
+              _this.storageLottery(scanResult);
             }
 
             /**
              * 扫到取币二维码
              */
             //如果存在以AE开头的测试二维码
-            if (result.startsWith("AE") && result.length === 12) {
-              _this.deviceCode = result.substring(4, 12)
+            if (scanResult.startsWith("AE") && scanResult.length === 12) {
+              _this.deviceCode = scanResult.substring(4, 12)
 
               // 00：机器，01：售币机
-              if (result.substring(2, 4) === "01") {
+              if (scanResult.substring(2, 4) === "01") {
                 document.getElementById("cover").setAttribute("style", "display:block;")
                 document.getElementById("selectPay_id").setAttribute("style", "display:block;")
                 //
-              } else if (result.substring(2, 4) === "00") {
+              } else if (scanResult.substring(2, 4) === "00") {
                 document.getElementById("cover").setAttribute("style", "display:block;")
                 document.getElementById("robot_id").setAttribute("style", "display:block;")
               }
