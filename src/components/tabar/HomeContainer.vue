@@ -476,6 +476,7 @@
               scanResult = JSON.parse(JSON.stringify(scanResult))
               // scanResult = JSON.parse(scanResult)
             }
+            scanResult = JSON.parse(scanResult)
             alert(scanResult)
             alert(scanResult.cmd)
             /**
