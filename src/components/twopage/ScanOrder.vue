@@ -76,7 +76,6 @@
         if (this.totalPrice <= 0) {
           Toast("您未添加商品！")
         } else {
-          alert(this.tableNumber)
           this.$router.push({
             path: '/ordercomputed',
             query: {restaurantList: this.clickColumnList, totalPrice: this.totalPrice, tableNumber: this.tableNumber}
