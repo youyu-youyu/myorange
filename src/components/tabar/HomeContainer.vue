@@ -175,7 +175,7 @@
         deviceCode: "",
         data: {
           "cmd": "catering_table",
-          "id_a": 197298990822330368,
+          "id": 197298990822330368,
           "shopId": 195837063088705536,
           "table_sn": "Q4V1041G",
           "table_name": "\u901a\u7528"
@@ -183,21 +183,21 @@
       };
     },
     created: function () {
+      let data1 = JSON.stringify(this.data)
+      // let data1 = this.data
+      console.log(data1)
+      console.log(data1.cmd)
+      console.log(data1.id)
+      console.log(data1.shopId)
+
+    },
+    mounted() {
       // if (localStorage.getItem("isFirstEnter11") === null
       //   || localStorage.getItem("isFirstEnter11").indexOf("true") !== -1) {
       //   alert("模拟了")
       //   localStorage.setItem("token", "111");
       //   localStorage.setItem("isFirstEnter11", "false")
       // }
-      let data1 = JSON.stringify(this.data)
-      console.log(this.data)
-      console.log(data1)
-      console.log(this.data.cmd)
-      console.log(String(this.data.id_a))
-      console.log(this.data.shopId)
-
-    },
-    mounted() {
       //返回主页面
       this.parseUrlBrand();
       //如果是公众号
@@ -473,7 +473,7 @@
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-              scanResult = JSON.parse(scanResult)
+              scanResult = JSON.parse(JSON.stringify(scanResult))
               // scanResult = JSON.parse(scanResult)
             }
             alert(scanResult)
