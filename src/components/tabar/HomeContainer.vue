@@ -473,7 +473,13 @@
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             if (result.cmd === "catering_table") {
+
+              alert("cmd：" + result.cmd)
               alert("桌号：" + result.id)
+              alert("店铺：" + result.shopId)
+              alert("sn：" + result.table_sn)
+              alert("name：" + result.table_name)
+
               _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tableName: result.table_name}})
             }
 
