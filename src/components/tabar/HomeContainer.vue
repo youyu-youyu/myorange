@@ -183,13 +183,13 @@
       };
     },
     created: function () {
-      let data1 = JSON.stringify(this.data)
-      // let data1 = this.data
+      // let data1 = JSON.stringify(this.data)
+      let data1 = this.data
       //
       console.log(data1)
       console.log(data1.cmd)
-      console.log(parseInt(data1.id))
-      console.log(data1.shopId)
+      console.log(parseInt(data1.id))//打印出结果：197298990822330370
+      console.log(parseInt(data1.shopId))//打印出结果：195837063088705540
 
     },
     mounted() {
@@ -473,12 +473,13 @@
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-              scanResult = JSON.parse(JSON.stringify(scanResult))
-              // scanResult = JSON.parse(scanResult)
-            }
+            // if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
+            //   // scanResult = JSON.parse(JSON.stringify(scanResult))
+            //   scanResult = JSON.parse(scanResult)
+            // }
             // scanResult = JSON.parse(scanResult)
             alert(scanResult)
+            // alert(JSON.parse(scanResult))
             alert(scanResult.cmd)
             /**
              * 扫码点餐开始
@@ -489,8 +490,8 @@
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             // if (scanResult.id === 197298990822330368)
             if (scanResult.cmd === "catering_table") {
-              alert(scanResult.id)
-              alert(scanResult.shopId)
+              alert(parseInt(scanResult.id))
+              alert(parseInt(scanResult.shopId))
               _this.$router.push({
                 path: '/scanorder',
                 query: {tableNumber: scanResult.id, tableName: scanResult.table_name}
