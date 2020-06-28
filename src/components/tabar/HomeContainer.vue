@@ -460,9 +460,10 @@
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
-            let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            if (result.indexOf("qrStorageTicket") !== -1 || result.indexOf("catering_table") !== -1) {
-              result = JSON.parse(result)
+            // let result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            let catering_table_result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            if (catering_table_result.indexOf("qrStorageTicket") !== -1 || catering_table_result.indexOf("catering_table") !== -1) {
+              catering_table_result = JSON.parse(catering_table_result)
             }
 
             /**
@@ -472,15 +473,17 @@
             // 扫完码之后，跳到/scanorder页面实现点餐
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
-            if (result.cmd === "catering_table") {
-              alert(result)
-              alert("cmd：" + result.cmd)
-              alert("桌号：" + result.id)
-              alert("店铺：" + result.shopId)
-              alert("sn：" + result.table_sn)
-              alert("name：" + result.table_name)
+            if (catering_table_result.cmd === "catering_table") {
+              alert("cmd：" + catering_table_result.cmd)
+              alert("桌号：" + catering_table_result.id)
+              alert("店铺：" + catering_table_result.shopId)
+              alert("sn：" + catering_table_result.table_sn)
+              alert("name：" + catering_table_result.table_name)
 
-              _this.$router.push({path: '/scanorder', query: {tableNumber: result.id, tableName: result.table_name}})
+              _this.$router.push({
+                path: '/scanorder',
+                query: {tableNumber: catering_table_result.id, tableName: catering_table_result.table_name}
+              })
             }
 
             /**

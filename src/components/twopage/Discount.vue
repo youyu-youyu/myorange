@@ -91,7 +91,7 @@
           if (this.price >= this.$store.state.coupon.buyMoney) {
 
             Toast("兑换成功！")
-            // this.$router.go(-1)
+            this.$router.go(-1)
           } else {
             alert("兑换失败！您未满足条件！")
           }
