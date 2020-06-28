@@ -473,11 +473,9 @@
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-            // if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-            //   // scanResult = JSON.parse(JSON.stringify(scanResult))
-            //   scanResult = JSON.parse(scanResult)
-            // }
-            scanResult = JSON.parse(scanResult)
+            if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
+              scanResult = JSON.parse(scanResult)
+            }
             alert(scanResult)
             // alert(JSON.parse(scanResult))
             alert("sr.cmd" + scanResult.cmd)
