@@ -127,6 +127,7 @@
       // 计算总价格
       computeTotalPrice() {
         // 进计算方法第一件事就要清空总价格
+        this.coinTotalPrice = 0
         this.totalPrice = 0
         for (let data of this.rightColumnList) {
           this.totalPrice += data.num * data.selling_price;

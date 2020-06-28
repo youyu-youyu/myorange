@@ -115,6 +115,7 @@
             // 跳转支付
             // if (_this.payType === 1) {
             window.location.href = body.data.pay_url;
+            _this.$router.push("/");
             // }
             // else {
             //   Toast("支付成功！");
