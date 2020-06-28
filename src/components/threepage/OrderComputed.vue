@@ -73,8 +73,8 @@
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
-          "tableNumber": this.restaurantList.tableNumber,
-          // "tableNumber": "193684067332526080",
+          // "tableNumber": this.restaurantList.tableNumber,
+          "tableNumber": "193684067332526080",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {
@@ -96,8 +96,8 @@
       },
       orderPaymentH5() {
         let payUrl;
-        let coinPay = "/api/payment/bycoin";
-        let wxPay = '/api/payment/shouqianba';
+        let coinPay = "/api/restaurant/bycoin";
+        let wxPay = '/api/restaurant/pay';
         if (this.payType === 1) {
           payUrl = wxPay;
         } else if (this.payType === 4) {
@@ -105,11 +105,12 @@
         }
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
-          "orderNo": this.order
+          "orderNo": this.order,
+          "shopId": _this.$store.state.selectedShopData.shopId
         }, function (body) {
           localStorage.setItem("payStatus", "1");
           // 跳转支付
-          if (_this.$refs.cellChild.payType === 1) {
+          if (_this.payType === 1) {
             window.location.href = body.data.pay_url;
           } else {
             Toast("支付成功!");
