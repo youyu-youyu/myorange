@@ -26,8 +26,8 @@
       <div class="orderby">
         支付方式
         <div class="zhifu">
-          <button class="wxbtn" @click="paymentMethod(1)">微信支付</button>
-          <button class="dbbtn" @click="paymentMethod(2)">代币支付</button>
+          <button id="wxbtn_id" class="wxbtn" @click="paymentMethod(1)">微信支付</button>
+          <button id="dbbtn_id" class="dbbtn" @click="paymentMethod(2)">代币支付</button>
         </div>
       </div>
       <button class="btn" @click="restaurantOrder">确定兑换</button>
@@ -60,21 +60,22 @@
       paymentMethod(paymentMethodType) {
         if (paymentMethodType === 1) {
           this.payType = 1
+          document.getElementById("dbbtn_id").setAttribute("style", "background:background: transparent;;");
+          document.getElementById("wxbtn_id").setAttribute("style", "background:#D3B986;");
         } else {
           this.payType = 4
+          document.getElementById("wxbtn_id").setAttribute("style", "background:background: transparent;;");
+          document.getElementById("dbbtn_id").setAttribute("style", "background:#D3B986;");
         }
         console.log(this.payType)
       },
       //点餐
       restaurantOrder() {
-        alert(this.restaurantList.tableNumber)
-
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
           "tableNumber": this.restaurantList.tableNumber,
-          // "tableNumber": "197298990822330368",
           "money": this.restaurantList.totalPrice,
           "payType": this.payType
         }, function (body) {
