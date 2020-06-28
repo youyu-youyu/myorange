@@ -40,6 +40,7 @@
   import record from "../public/record";
   import myNetUtils from "../js/MyNetUtils";
   import global_msg from "../js/global";
+  import {Toast} from "mint-ui"
 
   export default {
     name: "orderComputed",
@@ -101,29 +102,41 @@
       },
       orderPaymentH5() {
         let payUrl;
-        let coinPay = "/api/restaurant/bycoin";
+        let coinPay = '/api/restaurant/bycoin';
         let wxPay = '/api/restaurant/pay';
         if (this.payType === 1) {
           payUrl = wxPay;
+          let _this = this
+          myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
+            "orderNo": this.order,
+            "shopId": _this.$store.state.selectedShopData.shopId
+          }, function (body) {
+            // localStorage.setItem("payStatus", "1");
+            // 跳转支付
+            // if (_this.payType === 1) {
+            window.location.href = body.data.pay_url;
+            // }
+            // else {
+            //   Toast("支付成功！");
+            //   _this.$router.push("/");
+            // }
+          }, function (message) {
+            alert("获取支付url失败:" + message)
+          })
         } else if (this.payType === 4) {
           payUrl = coinPay
-        }
-        let _this = this
-        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
-          "orderNo": this.order,
-          "shopId": _this.$store.state.selectedShopData.shopId
-        }, function (body) {
-          localStorage.setItem("payStatus", "1");
-          // 跳转支付
-          if (_this.payType === 1) {
-            window.location.href = body.data.pay_url;
-          } else {
-            Toast("支付成功!");
+          let _this = this
+          myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
+            "orderNo": this.order,
+          }, function (body) {
+            // localStorage.setItem("payStatus", "1");
+            Toast("币支付成功!");
             _this.$router.go(-1);
-          }
-        }, function (message) {
-          alert("获取支付url失败:" + message)
-        })
+          }, function (message) {
+            alert("获取支付url失败:" + message)
+          })
+        }
+
       },
       //小程序付款
       orderPaymentMini() {
