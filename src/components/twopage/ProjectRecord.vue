@@ -13,7 +13,7 @@
                   <div class="mui-pull-left">
                     项目名称:{{item.cardName}}
                   </div>
-                  <button class="mui-pull-right projectrecord_btn">立即使用</button>
+                  <button class="mui-pull-right projectrecord_btn" @click="projectUseNow()">立即使用</button>
                 </div>
                 <div>
                   <div class="mui-ellipsis user_left ">项目ID:{{item.cardId}}</div>
@@ -36,9 +36,18 @@
               </div>
             </div>
           </div>
+
         </div>
+
+        <div class="projectCancel" id="t_cancel_id" @click="projectCancelClick()">x</div>
+
       </div>
+      <div id="id-qr" class="qrcode_center" ref="qrCodeUrl"></div>
     </div>
+    <div id="projectCover"></div>
+    <!--   二维码       //-->
+
+
   </div>
 </template>
 <script>
@@ -46,6 +55,7 @@
   import global_msg from "../js/global";
   import loading from "../public/loading/loading";
   import myNetUtils from "../js/MyNetUtils.js";
+  import QRCode from 'qrcodejs2'
 
 
   export default {
@@ -53,15 +63,28 @@
       return {
         loading: false,
         projectRecordList: [],
+        qrCode: "",
 
       };
     },
     mounted() {
       this.loading = true;
       setTimeout(this.getProjectRecord, 500);
-
     },
     methods: {
+      //立即使用
+      projectUseNow() {
+        document.getElementById("projectCover").setAttribute("style", "display:block;")
+        document.getElementById("id-qr").setAttribute("style", "display:block;")
+        document.getElementById("t_cancel_id").setAttribute("style", "display:block;")
+        this.creatProjectRecordCode()
+      },
+      //取消
+      projectCancelClick() {
+        document.getElementById("projectCover").setAttribute("style", "display:none;")
+        document.getElementById("id-qr").setAttribute("style", "display:none;")
+        document.getElementById("t_cancel_id").setAttribute("style", "display:none;")
+      },
       getProjectRecord() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects/own`, {
@@ -75,6 +98,21 @@
           _this.loading = false;
           alert("获取项目记录失败" + message)
         })
+      },
+      //创建二维码
+      creatProjectRecordCode() {
+        document.getElementById("id-qr").innerHTML = "";
+        // this.$refs.qrCodeUrl.innerHTML = ''
+        let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
+          width: 200,
+          height: 200,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        qrCode1.clear();
+        qrCode1.makeCode("{\"cardId\":\"185791355119865856\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"ticketId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
+        // \"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
     },
     components: {
@@ -192,8 +230,55 @@
     margin-right: 0px;
     background-color: orange;
   }
+
+  .qrcode_center {
+    /*width: 200px;*/
+    /*height: 200px;*/
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+
+  .projectCancel {
+    position: absolute;
+    top: 20%;
+    display: none;
+    left: 45%;
+    background: #b6b5b5;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 50px;
+    vertical-align: center;
+    text-align: center;
+    z-index: 999999;
+    padding: 10px 0;
+  }
+
+  //创建二维码
+  #id-qr {
+    display: none;
+    z-index: 99999;
+    margin-top: 30px;
+    box-shadow: 0px 0px 10px 10px #ffffff;
+  }
+
+
+  /*遮盖层*/
+  #projectCover {
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    display: none;
+    z-index: 99999;
+    height: -webkit-fill-available
+  }
 </style>
 
 
-// WEBPACK FOOTER //
-// src/components/twopage/ProjectRecord.vue
+<!--// WEBPACK FOOTER //-->
+<!--// src/components/twopage/ProjectRecord.vue-->

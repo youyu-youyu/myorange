@@ -24,14 +24,19 @@
             </div>
           </div>
 
-          <button class="mui-pull-right projectrecord_btn">立即使用</button>
-          <!--          </div>-->
+          <button class="mui-pull-right projectrecord_btn" @click="ticketUserNow(index)">立即使用</button>
         </div>
 
       </div>
     </div>
+    <div id="ticketCover"></div>
+    <div class="ticketCode">
+      <div id="id-qr" class="qrcode qrcode_center" ref="qrCodeUrl">
+      </div>
+      <div class="ticketCancel" id="t_cancel_id" @click="ticketCancelClick()">x</div>
+    </div>
+
   </div>
-  <!--  </div>-->
 </template>
 <script>
   import backBar from "../public/backBar.vue";
@@ -39,21 +44,38 @@
   import loading from "../public/loading/loading";
   import myNetUtils from "../js/MyNetUtils.js";
   import {Toast} from "mint-ui"
+  import QRCode from "qrcodejs2";
 
   export default {
     data() {
       return {
         loading: false,
         projectRecordList: [],
-        useFlag: ""
-
+        useFlag: "",
+        ticketIndex: ""
       };
     },
     mounted() {
       this.loading = true;
       setTimeout(this.getTicketRecord, 500);
+
     },
     methods: {
+      //立即使用
+      ticketUserNow(index) {
+        // this.ticketIndex = index
+        console.log(this.projectRecordList[index].cardId)
+        document.getElementById("ticketCover").setAttribute("style", "display:block;")
+        document.getElementById("id-qr").setAttribute("style", "display:block;")
+        document.getElementById("t_cancel_id").setAttribute("style", "display:block;")
+        this.creatTicketRecordCode(index)
+
+      },
+      ticketCancelClick() {
+        document.getElementById("ticketCover").setAttribute("style", "display:none;")
+        document.getElementById("id-qr").setAttribute("style", "display:none;")
+        document.getElementById("t_cancel_id").setAttribute("style", "display:none;")
+      },
       getTicketRecord() {
         if (this.$store.state.userAccountData.coupons <= 0) {
           this.useFlag = 0
@@ -76,6 +98,23 @@
           _this.loading = false;
           alert("获取门票信息失败：" + message);
         })
+      },
+      //创建二维码
+      creatTicketRecordCode(index) {
+        this.ticketIndex = index
+        document.getElementById("id-qr").innerHTML = "";
+        // this.$refs.qrCodeUrl.innerHTML = ''
+        let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
+          width: 200,
+          height: 200,
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+        qrCode1.clear();
+        //所点击的cardId
+        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.ticketIndex].cardId + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"ticketId\":\"" + this.projectRecordList[this.ticketIndex].id + "\"}");
+        // \"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
     },
     components: {
@@ -196,6 +235,54 @@
 
   .avilable {
     margin-top: -15px;
+  }
+
+
+  .qrcode_center {
+    /*width: 200px;*/
+    /*height: 200px;*/
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+
+  .ticketCancel {
+    position: absolute;
+    top: 20%;
+    display: none;
+    left: 45%;
+    background: #b6b5b5;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 50px;
+    vertical-align: center;
+    text-align: center;
+    z-index: 99999;
+    padding: 10px 0;
+  }
+
+  //创建二维码
+  #id-qr {
+    display: none;
+    z-index: 99999;
+    margin-top: 30px;
+    box-shadow: 0px 0px 10px 10px #ffffff;
+  }
+
+
+  /*遮盖层*/
+  #ticketCover {
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    display: none;
+    z-index: 99999;
+    height: -webkit-fill-available
   }
 </style>
 
