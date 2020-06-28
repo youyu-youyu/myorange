@@ -490,8 +490,8 @@
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
             // if (scanResult.id === 197298990822330368)
             if (scanResult.cmd === "catering_table") {
-              alert(parseInt(scanResult.id))
-              alert(parseInt(scanResult.shopId))
+              alert(scanResult.id)
+              alert(scanResult.shopId)
               _this.$router.push({
                 path: '/scanorder',
                 query: {tableNumber: scanResult.id, tableName: scanResult.table_name}
