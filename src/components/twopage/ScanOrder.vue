@@ -6,22 +6,26 @@
       <span class="header_sao">扫码点餐</span>
       <span class="header_center">{{tableName}}</span>
     </div>
-    <div class="left_container">
-      <div class="left_inner_container" v-for="(item,index) in leftColumnList" @click="leftColumnClickEvent(index)">
-        {{item.catName}}
+    <div class="scan_content">
+      <div class="left_container">
+        <div class="left_inner_container" v-for="(item,index) in leftColumnList" @click="leftColumnClickEvent(index)">
+          {{item.catName}}
+        </div>
       </div>
-    </div>
-    <div class="right_container">
-      <div class="right_inner_container" v-for="(item,index) in rightColumnList" :key="index">
-        <div class="right_inner_container_name">{{item.cateringName}}</div>
-        <div class="right_inner_container_money">￥{{item.selling_price}}</div>
-        <div class="right_inner_container_like">
-          <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.num>0" @click="reduceClick(index)"></div>
-          <div v-show="item.num>0"> {{rightColumnList.length>0?item.num:0}}</div>
-          <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
+      <div class="right_container">
+        <div class="right_inner_container" v-for="(item,index) in rightColumnList" :key="index">
+          <div class="right_inner_container_name">{{item.cateringName}}</div>
+          <div class="right_inner_container_money">￥{{item.selling_price}}</div>
+          <div class="right_inner_container_like">
+            <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.num>0"
+                 @click="reduceClick(index)"></div>
+            <div v-show="item.num>0"> {{rightColumnList.length>0?item.num:0}}</div>
+            <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="bottom_container">
       <div class="bottom_inner">
         <div style="width: 30%;float: left">
@@ -249,12 +253,6 @@
     width: 95%;
     margin: auto;
 
-
-    /*-webkit-transform: translateZ(1px);*/
-    /*-moz-transform: translateZ(1px);*/
-    /*-o-transform: translateZ(1px);*/
-    /*transform: translateZ(1px);*/
-
     .bottom_inner {
       position: fixed;
       left: 0;
@@ -292,4 +290,13 @@
     }
   }
 
+  .scan_content {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+
+  }
 </style>
