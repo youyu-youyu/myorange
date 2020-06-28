@@ -462,7 +462,7 @@
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-              scanResult = JSON.parse(scanResult)
+              scanResult = JSON.stringify(scanResult)
             }
             alert(scanResult)
             /**
@@ -472,6 +472,7 @@
             // 扫完码之后，跳到/scanorder页面实现点餐
 
             //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
+            // if (scanResult.id === 197298990822330368)
             if (scanResult.cmd === "catering_table") {
               alert(scanResult.id)
               alert(scanResult.shopId)
