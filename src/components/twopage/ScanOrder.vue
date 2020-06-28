@@ -252,15 +252,15 @@
     right: 0;
     bottom: 10px;
     border-radius: 50px;
-    position: fixed;
+    /*position: fixed;*/
     background: #393939;
     z-index: 99999 !important;
     height: 50px;
     line-height: 50px;
-    -webkit-transform: translateZ(1px);
-    -moz-transform: translateZ(1px);
-    -o-transform: translateZ(1px);
-    transform: translateZ(1px);
+    /*-webkit-transform: translateZ(1px);*/
+    /*-moz-transform: translateZ(1px);*/
+    /*-o-transform: translateZ(1px);*/
+    /*transform: translateZ(1px);*/
 
     .bottom_inner_img {
       width: 60px;
