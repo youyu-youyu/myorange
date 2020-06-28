@@ -475,7 +475,7 @@
             if (result.cmd === "catering_table") {
 
               alert("cmd：" + result.cmd)
-              alert("桌号：" + result.id)
+              alert("桌号：" + result.id)//193684067332526080//197
               alert("店铺：" + result.shopId)
               alert("sn：" + result.table_sn)
               alert("name：" + result.table_name)
