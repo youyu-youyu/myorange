@@ -90,9 +90,9 @@ if (global_msg.myNetType === 0) {
           })
         })
       } else if (status_code === 405) {
-        alert("HTTP状态码405")
+        // alert("HTTP状态码405")
       } else if (status_code === 500) {
-        alert("HTTP状态码500")
+        // alert("HTTP状态码500")
       }
     })
   });
@@ -161,10 +161,10 @@ if (global_msg.myNetType === 0) {
             })
             break;
           case 405:
-            alert("HTTP状态码405")
+            // alert("HTTP状态码405")
             break;
           case 500:
-            alert("HTTP状态码500")
+          // alert("HTTP状态码500")
         }
       }
       // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402

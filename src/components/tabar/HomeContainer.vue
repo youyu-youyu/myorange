@@ -14,7 +14,6 @@
         <div class="home_right1">
           <router-link to="/discount">
             <div class="home_right1_1">优惠券 &nbsp;&nbsp;{{coupons}}张</div>
-            <!--              <div class="item_item">6张</div>-->
           </router-link>
         </div>
       </div>
@@ -173,23 +172,9 @@
         userLottery: "",
         coupons: "",
         deviceCode: "",
-        data: {
-          "cmd": "catering_table",
-          "id": "197298990822330368",
-          "shopId": "195837063088705536",
-          "table_sn": "Q4V1041G",
-          "table_name": "\u901a\u7528"
-        }
       };
     },
     created: function () {
-      // let data1 = JSON.stringify(this.data)
-      let data1 = this.data
-      //
-      console.log(data1)
-      console.log(data1.cmd)
-      console.log(parseInt(data1.id))//打印出结果：197298990822330370
-      console.log(parseInt(data1.shopId))//打印出结果：195837063088705540
 
     },
     mounted() {
