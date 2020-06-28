@@ -460,8 +460,6 @@
             _this.loading = true
             setTimeout(() => {
               _this.loading = false
-              Toast("jing入success")
-              alert("jing入success alert")
               let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
               _this.loading = false
               if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
@@ -472,11 +470,8 @@
                */
 
               // 扫完码之后，跳到/scanorder页面实现点餐
-
               //重定向回主页的时候，判断扫到的码是否存在 catering_table，如果存在，进if
-              // if (scanResult.id === 197298990822330368)
               if (scanResult.cmd === "catering_table") {
-                alert("进入扫码点餐")
                 _this.$router.push({
                   path: '/scanorder',
                   query: {tableNumber: scanResult.id, tableName: scanResult.table_name}
