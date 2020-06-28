@@ -133,8 +133,8 @@
       <div class="home_middle_inner">
         <div class="home_middle_text">每日惊喜</div>
         <div class="home_middle_img">
-          <!--          <router-link to="/homesurprise">-->
-          <router-link to="/scanorder">
+          <router-link to="/homesurprise">
+            <!--          <router-link to="/scanorder">-->
             <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
           </router-link>
         </div>
@@ -457,10 +457,13 @@
           needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
           success: function (res) {
+            _this.loading = true
             setTimeout(() => {
+              _this.loading = false
               Toast("jing入success")
               alert("jing入success alert")
               let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+              _this.loading = false
               if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
                 scanResult = JSON.parse(scanResult)
               }
