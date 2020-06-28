@@ -61,7 +61,8 @@
         totalCount: 0,
         num: "",
         tableNumber: "",
-        tableName: ""
+        tableName: "",
+        coinTotalPrice: 0
       }
     },
     mounted() {
@@ -78,7 +79,12 @@
         } else {
           this.$router.push({
             path: '/ordercomputed',
-            query: {restaurantList: this.clickColumnList, totalPrice: this.totalPrice, tableNumber: this.tableNumber}
+            query: {
+              restaurantList: this.clickColumnList,
+              totalPrice: this.totalPrice,
+              tableNumber: this.tableNumber,
+              coinTotalPrice: this.coinTotalPrice
+            }
           })
         }
 
@@ -124,6 +130,7 @@
         this.totalPrice = 0
         for (let data of this.rightColumnList) {
           this.totalPrice += data.num * data.selling_price;
+          this.coinTotalPrice += data.num * data.coin_money
         }
       },
       //左边栏主餐类

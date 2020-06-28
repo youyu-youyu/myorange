@@ -19,7 +19,7 @@
           <tr v-for="(item,index) in restaurantList.restaurantList">
             <td>{{item.cateringName}}</td>
             <td>{{item.num}}</td>
-            <td>{{item.selling_price}}</td>
+            <td>{{totalPrice}}</td>
           </tr>
         </table>
       </div>
@@ -53,7 +53,9 @@
     },
     mounted() {
       this.restaurantList = this.$route.query
-      console.log(this.restaurantList)
+      this.totalPrice = this.restaurantList.totalPrice
+      console.log("this.restaurantList")
+      console.log(this.restaurantList.totalPrice)
     },
     methods: {
       //支付方式，默认微信支付
@@ -62,8 +64,10 @@
           this.payType = 1
           document.getElementById("dbbtn_id").setAttribute("style", "background:background: transparent;;");
           document.getElementById("wxbtn_id").setAttribute("style", "background:#D3B986;");
+          this.totalPrice = this.restaurantList.totalPrice
         } else {
           this.payType = 4
+          this.totalPrice = this.restaurantList.coinTotalPrice
           document.getElementById("wxbtn_id").setAttribute("style", "background:background: transparent;;");
           document.getElementById("dbbtn_id").setAttribute("style", "background:#D3B986;");
         }
@@ -76,10 +80,10 @@
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
           "tableNumber": this.restaurantList.tableNumber,
-          "money": this.restaurantList.totalPrice,
+          "money": this.totalPrice,
           "payType": this.payType
         }, function (body) {
-          console.log(_this.restaurantList.totalPrice)
+          console.log(_this.totalPrice)
           _this.order = body.data.orderNo
           _this.judgePay()
           console.log(body.data)
