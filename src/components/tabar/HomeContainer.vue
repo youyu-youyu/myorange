@@ -189,9 +189,12 @@
       //   localStorage.setItem("token", "111");
       //   localStorage.setItem("isFirstEnter11", "false")
       // }
+      let data1 = JSON.stringify(this.data)
       console.log(this.data)
+      console.log(data1)
       console.log(this.data.cmd)
-      console.log(this.data.id_a)
+      console.log(String(this.data.id_a))
+      console.log(this.data.shopId)
 
     },
     mounted() {
@@ -470,7 +473,7 @@
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-              scanResult = JSON.parse(JSON.stringify(scanResult))
+              scanResult = JSON.parse(scanResult)
               // scanResult = JSON.parse(scanResult)
             }
             alert(scanResult)
