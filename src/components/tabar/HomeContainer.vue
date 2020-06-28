@@ -185,9 +185,10 @@
     created: function () {
       let data1 = JSON.stringify(this.data)
       // let data1 = this.data
+      //
       console.log(data1)
       console.log(data1.cmd)
-      console.log(data1.id)
+      console.log(parseInt(data1.id))
       console.log(data1.shopId)
 
     },
@@ -476,7 +477,7 @@
               scanResult = JSON.parse(JSON.stringify(scanResult))
               // scanResult = JSON.parse(scanResult)
             }
-            scanResult = JSON.parse(scanResult)
+            // scanResult = JSON.parse(scanResult)
             alert(scanResult)
             alert(scanResult.cmd)
             /**
