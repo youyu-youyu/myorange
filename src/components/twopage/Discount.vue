@@ -42,9 +42,9 @@
           </li>
         </ul>
       </div>
-      <div id="id-qr" class="qrcode_center" ref="qrCodeUrl">
-        <!--        <div class="qe"></div>-->
-      </div>
+      <!--      <div id="id-qr" class="qrcode_center" ref="qrCodeUrl">-->
+      <!--        <div class="qe"></div>-->
+      <!--    </div>-->
     </div>
   </div>
 </template>
@@ -98,21 +98,21 @@
         }
       },
       //创建二维码
-      creatCode() {
-        this.$refs.qrCodeUrl.innerHTML = ''
-        let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
-          width: 200,
-          height: 200,
-          colorDark: '#000000',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        });
-        qrCode1.clear();
-
-        let expire = Math.floor((new Date().getTime()) / 1000) + 30;
-        qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
-          "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
-      },
+      // creatCode() {
+      //   this.$refs.qrCodeUrl.innerHTML = ''
+      //   let qrCode1 = new QRCode(this.$refs.qrCodeUrl, {
+      //     width: 200,
+      //     height: 200,
+      //     colorDark: '#000000',
+      //     colorLight: '#ffffff',
+      //     correctLevel: QRCode.CorrectLevel.H
+      //   });
+      //   qrCode1.clear();
+      //
+      //   let expire = Math.floor((new Date().getTime()) / 1000) + 30;
+      //   qrCode1.makeCode("{\"cmd\":\"member\",\"uid\":\"" + this.$store.state.userAccountData.userId +
+      //     "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
+      // },
       //可使用优惠券
       availableDiscount: function () {
         let _this = this
@@ -171,12 +171,12 @@
       }
 
     },
-    watch: {
-      '$store.state.userAccountData': function (newFlag, oldFlag) {
-        this.creatCode();
-        window.setInterval(this.creatCode, 30000);
-      }
-    },
+    // watch: {
+    //   '$store.state.userAccountData': function (newFlag, oldFlag) {
+    //     this.creatCode();
+    //     window.setInterval(this.creatCode, 30000);
+    //   }
+    // },
     components: {
       backbar
     },
@@ -272,13 +272,13 @@
     }
   }
 
-  .qrcode_center {
-    /*width: 200px;*/
-    /*height: 200px;*/
-    position: absolute;
-    top: 25%;
-    left: 25%;
-  }
+  /*.qrcode_center {*/
+  /*  !*width: 200px;*!*/
+  /*  !*height: 200px;*!*/
+  /*  position: absolute;*/
+  /*  top: 25%;*/
+  /*  left: 25%;*/
+  /*}*/
 </style>
 
 
