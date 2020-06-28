@@ -462,7 +462,7 @@
           success: function (res) {
             let scanResult = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
             if (scanResult.indexOf("qrStorageTicket") !== -1 || scanResult.indexOf("catering_table") !== -1) {
-              scanResult = JSON.parse(scanResult)
+              scanResult = JSON.stringify(scanResult)
             }
             alert(scanResult)
             /**
