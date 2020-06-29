@@ -14,6 +14,7 @@
       </div>
       <div class="right_container">
         <div class="right_inner_container" v-for="(item,index) in rightColumnList" :key="index">
+          <!--          <img class="img_order" src="../../assets/order/order.jpg">-->
           <div class="right_inner_container_name">{{item.cateringName}}</div>
           <div class="right_inner_container_money">￥{{item.selling_price}}</div>
           <div class="right_inner_container_like">
@@ -142,6 +143,7 @@
           "include": "caterings"
         }, function (body) {
           _this.leftColumnList = body.data;
+          console.log(_this.leftColumnList)
           if (_this.leftColumnList.length === 0) {
             Toast("未获得数据");
             return;
@@ -306,5 +308,10 @@
     position: relative;
     z-index: 1;
     min-height: 1110px;
+  }
+
+  .img_order {
+    width: 100px;
+    height: 100px;
   }
 </style>
