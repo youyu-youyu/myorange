@@ -4,20 +4,11 @@
     <loading v-if="loading"></loading>
     <back-bar title="彩票记录"></back-bar>
     <div class="coinRecord">
-<!--      <div class="in-and-out">-->
-      <!--        <div class="in">-->
-      <!--          存入彩票:111-->
-      <!--        </div>-->
-      <!--        <div class="out">-->
-      <!--          扣除彩票:1323-->
-      <!--        </div>-->
-      <!--      </div>-->
       <table>
         <th>创建时间</th>
         <th>票数</th>
         <th>类型ID</th>
         <tr v-for="(item,index) in lotteryRecordList">
-          <!--        <tr>-->
           <td>{{item.createdAt}}</td>
           <td>{{item.lottery}}</td>
           <td>{{item.machineId}}</td>
@@ -72,7 +63,8 @@
     },
     components: {
       BackBar,
-      loading
+      loading,
+      record
     }
   };
 </script>
@@ -124,7 +116,7 @@
   table {
     tr {
       td {
-        width: 1%;
+        width: 33.3%;
         text-align: center;
         border: 1px solid #cccccc;
         padding: 10px 0;
@@ -133,8 +125,11 @@
   }
 
   table {
+    width: 100%;
+
     th {
       /*th {*/
+      width: 33.3%;
       font-weight: 500;
       font-size: 15px;
       background: #bbbbbb;
