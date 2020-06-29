@@ -127,7 +127,7 @@
           <mt-swipe-item><img src="../../assets/home/shuijiao.jpg"/>
           </mt-swipe-item>
           <mt-swipe-item><img src="../../assets/home/yuantiao.jpg"/>
-          </mt-swipe-item>
+          </mt-swipe-item>mm
         </mt-swipe>
       </div>
       <div class="home_middle_inner">
