@@ -81,7 +81,7 @@
               </mt-cell>
             </div>
             <div class="recharge_tabar0">
-              <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type2="预存款付款"
+              <cell ref="cellChild" select-pay-type0="微信付款" select-pay-type1="预存款付款"
                     :parent-click-method-name="changeMoneyWithPayType"></cell>
             </div>
           </div>
@@ -162,7 +162,8 @@
         price: "",
         showData: "",
         miniInfo: "",
-        couponId: ""
+        couponId: "",
+        payType: ""
       }
     },
     //1.点击充值时付款 √
@@ -261,6 +262,8 @@
         this.loading = true;
         this.showBox = 0;
         this.selectedIndex = index;
+        this.$refs.cellChild.payTypeText = "微信付款";
+        this.payType = 1;
         if (isPackage) {
           //true：充币套餐
           this.$refs.cellChild.clickable1 = true;
@@ -270,16 +273,16 @@
           console.log("币存款")
           //在点击切换时
           this.cardId = this.coinRechargePackageList[this.selectedIndex].cardId;
-          this.cardType = 1;
-          this.changeMoneyWithPayType(this.$refs.cellChild.payType);
-          // this.$refs.cellChild.isDisplay = true;
+          console.log(this.$refs.cellChild.payType)
 
+          this.cardType = 1;
+          this.changeMoneyWithPayType(this.cardType);
 
         } else {
           //预存款套餐
           this.$refs.cellChild.clickable1 = false;
-          this.$refs.cellChild.payTypeText = "微信付款";
-          this.$refs.cellChild.payType = 1;
+          // this.$refs.cellChild.payTypeText = "微信付款";
+          // this.payType = 1;
           // this.showClick = true;
           this.isClickTop = true
           this.showData = this.PrePayPackageList[this.selectedIndex];
@@ -296,6 +299,7 @@
       },
       //提交订单
       commitOrder() {
+        console.log(this.payType)
         if (this.$store.state.coupon) {
           this.couponId = this.$store.state.coupon.couponId
           this.cardId = this.$store.state.reChangeShowData.cardId
@@ -311,7 +315,7 @@
           "actualPrice": this.price,
           "sumcoin": this.showData.sumcoin,
           "cardType": this.cardType,
-          "payType": this.$refs.cellChild.payType,
+          "payType": this.payType,
           "notifyUrl": this.$store.state.homeHtml,
           "couponId": this.couponId,
         }, function (body) {
@@ -328,7 +332,9 @@
       getCoinRechargePackages() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/coins`, {
-          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.coinRechargePackageList = body.data;
         }, function (message) {
@@ -340,7 +346,9 @@
       getPrePayPackages() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/prerecharge`, {
-          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": this.$store.state.selectedShopData.shopId,
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.PrePayPackageList = body.data;
         }, function (message) {
@@ -351,18 +359,20 @@
         let payUrl;
         let prePay = "/api/payment/predeposit";
         let wxPay = '/api/payment/shouqianba';
-        if (this.$refs.cellChild.payType === 1) {
+        if (this.payType === 1) {
           payUrl = wxPay;
-        } else if (this.$refs.cellChild.payType === 4) {
+        } else if (this.payType === 4) {
           payUrl = prePay
         }
+        console.log(this.payType)
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
           "orderNo": this.order
         }, function (body) {
+          //保存支付状态
           localStorage.setItem("payStatus", "1");
           // 跳转支付
-          if (_this.$refs.cellChild.payType === 1) {
+          if (_this.payType === 1) {
             window.location.href = body.data.pay_url;
           } else {
             Toast("支付成功!");
@@ -387,6 +397,7 @@
       },
       //1.子点击时传参数过来
       changeMoneyWithPayType(payType) {
+        console.log(payType)
         //使用优惠券之后的显示价格
         // console.log(this.$store.state.coupon)
         if (this.$store.state.coupon !== undefined) {
@@ -402,6 +413,8 @@
         //没用优惠券之前的显示价格
         payType === 1 ? this.price = this.coinRechargePackageList[this.selectedIndex].actual_price : this.price = this.coinRechargePackageList[this.selectedIndex].balance_price
         // console.log(this.coinRechargePackageList[this.selectedIndex])
+        this.payType = payType
+        console.log(this.payType)
       }
     },
     components: {

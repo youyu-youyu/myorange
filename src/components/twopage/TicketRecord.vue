@@ -64,7 +64,6 @@
       //立即使用
       ticketUserNow(index) {
         // this.ticketIndex = index
-        console.log(this.projectRecordList[index].cardId)
         document.getElementById("ticketCover").setAttribute("style", "display:block;")
         document.getElementById("id-qr").setAttribute("style", "display:block;")
         document.getElementById("t_cancel_id").setAttribute("style", "display:block;")
@@ -77,16 +76,18 @@
         document.getElementById("t_cancel_id").setAttribute("style", "display:none;")
       },
       getTicketRecord() {
-        if (this.$store.state.userAccountData.coupons <= 0) {
-          this.useFlag = 0
-        } else {
-          this.useFlag = 1
-        }
+        // if (this.$store.state.userAccountData.coupons <= 0) {
+        //   this.useFlag = 0
+        // } else {
+        //   this.useFlag = 1
+        // }
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets/own`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "shopId": this.$store.state.selectedShopData.shopId,
-          "useFlag": this.useFlag
+          // "useFlag": this.useFlag
+          "useFlag": 1,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.loading = false;
           _this.projectRecordList = body.data
@@ -113,7 +114,9 @@
         });
         qrCode1.clear();
         //所点击的cardId
-        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.ticketIndex].cardId + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"ticketId\":\"" + this.projectRecordList[this.ticketIndex].id + "\"}");
+        // alert("id:" + this.projectRecordList[this.ticketIndex].id)
+        console.log("id:" + this.projectRecordList[this.ticketIndex].id)
+        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.ticketIndex].id + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"ticketId\":\"" + this.projectRecordList[this.ticketIndex].id + "\"}");
         // \"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
     },
@@ -127,16 +130,15 @@
   .backBar {
     -webkit-transform: translateZ(0);
     position: fixed;
-    overflow-x: auto !important;
-  }
-
-  .mui-table-view:before {
-    /*background-color: transparent !important;*/
+    /*overflow-x: auto !important;*/
   }
 
   .projectrecord {
-    margin-top: 60px;
-    overflow-y: auto !important;
+    /*margin-top: 60px !important;*/
+    margin-top: 100px !important;
+    /*overflow-y: visible !important;*/
+    //不能给高度，给高度有问题
+    height: 1100px !important;
   }
 
   .mui-table-view:before {

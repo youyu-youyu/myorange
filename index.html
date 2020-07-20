@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>桔子乐园</title>
+
+  <title></title>
+
 
   <link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/mint-ui/2.2.13/style.min.css>
   <link href=https://cdn.bootcdn.net/ajax/libs/mui/3.7.1/css/mui.min.css rel=stylesheet>
@@ -99,5 +101,38 @@
 
 </div>
 <!-- built files will be auto injected -->
+<!--<script src="./src/components/js/global.js"></script>-->
+<script>
+  let url = window.location.href;// //获取当前url
+  let currentUrl = url.split('=')[1];                //获取?之后的参数字符串
+  // alert(currentUrl)
+  //
+  // document.title = '桔子乐园'
+  switch (currentUrl) {
+    case 'test':
+      document.title = '桔子测试'
+      break;
+    case 'orange':
+      document.title = '桔子乐园'
+      break;
+    case 'galaxy':
+      document.title = 'galaxy'
+      break;
+    case 'production':
+      document.title = 'production'
+      break;
+    case 'Lofty':
+      document.title = '乐翻天亲子游乐场'
+      break;
+    case 'orangeTest':
+      document.title = '桔子测试'
+      break;
+    default:
+      document.title = '桔子乐园'
+      break;
+  }
+
+
+</script>
 </body>
 </html>

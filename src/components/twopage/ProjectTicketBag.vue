@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="projecTicketBag">
     <loading v-if="loading"></loading>
     <backBar title="门票详情"></backBar>
     <div class="projectbag">
@@ -89,10 +89,14 @@
         loading: false,
         price: "",
         showBox: false,
-        couponId: ""
+        couponId: "",
+        payType: ""
       }
     },
     mounted() {
+      // this.payType = 1
+      this.payType = 1
+      this.$refs.cellChild.payTypeText = "微信付款";
       this.data = this.$route.query;
       this.loading = true;
       setTimeout(this.gettickectInformation, 500);
@@ -131,11 +135,11 @@
       //提交订单
       commitOrder() {
 
-        if (this.$refs.cellChild.payType === 1) {
+        if (this.payType === 1) {
           // this.price = this.projectDetailInfoObject.actual_price.replace(",", "");
           // this.price = this.projectDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney
           if (this.price <= 0) {
-            alert("该订单不可支付")
+            // alert("该订单不可支付")
             this.showBox = false
             document.getElementById("cover").setAttribute("style", "display:none;")
             this.price = this.$store.state.reChangeShowData.actual_price
@@ -143,15 +147,15 @@
             this.$store.commit('setCoupon', undefined);
             return;
           }
-        } else if (this.$refs.cellChild.payType === 3) {
+        } else if (this.payType === 3) {
           this.price = this.ticketDetailInfoObject.balance_price;
           if (this.price <= 0) {
-            alert("您的预存款支付余额不足")
+            // alert("您的预存款支付余额不足")
           }
-        } else if (this.$refs.cellChild.payType === 4) {
+        } else if (this.payType === 4) {
           this.price = this.ticketDetailInfoObject.coin_money;
           if (this.price <= 0) {
-            alert("您的币支付余额不足")
+            // alert("您的币支付余额不足")
           }
         }
         if (this.$store.state.coupon) {
@@ -159,7 +163,7 @@
         } else {
           this.couponId = ""
         }
-        console.log(this.price)
+        // console.log(this.price)
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
           "cardId": this.data.cardId,
@@ -167,7 +171,7 @@
           "actualPrice": this.price,
           "sumcoin": this.ticketDetailInfoObject.sumcoin,
           "cardType": 3,
-          "payType": this.$refs.cellChild.payType,
+          "payType": this.payType,
           "notifyUrl": this.$store.state.homeHtml,
           "couponId": this.couponId,
         }, function (body) {
@@ -185,18 +189,19 @@
         let wxPay = '/api/payment/shouqianba';
         let prePay = "/api/payment/predeposit";
         let coinPay = '/api/payment/bycoin';
-        if (this.$refs.cellChild.payType === 1) {
+        if (this.payType === 1) {
           payUrl = wxPay;
-        } else if (this.$refs.cellChild.payType === 3) {
+        } else if (this.payType === 3) {
           payUrl = prePay
-        } else if (this.$refs.cellChild.payType === 4) {
+        } else if (this.payType === 4) {
           payUrl = coinPay
         }
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
           "orderNo": this.orderNumber
         }, function (body) {
           // 跳转支付
-          if (_this.$refs.cellChild.payType === 1) {
+          if (_this.payType === 1) {
+            console.log("收钱吧支付")
             window.location.href = body.data.pay_url;
           } else {
             Toast("支付成功！");
@@ -221,6 +226,7 @@
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets/information`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime(),
           "cardId": this.data.cardId
         }, function (body) {
           _this.loading = false;
@@ -257,6 +263,7 @@
           this.$refs.cellChild.payTypeText = "代币付款"
           this.price = this.ticketDetailInfoObject.coin_money;
         }
+        this.payType = payType
         console.log(payType)
         console.log(this.$refs.cellChild.payTypeText)
       }
@@ -270,6 +277,10 @@
 </script>
 
 <style lang="less" scoped>
+  .projecTicketBag {
+    height: 1100px;
+  }
+
   .projectbag_border {
     border-radius: 20px;
     width: 90%;

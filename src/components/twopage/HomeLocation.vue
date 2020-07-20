@@ -97,7 +97,10 @@
       getShopList() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/shop/list`, {
-          "count": 100, "page": 1, path: _this.pathId,
+          "count": 100, "page": 1, "path": "",
+          "shopLat": localStorage.getItem("LocationLat"),
+          "shopLog": localStorage.getItem("LocationLog"),
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.shopList = body.data
 

@@ -84,7 +84,7 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-<!--          <router-link to="/shoprecord">-->
+          <!--          <router-link to="/shoprecord">-->
           <router-link to="">
             <img src="../../assets/user/shangpinjilu.png"/>
             <div class="mui-media-body">商品记录</div>
@@ -99,7 +99,7 @@
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
           <router-link to="/myorder">
             <img src="../../assets/user/wodedingdan.png"/>
-            <div class="mui-media-body">我的订单</div>
+            <div class="mui-media-body">我的商城订单</div>
           </router-link>
         </li>
       </ul>
@@ -115,15 +115,16 @@
           </router-link>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-          <a href="#">
+          <router-link to="/orderingorder">
             <img src="../../assets/user/chanyin.png"/>
-            <div class="mui-media-body">餐饮</div>
-          </a>
+            <div class="mui-media-body">我的餐饮订单</div>
+          </router-link>
         </li>
         <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4">
-          <router-link to="/meituan">
+          <!--          <router-link to="/meituan">-->
+          <router-link to="">
             <img src="../../assets/user/meituan.png"/>
-            <div class="mui-media-body">美团</div>
+            <div class="mui-media-body">美团充值记录</div>
           </router-link>
         </li>
       </ul>

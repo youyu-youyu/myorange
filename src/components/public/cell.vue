@@ -5,7 +5,7 @@
       <!--      v-show-->
       <div id="cover"></div>
       <div class="selectPay" id="selectPay_id">
-        <button @click="selectPayType(0)">{{selectPayType0}}</button>
+        <button @click="selectPayType(0)" v-show="selectPayType0!==''">{{selectPayType0}}</button>
         <button @click="selectPayType(1)" v-show="selectPayType1!==''">{{selectPayType1}}</button>
         <button @click="selectPayType(2)" v-show="selectPayType2!==''">{{selectPayType2}}</button>
       </div>
@@ -34,16 +34,19 @@
 
       },
       selectPayType0: {
+        //微信支付
         type: String,
         default: "",
 
       },
       selectPayType1: {
+        //预存款
         type: String,
         default: "",
 
       },
       selectPayType2: {
+        //代币
         type: String,
         default: "",
       },
@@ -59,8 +62,10 @@
     },
     data() {
       return {
-        payTypeText: "微信付款",
-        payType: 1,
+        // payTypeText: "微信付款",
+        payTypeText: "",
+        payType: -1,
+        // payType: 1,
         clickable1: true
       }
     },
@@ -89,10 +94,13 @@
             break;
           case 1:
             this.payTypeText = this.selectPayType1;
+            console.log(this.payTypeText)
+
             this.payType = 3;
             break;
           case 2:
             this.payTypeText = this.selectPayType2;
+            console.log(this.payTypeText)
             this.payType = 4
         }
         //

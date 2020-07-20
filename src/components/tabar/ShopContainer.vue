@@ -193,7 +193,8 @@
       getShopCategory() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/category`, {
-          "brand_id": `${global_msg.method.getBrandId()}`
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.totalShopCategoryList = body.data;
           if (_this.totalShopCategoryList.length === 0) {
@@ -210,7 +211,8 @@
       getShopBanner() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/banner`, {
-          "brand_id": `${global_msg.method.getBrandId()}`
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.shopBannerList = body.data;
         }, function (message) {

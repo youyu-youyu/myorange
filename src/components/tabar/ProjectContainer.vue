@@ -70,7 +70,9 @@
       getProject() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects`, {
-          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": _this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.projectPhotoList = body.data;
           for (let i = 0; i <= _this.projectPhotoList.length; i++) {
@@ -93,7 +95,9 @@
       getTicket() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/tickets`, {
-          "brand_id": `${global_msg.method.getBrandId()}`, "shopId": _this.$store.state.selectedShopData.shopId,
+          "brand_id": `${global_msg.method.getBrandId()}`,
+          "shopId": _this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.ticketPhotoList = body.data;
 

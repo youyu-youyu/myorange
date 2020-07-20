@@ -4,6 +4,7 @@
     <!-- 头-->
     <div class="header_container">
       <span class="header_sao">扫码点餐</span>
+      <span class="header_name">店名:{{this.$store.state.selectedShopData.shopName}}</span>
       <span class="header_center">{{tableName}}</span>
     </div>
     <div class="scan_content">
@@ -14,30 +15,61 @@
       </div>
       <div class="right_container">
         <div class="right_inner_container" v-for="(item,index) in rightColumnList" :key="index">
-          <!--          <img class="img_order" src="../../assets/order/order.jpg">-->
-          <div class="right_inner_container_name">{{item.cateringName}}</div>
-          <div class="right_inner_container_money">￥{{item.selling_price}}</div>
-          <div class="right_inner_container_like">
+          <!--          <img class="img_order mui-pull-left" src="../../assets/order/order.jpg">-->
+          <img class="img_order mui-pull-left"
+               :src="photoUrl">
+          <div class="all_left mui-media-body">
+            <div class="right_inner_container_name">{{item.cateringName}}</div>
+            <div class="right_inner_container_money">￥{{item.selling_price}}</div>
+
+          </div>
+          <div class="right_inner_container_like mui-pull-right">
             <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.num>0"
-                 @click="reduceClick(index)"></div>
+                 @click="reduceClick(index,1)"></div>
             <div v-show="item.num>0"> {{rightColumnList.length>0?item.num:0}}</div>
             <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="bottom_container">
       <div class="bottom_inner">
-        <div style="width: 30%;float: left">
-          <img src="../../assets/scanorder/scanorder.jpg" class="bottom_inner_img">
+        <div @click="showBoxClick()">
+          <div style="width: 30%;float: left">
+            <img src="../../assets/scanorder/scanorder.jpg" class="bottom_inner_img">
+          </div>
+          <div class="buyPrice">￥{{totalPrice}}</div>
         </div>
-        <div class="buyPrice">￥{{totalPrice}}</div>
         <div class="toBuy" @click="toOrderComputed">
           去结算
         </div>
       </div>
     </div>
+    <div class="scan_bottom">
+      <div class="scan_middle" id="carShowBox">
+        <div class="right1_container">
+          <div class="cancel" @click="cancelClick()">x</div>
+          <div class="right_inner_container1" v-for="(item,index) in clickColumnList" :key="index">
+            <img class="img_order1 mui-pull-left"
+                 :src="photoUrl">
+            <div class="all_left all_left1 mui-media-body">
+              <div class="right_inner_container_name">{{item.cateringName}}</div>
+              <div class="right_inner_container_money">￥{{item.selling_price}}</div>
+
+            </div>
+            <div class="right_inner_container_like mui-pull-right smallcomputed">
+              <div class="like-minus mui-icon mui-icon-minus-filled" v-show="item.num>0"
+                   @click="reduceClick(index,2)"></div>
+              <div v-show="item.num>0"> {{clickColumnList.length>0?item.num:0}}</div>
+              <div class="like-total mui-icon mui-icon-plus-filled" @click="addClick(index)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="cover"></div>
   </div>
 </template>
 
@@ -63,7 +95,8 @@
         num: "",
         tableNumber: "",
         tableName: "",
-        coinTotalPrice: 0
+        coinTotalPrice: 0,
+        photoUrl: ""
       }
     },
     mounted() {
@@ -73,6 +106,17 @@
       this.tableName = this.$route.query.tableName
     },
     methods: {
+      //取消点击购物车
+      cancelClick() {
+        console.log("取消")
+        document.getElementById("cover").setAttribute("style", "display:none;")
+        document.getElementById("carShowBox").setAttribute("style", "display:none;")
+      },
+      //点击购物车
+      showBoxClick() {
+        document.getElementById("cover").setAttribute("style", "display:block;")
+        document.getElementById("carShowBox").setAttribute("style", "display:block;")
+      },
       //页面传参
       toOrderComputed() {
         if (this.totalPrice <= 0) {
@@ -84,21 +128,41 @@
               restaurantList: this.clickColumnList,
               totalPrice: this.totalPrice,
               tableNumber: this.tableNumber,
-              coinTotalPrice: this.coinTotalPrice
+              coinTotalPrice: this.coinTotalPrice,
+              clickColumnList: this.clickColumnList
             }
           })
         }
 
       },
       //-
-      reduceClick(index) {
+      reduceClick(index, clickEvent) {
         this.currentSelectedRightColumnIndex = index;
-        this.rightColumnList[this.currentSelectedRightColumnIndex].num--;
-        if (this.rightColumnList[this.currentSelectedRightColumnIndex].num <= 0) {
-          //如果数量为0时候，把点击的东西的数组赋空
-          this.clickColumnList = []
+        if (clickEvent === 1) {
+          //如果点击的是rightColumnList，rightColumnList.num--
+          //如果点击的是clickColumnList，rightColumnList.num--
+          this.rightColumnList[this.currentSelectedRightColumnIndex].num--;
+        } else {
+          this.clickColumnList[this.currentSelectedRightColumnIndex].num--;
         }
+        //当点击购物车的时候
+        for (let data of this.clickColumnList) {
+          //问题1：点击-的时候，页面有时候不刷新，打印出是正确的
+          //问题2：在购物车的时候有时候-的是第一个，结果第二个被-了
+          if (data.num === 0) {
+            //循环每一个data，如果全部data都为0的时候，从购物车移除num为0的数据
+            this.clickColumnList.splice(index, 1)
+            if (this.clickColumnList.length === 0) {
+              //当全部的data.num都为0时候，隐藏
+              document.getElementById("cover").setAttribute("style", "display:none;")
+              document.getElementById("carShowBox").setAttribute("style", "display:none;")
+            }
+          }
+        }
+
         this.computeTotalPrice()
+        console.log(this.rightColumnList)
+        console.log(this.clickColumnList)
         this.$forceUpdate()
       },
       //+
@@ -120,11 +184,13 @@
         if (!isContains) {
           this.rightColumnList[this.currentSelectedRightColumnIndex].num++;
           this.clickColumnList = this.clickColumnList.concat(this.rightColumnList[this.currentSelectedRightColumnIndex])
+
         }
 
         this.computeTotalPrice()
-        console.log(this.clickColumnList)
+        // console.log(this.clickColumnList)
       },
+
       // 计算总价格
       computeTotalPrice() {
         // 进计算方法第一件事就要清空总价格
@@ -140,10 +206,11 @@
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
-          "include": "caterings"
+          "include": "caterings",
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.leftColumnList = body.data;
-          console.log(_this.leftColumnList)
+          // console.log(_this.leftColumnList)
           if (_this.leftColumnList.length === 0) {
             Toast("未获得数据");
             return;
@@ -162,10 +229,13 @@
         this.leftColumnListId = this.leftColumnList[this.currentSelectedLeftColumnIndex].catId;
         // //定义一个变量保存右边菜类的子信息
         this.rightColumnList = this.leftColumnList[this.currentSelectedLeftColumnIndex].caterings
-
+        console.log(this.rightColumnList)
+        // this.rightColumnList = this.rightColumnList.concat(this.rightColumnList)
         for (let i = 0; i < this.rightColumnList.length; i++) {
+
           //先循环再判断
           let data = this.rightColumnList[i];
+          this.photoUrl = data.photo_url === null ? require('../../assets/order/order.jpg') : data.photo_url
           //如果没有count属性
           if (!data.hasOwnProperty("num"))
             //自行设置data中的count的值为0
@@ -184,6 +254,20 @@
 </script>
 
 <style lang="less" scoped>
+  //遮盖层
+  #cover {
+    background: #000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    filter: alpha(opacity=50);
+    opacity: .5;
+    display: none;
+    z-index: 99999;
+    height: -webkit-fill-available
+  }
+
   .header_container {
     background: #ffffff;
     line-height: 30px;
@@ -191,15 +275,25 @@
     width: 100%;
     padding: 5px 20px;
     position: fixed;
+    z-index: 999;
 
     .header_sao {
       float: left;
-      width: 50%;
+      width: 30%;
       /*text-align: left;*/
     }
 
+    .header_name {
+      /*z-index: 999;*/
+      width: 33%;
+      text-align: right;
+    }
+
     .header_center {
-      /*width: 50%;*/
+      width: 30%;
+      float: right;
+      text-align: right;
+      align-items: center;
       margin: 0 auto;
     }
   }
@@ -222,40 +316,64 @@
     }
   }
 
+  .right1_container {
+    width: 100%;
+    padding-bottom: 30px;
+    float: right;
+    background: #ffffff;
+  }
+
+  .cancel {
+    padding: 0 10px;
+    background: #D3B986;
+    line-height: 40px;
+  }
+
   .right_container {
     width: 68%;
-    padding: 30px 0;
+    margin-top: 30px;
     float: right;
-    text-align: right;
+    background: #ffffff;
+  }
 
-    .right_inner_container {
-      width: 100%;
-      background: #ffffff;
-      padding-right: 20px;
-      margin-top: 15px;
-      padding-bottom: 35px;
+  right_inner_container1 {
+    width: 100%;
+    background: #ffffff;
+    padding-right: 20px;
+  }
 
-      .right_inner_container_name {
-        line-height: 40px;
-      }
+  .right_inner_container {
+    width: 100%;
+    background: #ffffff;
+    padding-right: 20px;
+    margin-top: 15px;
+    padding-bottom: 35px;
+  }
 
-      .right_inner_container_like {
-        line-height: 40px;
-        display: flex;
-        float: right;
-        align-items: center;
+  .right_inner_container_name {
+    line-height: 40px;
+    /*float: left;*/
+  }
 
-        .like-minus {
-          right: 0;
-          flex: 1;
-          color: dodgerblue;
-        }
+  .smallcomputed {
+    margin-top: -40px !important;
+  }
 
-        .like-total {
-          color: dodgerblue;
+  .right_inner_container_like {
+    line-height: 40px;
+    display: flex;
+    float: right;
+    align-items: center;
 
-        }
-      }
+    .like-minus {
+      right: 0;
+      flex: 1;
+      color: dodgerblue;
+    }
+
+    .like-total {
+      color: dodgerblue;
+
     }
   }
 
@@ -272,7 +390,7 @@
       height: 50px;
       line-height: 50px;
       background: #393939;
-      z-index: 99999 !important;
+      z-index: 9999999 !important;
     }
 
     .bottom_inner_img {
@@ -311,7 +429,34 @@
   }
 
   .img_order {
-    width: 100px;
+    float: left;
+    margin: 5px 10px;
+    width: 120px;
     height: 100px;
+  }
+
+  .img_order1 {
+    float: left;
+    margin: 5px 10px;
+    width: 50px;
+    height: 40px;
+  }
+
+  .scan_bottom {
+    width: 100%;
+  }
+
+  .scan_middle {
+    width: 100%;
+    height: auto;
+    display: none;
+    background: #ffffff;
+    position: fixed;
+    bottom: 40px;
+    z-index: 999999;
+  }
+
+  .all_left1 {
+    border-bottom: 1px solid #e0e0e0;
   }
 </style>

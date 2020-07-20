@@ -107,6 +107,8 @@
           "_timestamp": new Date().getTime()
         }, function (body) {
           Toast("会员等级提升成功")
+            `${global_msg.method.getUserAccountInfo(_this)}`;
+          `${global_msg.method.getUserBasicInfo(_this)}`
         }, function (message) {
           alert("会员等级提升失败：" + message);
         })
@@ -114,7 +116,9 @@
       //获取个人信息
       getPersonInfo() {
         let _this = this
-        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/extdata`, {},
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/mall/extdata`, {
+            "_timestamp": new Date().getTime()
+          },
           function (body) {
             let userData = body.data
             _this.userPhoto = userData.userPhoto;
@@ -133,20 +137,20 @@
           })
       },
       //上传图片到服务器
-      uploadPictureToServer(file) {
-        alert(file)
-        this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/uploadimg`,
-          {
-            "file": file
-          }, {emulateJSON: true})
-          .then(res => {
-            alert()
-            if (res.body.err_code === 0) {
-              alert('上传图片成功!')
-            } else
-              alert('上传图片错误:' + res.body.message)
-          })
-      },
+      // uploadPictureToServer(file) {
+      //   alert(file)
+      //   this.$http.post(`${global_msg.method.getBaseUrl()}/api/mall/uploadimg`,
+      //     {
+      //       "file": file
+      //     }, {emulateJSON: true})
+      //     .then(res => {
+      //       alert()
+      //       if (res.body.err_code === 0) {
+      //         alert('上传图片成功!')
+      //       } else
+      //         alert('上传图片错误:' + res.body.message)
+      //     })
+      // },
 
       //提交修改的用户信息
       submitModifyUserInfo() {

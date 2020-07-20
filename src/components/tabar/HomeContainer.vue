@@ -118,31 +118,27 @@
     </div>
     <div class="home_middle">
       <div class="home_middle_inner" style="width: 95%">
-        <!--        <div class="home_middle_text">广而告之</div>-->
-        <mt-swipe :auto="4000">
-          <mt-swipe-item><img src="../../assets/home/home_pic1.png"/>
+        <mt-swipe :auto="4000" class="home_container">
+          <mt-swipe-item v-for="(item,index) in slidePhoto">
+            <img :src="item"/>
           </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg"/>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/shuijiao.jpg"/>
-          </mt-swipe-item>
-          <mt-swipe-item><img src="../../assets/home/yuantiao.jpg"/>
-          </mt-swipe-item>mm
         </mt-swipe>
+
       </div>
       <div class="home_middle_inner">
         <div class="home_middle_text">每日惊喜</div>
         <div class="home_middle_img">
-          <router-link to="/homesurprise">
+          <router-link to="">
+            <!--            <router-link to="/homesurprise">-->
             <!--          <router-link to="/scanorder">-->
-            <img src="../../assets/home/home_pic2.png" class="home_middle_img"/>
+            <img :src="lastPhoto" class="home_middle_img"/>
           </router-link>
         </div>
       </div>
     </div>
-    <!--    11-->
-    <!--    <button @click="goMini()">跳转小程序</button>-->
-    <!--    <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>-->
+    <!-- 11-->
+    <!-- <button @click="goMini()">跳转小程序</button>-->
+    <!-- <input id="upload_file" type="file" class="file-input" accept="image/png,image/jpeg,image/jpg"/>-->
   </div>
 </template>
 <script>
@@ -161,6 +157,7 @@
         lat: "",
         shopName: "",
         slidePhoto: [],
+        lastPhoto: [],
         areaIdPath: "",
         selectedShopData: '',
         //定义支付状态为-1
@@ -172,6 +169,16 @@
         userLottery: "",
         coupons: "",
         deviceCode: "",
+        //默认的轮播图
+        bannerPhoto: [
+          require('../../assets/home/shuijiao.jpg'),
+          require('../../assets/home/yuantiao.jpg'),
+          require('../../assets/home/shuijiao.jpg'),
+          require('../../assets/home/yuantiao.jpg'),
+        ],
+        bannerLastPhoto: [
+          require('../../assets/home/yuantiao.jpg'),
+        ],
       };
     },
     created: function () {
@@ -318,7 +325,8 @@
         console.log(global_msg.method.getBaseUrl())
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/auth/base`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
-          "url": window.location.href
+          "url": window.location.href,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.configJSSDK(body.data)
         }, function (message) {
@@ -347,6 +355,11 @@
           }
           brand = brand.split("#")[0];
           // 跟if(brand==="test")一个意思
+          if (localStorage.getItem("brandName") != brand) {
+            localStorage.clear()
+          }
+          localStorage.setItem("brandName", brand)
+
           switch (brand) {
             case "test":
               global_msg.setCompany(1);
@@ -568,6 +581,12 @@
       },
       //获取最近的店
       getNearestShop(log, lat) {
+        // alert("经度" + log)
+        // alert("经度" + lat)
+        // localStorage.setItem("LocationLog", log)
+        // localStorage.setItem("LocationLat", lat)
+        localStorage.setItem("LocationLog", log)
+        localStorage.setItem("LocationLat", lat)
         console.log("获取店铺")
         let _this = this;
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
@@ -578,10 +597,18 @@
         }, function (body) {
           _this.$store.commit('setSelectedShopData', body.data);
           let shopNameData = body.data;
+          console.log("获取最近店铺：")
+          console.log(shopNameData)
+          _this.lastPhoto = shopNameData.lastPhoto[0];
           _this.shopName = shopNameData.shopName;
-          _this.slidePhoto = shopNameData.slidePhoto;
+          _this.slidePhoto = shopNameData.bannerPhoto;
           _this.areaIdPath = shopNameData.areaIdPath;
-
+          //判断轮播图是不是有，没有就默认
+          if (_this.slidePhoto == "") {
+            _this.slidePhoto = _this.bannerPhoto,
+              _this.lastPhoto = _this.bannerLastPhoto[0],
+              console.log("_this.slidePhoto==''")
+          }
           `${global_msg.method.getUserAccountInfo(_this)}`;
           `${global_msg.method.getUserBasicInfo(_this)}`
         }, function (message) {
@@ -597,19 +624,31 @@
         console.log("进来getLastSelectedShop")
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/shop/select`, {
-          "shopLat": localStorage.getItem("shopLat"), "shopId": localStorage.getItem("shopId"),
+          "shopLat": localStorage.getItem("shopLat"),
+          "shopId": localStorage.getItem("shopId"),
+          "brand_id": `${global_msg.method.getBrandId()}`,
           "shopLog": localStorage.getItem("shopLog"),
         }, function (body) {
           _this.$store.commit('setSelectedShopData', body.data);
           let shopNameData = body.data;
+          console.log("获取上次店铺：")
+
+          _this.lastPhoto = shopNameData.lastPhoto[0];
           _this.shopName = shopNameData.shopName;
-          _this.slidePhoto = shopNameData.slidePhoto;
+          _this.slidePhoto = shopNameData.bannerPhoto;
+          //判断轮播图是不是有，没有就默认
+          if (_this.slidePhoto == "") {
+            _this.slidePhoto = _this.bannerPhoto,
+              _this.lastPhoto = _this.bannerLastPhoto[0],
+              console.log("_this.slidePhoto==''")
+          }
+
+
           `${global_msg.method.getUserAccountInfo(_this)}`;
           `${global_msg.method.getUserBasicInfo(_this)}`;
           let result = localStorage.getItem("payStatusResult")
           if (result === "1" || result === "0")
             _this.$router.push({path: '/recharge', query: {payStatus: localStorage.getItem("payStatusResult")}})
-          console.log("last:" + global_msg.method.getBaseUrl())
           _this.getJSSDKInfo()
         }, function (message) {
           window.alert("获取店铺失败:" + message)

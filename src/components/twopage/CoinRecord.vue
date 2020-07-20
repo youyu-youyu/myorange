@@ -43,6 +43,7 @@
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/leaderboard/recharges`, {
           "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.loading = false;
           if (body.data.length > 0)

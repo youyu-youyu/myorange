@@ -92,9 +92,11 @@ if (global_msg.myNetType === 0) {
       } else if (status_code === 405) {
         // alert("HTTP状态码405")
       } else if (status_code === 500) {
+        `${global_msg.method.getCode(_this)}`;
         // alert("HTTP状态码500")
       }
     })
+  //  con
   });
 } else {
   // http request 拦截器

@@ -157,7 +157,14 @@
           _this.order_sn = body.data.order_sn;
           _this.addressList = [];
           _this.addressList = _this.addressList.concat(body.data);
+          //什么时候可以积分支付
+          //什么时候可以收钱吧支付
+          //什么时候彩票支付
+          console.log(body.data.sqbpay)
+          console.log(body.data.jfpay)
+          console.log(body.data.cppay)
           if (body.data.sqbpay === 1) {
+            //如果body.data.sqbpay === 1时，显示微信支付
             _this.payType0 = "微信支付"
           } else if (body.data.sqbpay === 2) {
             _this.payType0 = ""

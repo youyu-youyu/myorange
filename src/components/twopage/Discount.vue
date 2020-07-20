@@ -71,7 +71,6 @@
       this.availableDiscount();
       this.expiredDiscount();
       this.usedDiscount();
-      this.creatCode()
     },
     methods: {
       clickDiscountEvent(index, type) {
@@ -102,8 +101,8 @@
       availableDiscount: function () {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/coupons`, {
-          _timestamp: (new Date).getTime(),
-          shopId: _this.$store.state.selectedShopData.shopId
+          "_timestamp": (new Date).getTime(),
+          "shopId": _this.$store.state.selectedShopData.shopId
         }, function (body) {
           _this.availableDiscountList = body.data
 
@@ -123,7 +122,7 @@
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/duecoupons`, {
           "_timestamp:": (new Date).getTime(),
-          shopId: _this.$store.state.selectedShopData.shopId
+          "shopId": _this.$store.state.selectedShopData.shopId
         }, function (body) {
           _this.expiredDiscountList = body.data
 
@@ -135,8 +134,8 @@
       usedDiscount: function () {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/member/usedcoupons`, {
-          _timestamp: (new Date).getTime(),
-          shopId: _this.$store.state.selectedShopData.shopId
+          "_timestamp": (new Date).getTime(),
+          "shopId": _this.$store.state.selectedShopData.shopId
         }, function (body) {
           _this.usedDiscountList = body.data
         }, function (message) {

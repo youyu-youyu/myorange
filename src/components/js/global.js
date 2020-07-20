@@ -99,7 +99,8 @@ export default {
     //获取用户账户信息
     getUserAccountInfo: function (_this) {
       myNetUtils.method.get(`${this.getBaseUrl()}/api/me`, {
-        "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
+        "_timestamp": new Date().getTime(),
+        "shopId": _this.$store.state.selectedShopData.shopId,
       }, function (body) {
         console.log("body.data")
         console.log(body.data)
@@ -111,7 +112,8 @@ export default {
     //获取用户基本信息
     getUserBasicInfo: function (_this) {
       myNetUtils.method.get(`${this.getBaseUrl()}/api/member/user`, {
-        "_timestamp": new Date().getTime(), "shopId": _this.$store.state.selectedShopData.shopId,
+        "_timestamp": new Date().getTime(),
+        "shopId": _this.$store.state.selectedShopData.shopId,
       }, function (body) {
         _this.$store.commit('setUserInfoData', body.data);
       }, function (message) {
@@ -120,6 +122,8 @@ export default {
     },
     //微信授权
     getCode(_this) {
+      localStorage.removeItem("LocationLog")
+      localStorage.removeItem("LocationLat")
       // 非静默授权，第一次有弹框
       let code = ""
       // localStorage.setItem("code", "")

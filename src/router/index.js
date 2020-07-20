@@ -80,6 +80,12 @@ export default new Router({
       component: resolve => require(['@/components/twopage/BitRecord.vue'], resolve),//懒加载
     },
     {
+      //点餐完成订单
+      path: '/orderingorder',
+      name: 'OrderingOrder',
+      component: resolve => require(['@/components/twopage/OrderingOrder.vue'], resolve),//懒加载
+    },
+    {
       path: '/meituan',
       name: 'Meituan',
       component: resolve => require(['@/components/twopage/Meituan.vue'], resolve),//懒加载
@@ -98,6 +104,11 @@ export default new Router({
       path: '/orderinfo',
       name: 'orderInfo',
       component: resolve => require(['@/components/threepage/orderInfo.vue'], resolve),//懒加载
+    },
+    {
+      path: '/orderorderdetails',
+      name: 'OrderOrderDetails',
+      component: resolve => require(['@/components/threepage/OrderOrderDetails.vue'], resolve),//懒加载
     },
     {
       path: '/addcard',

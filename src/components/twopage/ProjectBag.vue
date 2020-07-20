@@ -89,14 +89,13 @@
         <img :src="projectDetailInfoObject.photo_url" class="small_img mui-col-[sm|xs]-4">
         <div class="priceName  mui-col-[sm|xs]-6">
           <div class="small_name">{{projectDetailInfoObject.cardName}}</div>
-          <div class="small_price">{{price}}元</div>
+          <div class="small_price">{{price}}</div>
         </div>
         <button class="suan mui-col-[sm|xs]-2" @click="this.commitOrder">支付</button>
       </div>
       <div @click="goDiscount">
         <mt-cell title="使用优惠券">
           {{this.$store.state.userAccountData.coupons}} 张
-          <!--                  <span style="color: green">可用:</span>-->
           <span class="mui-icon mui-icon-forward"></span>
         </mt-cell>
       </div>
@@ -123,18 +122,17 @@
         shopName: "",
         price: "",
         showBox: false,
-        couponId: ""
+        couponId: "",
+        payType: ""
       }
     },
     mounted() {
-      // if (this.$store.state.coupon === undefined) {
-      //
-      // }
-      console.log(232)
-      console.log(this.$store.state.coupon)
+      this.payType = 1
+      this.$refs.cellChild.payTypeText = "微信付款";
       this.shopName = this.$store.state.selectedShopData.shopName;
       this.data = this.$route.query;
       this.getProjectInformation();
+      console.log(this.$refs.cellChild.payType)
     },
     methods: {
       //方法传参
@@ -146,10 +144,9 @@
         document.getElementById("cover").setAttribute("style", "display:none;")
         this.showBox = false
         this.price = this.$store.state.reChangeShowData.actual_price
-        console.log(this.price)
         this.$store.commit('setCoupon', undefined);
       },
-      //点击付款
+      //点击付款//去结算
       paymentClick() {
         this.loading = true
         document.getElementById("cover").setAttribute("style", "display:block;"),
@@ -168,11 +165,10 @@
       },
       //提交订单
       commitOrder() {
-        if (this.$refs.cellChild.payType === 1) {
-          // this.price = this.projectDetailInfoObject.actual_price.replace(",", "");
-          // this.price = this.projectDetailInfoObject.actual_price - this.$store.state.coupon.deductMoney
+        console.log("this.payType" + this.payType)
+        if (this.payType === 1) {
           if (this.price <= 0) {
-            alert("该订单不可支付")
+            // alert("该订单不可支付")
             this.showBox = false
             document.getElementById("cover").setAttribute("style", "display:none;")
             this.price = this.$store.state.reChangeShowData.actual_price
@@ -180,36 +176,38 @@
             this.$store.commit('setCoupon', undefined);
             return;
           }
-        } else if (this.$refs.cellChild.payType === 3) {
+        } else if (this.payType === 3) {
           this.price = this.projectDetailInfoObject.balance_price;
           if (this.price <= 0) {
-            alert("您的预存款支付余额不足")
+            // alert("该订单不可预存款支付")
           }
-        } else if (this.$refs.cellChild.payType === 4) {
+        } else if (this.payType === 4) {
           this.price = this.projectDetailInfoObject.coin_money;
           if (this.price <= 0) {
-            alert("您的币支付余额不足")
+            // alert("该订单不可币支付")
           }
         }
         let _this = this
-        console.log(this.price)
+        // console.log(this.price)
         if (this.$store.state.coupon) {
           this.couponId = this.$store.state.coupon.couponId
         } else {
           this.couponId = ""
         }
-
+        console.log("支付方式" + this.payType)
+        console.log("金额" + this.price)
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/order/store`, {
           "cardId": this.data.cardId,
           "shopId": this.$store.state.selectedShopData.shopId,
           "actualPrice": this.price,
           "sumcoin": this.projectDetailInfoObject.coin,
           "cardType": 2,
-          "payType": this.$refs.cellChild.payType,
+          "payType": this.payType,
           "notifyUrl": this.$store.state.homeHtml,
           "couponId": this.couponId,
         }, function (body) {
           _this.orderNumber = body.data.orderNo;
+          console.log("返回支付成功")
           _this.judgePay();
         }, function (message) {
           alert("提交订单失败：" + message);
@@ -220,11 +218,11 @@
         let wxPay = '/api/payment/shouqianba';
         let prePay = "/api/payment/predeposit";
         let coinPay = '/api/payment/bycoin';
-        if (this.$refs.cellChild.payType === 1) {
+        if (this.payType === 1) {
           payUrl = wxPay;
-        } else if (this.$refs.cellChild.payType === 3) {
+        } else if (this.payType === 3) {
           payUrl = prePay
-        } else if (this.$refs.cellChild.payType === 4) {
+        } else if (this.payType === 4) {
           payUrl = coinPay
         }
         let _this = this
@@ -232,7 +230,7 @@
           "orderNo": this.orderNumber
         }, function (body) {
           // 跳转支付
-          if (_this.$refs.cellChild.payType === 1) {
+          if (_this.payType === 1) {
             window.location.href = body.data.pay_url;
           } else {
             Toast("支付成功！");
@@ -259,7 +257,8 @@
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects/information`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "shopId": this.$store.state.selectedShopData.shopId,
-          "cardId": this.data.cardId
+          "cardId": this.data.cardId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.projectDetailInfoObject = body.data;
           console.log(_this.projectDetailInfoObject)
@@ -296,7 +295,8 @@
           this.$refs.cellChild.payTypeText = "代币付款"
           this.price = this.projectDetailInfoObject.coin_money;
         }
-        console.log(payType)
+        this.payType = payType
+        console.log(this.payType)
         console.log(this.$refs.cellChild.payTypeText)
       }
     },

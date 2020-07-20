@@ -1,38 +1,33 @@
 <template>
   <div class="orderComputed">
     <div class="orderComputed-header">
-      {{this.$store.state.userInfoData.userName}}用户，你还剩{{this.$store.state.userAccountData.userCoin}}币
+      {{this.$store.state.selectedShopData.shopName}}
     </div>
     <div class="orderInfo">
-      <span class="orderInfo_text">订单资料</span>
-      <div class="orderInfo_slider">
-        <table class="bgT">
-          <tr>
-            <td>商品名称</td>
-            <td>数量</td>
-            <td>金额</td>
-          </tr>
-        </table>
-      </div>
-      <div>
-        <table>
-          <tr v-for="(item,index) in restaurantList.restaurantList">
-            <td>{{item.cateringName}}</td>
-            <td>{{item.num}}</td>
-            <td>{{totalPrice}}</td>
-          </tr>
-        </table>
+      <div class="right_container">
+        <div class="right_inner_container" v-for="(item,index) in clickColumnList" :key="index">
+          <img class="img_order mui-pull-left" :src="photoUrl">
+          <div class="all_left mui-media-body">
+            <div class="right_inner_container_name">{{item.cateringName}}</div>
+            <div class="right_inner_container_money">x{{item.num}}</div>
+
+          </div>
+          <div class="right_inner_container_like mui-pull-right">
+            <div class="like-total">{{payType===1?item.num*item.selling_price +'￥':item.coin_money * item.num+'币'}}
+            </div>
+            <!--  点击微信，显示微信价格，点击币支付，显示币价格    -->
+          </div>
+        </div>
       </div>
       <div class="orderby">
-        支付方式
         <div class="zhifu">
           <button id="wxbtn_id" class="wxbtn" @click="paymentMethod(1)">微信支付</button>
           <button id="dbbtn_id" class="dbbtn" @click="paymentMethod(2)">代币支付</button>
         </div>
       </div>
-      <button class="btn" @click="restaurantOrder">确定兑换</button>
-    </div>
 
+    </div>
+    <button class="btn" @click="restaurantOrder">支付</button>
   </div>
 </template>
 
@@ -47,45 +42,63 @@
     data() {
       return {
         restaurantList: [],
-        payType: 1,
+        payType: 0,
         totalPrice: 0,
-        order: ""
+        order: "",
+        clickColumnList: [],
+        photoUrl: ""
       }
     },
     mounted() {
+
       this.restaurantList = this.$route.query
-      this.totalPrice = this.restaurantList.totalPrice
+      this.clickColumnList = this.restaurantList.clickColumnList
+      for (let i = 0; i < this.clickColumnList.length; i++) {
+        //先循环再判断
+        let data = this.clickColumnList[i];
+        this.photoUrl = data.photo_url === null ? require('../../assets/order/order.jpg') : data.photo_url
+      }
+      this.paymentMethod(1)
+
       console.log("this.restaurantList")
-      console.log(this.restaurantList.totalPrice)
+      console.log(this.restaurantList.clickColumnList)
+
     },
     methods: {
       //支付方式，默认微信支付
       paymentMethod(paymentMethodType) {
         if (paymentMethodType === 1) {
+          // alert("tableNumber:" + this.restaurantList.tableNumber)
           this.payType = 1
           document.getElementById("dbbtn_id").setAttribute("style", "background:background: transparent;;");
           document.getElementById("wxbtn_id").setAttribute("style", "background:#D3B986;");
           this.totalPrice = this.restaurantList.totalPrice
+
         } else {
           this.payType = 4
           this.totalPrice = this.restaurantList.coinTotalPrice
           document.getElementById("wxbtn_id").setAttribute("style", "background:background: transparent;;");
           document.getElementById("dbbtn_id").setAttribute("style", "background:#D3B986;");
         }
-        console.log(this.payType)
+
+        console.log("支付方式：" + this.payType)
       },
-      //点餐
+      //点餐支付
       restaurantOrder() {
+        //
         let _this = this
         myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/restaurant`, {
           "shopId": this.$store.state.selectedShopData.shopId,
           "orders": JSON.stringify(this.restaurantList.restaurantList),
           "tableNumber": this.restaurantList.tableNumber,
+          // "tableNumber": "197352464989687808",
           "money": this.totalPrice,
-          "payType": this.payType
+          "payType": this.payType,
+          "return_url": this.$store.state.homeHtml
         }, function (body) {
           console.log(_this.totalPrice)
           _this.order = body.data.orderNo
+
           _this.judgePay()
           console.log(body.data)
         }, function (message) {
@@ -109,18 +122,15 @@
           let _this = this
           myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
             "orderNo": this.order,
-            "shopId": _this.$store.state.selectedShopData.shopId
+            "shopId": _this.$store.state.selectedShopData.shopId,
+
           }, function (body) {
-            // localStorage.setItem("payStatus", "1");
             // 跳转支付
-            // if (_this.payType === 1) {
+
+            console.log("支付成功")
             window.location.href = body.data.pay_url;
-            _this.$router.push("/");
-            // }
-            // else {
-            //   Toast("支付成功！");
-            //   _this.$router.push("/");
-            // }
+            // _this.$router.push("/");
+
           }, function (message) {
             alert("获取支付url失败:" + message)
           })
@@ -130,7 +140,6 @@
           myNetUtils.method.post(`${global_msg.method.getBaseUrl()}` + payUrl, {
             "orderNo": this.order,
           }, function (body) {
-            // localStorage.setItem("payStatus", "1");
             Toast("币支付成功!");
             _this.$router.go(-1);
           }, function (message) {
@@ -161,7 +170,7 @@
 <style lang="less" scoped>
   .orderComputed {
     width: 100%;
-    height: 100%;
+    height: 1100px;
     background: #ffffff;
 
     .orderComputed-header {
@@ -174,10 +183,15 @@
     }
   }
 
+  .right_container {
+    padding-bottom: 10px;
+  }
+
   .orderInfo {
     width: 90%;
     margin: 0 auto;
     line-height: 30px;
+    border-bottom: 1px solid #e0e0e0;
 
     .orderInfo_slider {
       display: flex;
@@ -214,17 +228,20 @@
   }
 
   .btn {
-    margin: 20px 0;
     width: 100%;
     padding: 10px;
     font-size: 16px;
     background: #1684c2;
     border-radius: 10px;
     color: #ffffff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
 
   .zhifu {
     margin-top: 10px;
+    float: right;
 
     .wxbtn {
       padding: 10px;
@@ -234,5 +251,29 @@
       margin-left: 20px;
       padding: 10px;
     }
+  }
+
+
+  .right_inner_container {
+    width: 100%;
+    background: #ffffff;
+    padding-right: 20px;
+    margin-top: 15px;
+  }
+
+  .right_inner_container_name {
+    line-height: 40px;
+    /*float: left;*/
+  }
+
+  .img_order {
+    float: left;
+    margin: 5px 10px;
+    width: 80px;
+    height: 60px;
+  }
+
+  .like-total {
+    margin-top: -40px;
   }
 </style>

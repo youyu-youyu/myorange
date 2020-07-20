@@ -74,7 +74,8 @@
       getEntityCards() {
         let _this = this
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/entitycards`, {
-          "shopId": this.$store.state.selectedShopData.shopId
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.entityCardsList = body.data
         }, function (message) {

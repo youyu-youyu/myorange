@@ -26,7 +26,7 @@
             <div class="user_top_bottom1">
               <div class="item">
                 <div class="item_item" v-show="item.is_number_time===0">有效开始日:</div>
-                <div class="item_item item_times" v-show="item.is_number_time===1">有效次数:</div>
+                <div class="item_item item_times cishu" v-show="item.is_number_time===1">有效次数:</div>
                 <div class="item_item " v-show="item.is_number_time===0">{{item.valid_start_date}}</div>
                 <div class="item_item item_times" v-show="item.is_number_time===1">{{item.times}}</div>
               </div>
@@ -88,7 +88,8 @@
         myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/projects/own`, {
           "brand_id": `${global_msg.method.getBrandId()}`,
           "shopId": this.$store.state.selectedShopData.shopId,
-          "useFlag": 1
+          "useFlag": 1,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.loading = false;
           _this.projectRecordList = body.data
@@ -111,7 +112,8 @@
           correctLevel: QRCode.CorrectLevel.H
         });
         qrCode1.clear();
-        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.projectIndex].cardId + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"projectId\":\"" + this.projectRecordList[this.projectIndex].id + "\"}");
+        console.log("pr_id" + this.projectRecordList[this.projectIndex].id)
+        qrCode1.makeCode("{\"cardId\":\"" + this.projectRecordList[this.projectIndex].id + "\",\"cmd\":\"ticket\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\",\"projectId\":\"" + this.projectRecordList[this.projectIndex].id + "\"}");
         // \"uid\":\"" + this.$store.state.userAccountData.userId + "\",\"expire\":\"" + expire + "\",\"shopId\":\"" + this.$store.state.selectedShopData.shopId + "\"}");
       },
     },
@@ -134,11 +136,12 @@
 
   .projectrecord {
     margin-top: 50px;
+
   }
 
   .ticket_top {
     width: 100%;
-    height: 150px;
+    height: 140px;
     background: none;
     // position        : absolute;
     /*margin-top: 70px;*/
@@ -148,7 +151,7 @@
       width: 90%;
       margin: 10px auto;
       background: #fff;
-      height: 140px;
+      height: 130px;
       border-radius: 10px;
       /*border-bottom: 2Px solid #FB8D68;*/
       position: relative;

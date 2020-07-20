@@ -1,7 +1,7 @@
 <template>
   <div class="myorder">
     <loading v-if="loading"></loading>
-    <backbar title="订单列表"></backbar>
+    <backbar title="点餐订单列表"></backbar>
     <div class="myorder_inner">
       <div class="record">
         <!-- 顶部滑动条 -->
@@ -10,21 +10,32 @@
             <span class="myorder-item" @click="allClickEvent(0)" :class="{active:isClick}">全部
               <!--  显示全部支付和未支付-->
             </span>
-            <span class="myorder-item" @click="allClickEvent(1)" :class="{active:isClick1}">待付款
+            <span class="myorder-item" @click="allClickEvent(1)" :class="{active:isClick1}">未支付
               <!--  只显示没付款的-->
             </span>
-            <span class="myorder-item" @click="allClickEvent(2)" :class="{active:isClick2}">待发货
+            <span class="myorder-item" @click="allClickEvent(2)" :class="{active:isClick2}">已支付
               <!-- 显示已付款未发货-->
             </span>
-            <span class="myorder-item" @click="allClickEvent(3)" :class="{active:isClick3}">待收货
+            <span class="myorder-item" @click="allClickEvent(3)" :class="{active:isClick3}">已完成
             </span>
           </div>
           <div class="myorder_padding" v-for="(item,index) in orderShowList"
                @click="orderInfoClickEvent(index)">
-            <span class=" myorder_txt ">订单号：{{item.order_sn}}</span>
-            <h5>创建订单时间：{{item.create_time}}</h5>
-            <p class=" color_p">支付状态：{{item.status}}</p>
-            <span class="">{{item.order_money}}￥</span>
+            <span class=" myorder_txt">订单号：{{item.orderNo}}</span>
+            <h5>创建订单时间:{{item.createdAt}}</h5>
+            <p class="color_p">支付状态:
+              {{item.orderStatus===0?"未支付":(item.orderStatus===1?"已支付":
+              (item.orderStatus===2?"已完成":(item.orderStatus===3?"失败":"关闭")))}}</p>
+            <p class="color_p">支付方式:
+              {{item.payType===0?"现金":(item.payType===1?"微信":
+              (item.payType===2?"支付宝":(item.payType===3?"预存款":"币数")))}}
+            </p>
+            <p class="color_p">
+              排队状态:{{item.queuingState===0?"未排队":(item.queuingState===1?
+              "排队中":(item.queuingState===2?"已取餐":"已完成"))}}
+            </p>
+            <div class="">排队号:{{item.queueNumber}}</div>
+            <span class="">{{ item.payType===1?item.money+'￥':parseInt(item.money)+'币'}}</span>
           </div>
         </div>
       </div>
@@ -40,19 +51,20 @@
   export default {
     data() {
       return {
-        orderShowList: [],
+        orderShowList: [],//显示列表
         orderList: [],
+        orderingOrderItemList: [],//字列表
         SelectedOrderIndex: 0,
         loading: false,
         isClick: true,
         isClick1: false,
         isClick2: false,
-        isClick3: false
+        isClick3: false,
       };
     },
     mounted() {
       this.loading = true;
-      this.orederList();
+      this.orderOrderList();
     },
     methods: {
       //点击全部
@@ -62,92 +74,93 @@
         let _this = this
         this.orderShowList = [];
         if (paramName === 0) {
-          //全部
           this.isClick = true
           this.isClick1 = false
           this.isClick2 = false
           this.isClick3 = false
+          //全部
           _this.orderShowList = _this.orderShowList.concat(_this.orderList);
-
-          //待付款
         } else if (paramName === 1) {
+          _this.loading = true;
           this.isClick = false
           this.isClick1 = true
           this.isClick2 = false
           this.isClick3 = false
-
-          _this.loading = true;
-          //进来if，说明点击待付款
+          //进来if，说明点击未支付
           for (let data of _this.orderList) {
             //循环总订单的每条数据
             //当订单状态为0时，添加进要渲染的List
-            if (data.order_status === 0) {
+            if (data.orderStatus === 0) {//未支付
               _this.orderShowList.push(data);
             }
           }
           _this.loading = false;
-          //待发货
+          //
         } else if (paramName === 2) {
           this.isClick = false
           this.isClick1 = false
           this.isClick2 = true
           this.isClick3 = false
           for (let data of _this.orderList) {
-            if (data.order_status === 2) {
+            if (data.orderStatus === 1) {//已支付
               _this.orderShowList.push(data);
             }
           }
           //待收货
-        } else {
+        } else if (paramName === 3) {
           this.isClick = false
           this.isClick1 = false
           this.isClick2 = false
           this.isClick3 = true
           for (let data of _this.orderList) {
-            if (data.order_status === 3) {
+            if (data.orderStatus === 2) {//已完成
+              _this.orderShowList.push(data);
+            }
+          }
+          //待收货
+        } else if (paramName === 4) {
+          for (let data of _this.orderList) {
+            if (data.orderStatus === 3) {//失败
+              _this.orderShowList.push(data);
+            }
+          }
+        } else {
+          for (let data of _this.orderList) {
+            if (data.orderStatus === 4) {//关闭
               _this.orderShowList.push(data);
             }
           }
         }
 
       },
-      // 点击待付款
-      //点击待收货
-      //点击待发货
-      //点击待收货
-      //订单列表
-      orederList() {
+
+      orderOrderList() {
         let _this = this
-        myNetUtils.method.post(`${global_msg.method.getBaseUrl()}/api/mall/orderlist`, {
-          "brand_id": `${global_msg.method.getBrandId()}`
+        myNetUtils.method.get(`${global_msg.method.getBaseUrl()}/api/restaurant/order`, {
+          "shopId": this.$store.state.selectedShopData.shopId,
+          "_timestamp": new Date().getTime()
         }, function (body) {
           _this.loading = false;
           _this.orderList = body.data;
-          for (let i = 0; i < _this.orderList.length; i++) {
-            //定义data接收某个产品(产品列表下标)
-            let data = _this.orderList[i];
-            //如果没有count属性
-            if (!data.hasOwnProperty("status"))
-              //自行设置data中的count的值为0
-              if (data.order_status === 0)
-                data["status"] = "待支付";
-              else if (data.order_status === 2) {
-                data["status"] = "待发货";
-              } else if (data.order_status === 3) {
-                data["status"] = "待收货";
-              }
+          for (let data of _this.orderList) {
+            //循环把所有的子内容加进orderingOrderItemList里面
+            _this.orderingOrderItemList = _this.orderingOrderItemList.concat(JSON.parse(data.orderInfo))
           }
+          console.log(_this.orderList)
+          console.log(_this.orderingOrderItemList)
           _this.orderShowList = _this.orderShowList.concat(_this.orderList);
-
         }, function (message) {
           alert("获取订单列表失败：" + message);
         })
       },
-      //订单详情
+      //进入订单详情
       orderInfoClickEvent(index) {
         this.SelectedOrderIndex = index;
+        //点击哪个订单号进去就显示哪个订单号的详细信息
+        //把详细信息传过去orderdetails页面
+        console.log(this.orderShowList[this.SelectedOrderIndex].orderInfo)
         this.$router.push({
-          path: '/orderInfo', query: {orderId: this.orderShowList[this.SelectedOrderIndex].id}
+          path: '/orderorderdetails', query: {orderInfo: this.orderShowList[this.SelectedOrderIndex].orderInfo}
         });
       },
     },
